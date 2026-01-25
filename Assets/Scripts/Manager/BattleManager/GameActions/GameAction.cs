@@ -13,7 +13,6 @@ public abstract class GameAction
 
     /// <summary>整个 action 链结束前的反应（例如：回合结束、清理状态）</summary>
     public List<GameAction> PostReactions { get; } = new();
-
     public virtual string DebugName => GetType().Name;
 
     /// <summary>用于防止无限连锁，默认 0</summary>

@@ -2,16 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+/// <summary>
+/// ÆÕÍ¨¡¢¾«Ó¢¡¢boss
+/// </summary>
+public enum EnemyType { Normal, Elite, Boss }
 public class Enemy : Character
 {
     [SerializeField] private TMP_Text attackText;
+    [SerializeField] private EnemyType type;
     public List<Intention> IntentionStates;
     public int currentState;
     public void Setup(EnemyData data)
     {
         IntentionStates = data.Intention;
         currentState = 0;
+        type = data.Type;
         UpdateAttackText();
         SetupBase(data.Health, data.Image);
     }

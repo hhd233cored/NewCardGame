@@ -15,3 +15,20 @@ MonoBehaviour:
   <Image>k__BackingField: {fileID: 21300000, guid: 38e82ae1eccd6064f8658eeac420bf85, type: 3}
   <Health>k__BackingField: 50
   <AttackPower>k__BackingField: 10
+  <Type>k__BackingField: 0
+  <Intention>k__BackingField:
+  - rid: 7198748396653641728
+  - rid: 7198748396653641729
+  references:
+    version: 2
+    RefIds:
+    - rid: 7198748396653641728
+      type: {class: DealDamegeIntention, ns: , asm: Assembly-CSharp}
+      data:
+        source: {fileID: 0}
+        damgeAmount: 10
+    - rid: 7198748396653641729
+      type: {class: DealDamegeIntention, ns: , asm: Assembly-CSharp}
+      data:
+        source: {fileID: 0}
+        damgeAmount: 10

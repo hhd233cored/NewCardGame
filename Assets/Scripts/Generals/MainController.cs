@@ -7,14 +7,14 @@ public class MainController:Singleton<MainController>
     [SerializeField] private Enemy enemyPrefab;
     [SerializeField] private CardView cardViewPrefab;
     [SerializeField] private PlayerData playerData;
-    [SerializeField] private List<EnemyData> enemyDatas;
+    [SerializeField] private BattleData battleData;
     /// <summary>
     /// 初始化系统
     /// </summary>
     private void Start()
     {
         PlayerSystem.Instance.Setup(playerData);
-        EnemySystem.Instance.Setup(enemyDatas);
+        EnemySystem.Instance.Setup(battleData.enemies);
         CardSystem.Instance.Setup(playerData.Deck);
         DrawCardsGA drawCardsGA = new(5);
         ActionSystem.Instance.Perform(drawCardsGA);
@@ -25,6 +25,13 @@ public class MainController:Singleton<MainController>
     public void NewBattle(List<EnemyData> enemiesD, List<CardData> cardD)
     {
         EnemySystem.Instance.Setup(enemiesD);
+        CardSystem.Instance.Setup(cardD);
+        DrawCardsGA drawCardsGA = new(5);
+        ActionSystem.Instance.Perform(drawCardsGA);
+    }
+    public void NewBattle(BattleData battle, List<CardData> cardD)
+    {
+        EnemySystem.Instance.Setup(battle.enemies);
         CardSystem.Instance.Setup(cardD);
         DrawCardsGA drawCardsGA = new(5);
         ActionSystem.Instance.Perform(drawCardsGA);
