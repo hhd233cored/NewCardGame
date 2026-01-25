@@ -21,8 +21,8 @@ public class MapNode
     public NodeType nodeType;
 
     // 连线关系
-    public List<MapNode> parents = new List<MapNode>(); //上一层的连接点
-    public List<MapNode> children = new List<MapNode>(); //下一层的连接点
+    [System.NonSerialized] public List<MapNode> parents = new List<MapNode>(); //上一层的连接点
+    [System.NonSerialized] public List<MapNode> children = new List<MapNode>(); //下一层的连接点
 
     //运行时对应的UI对象（生成地图时赋值，用于画线和交互）
     public GameObject uiObject;
