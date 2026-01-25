@@ -38,7 +38,7 @@ public class CardView : MonoBehaviour
         card = c;
         title.text = c.Title;
         description.text = c.Description;
-        SuitAndNum.text = SuitAndNumSystem.SuitToStr(c.Suit) + SuitAndNumSystem.NumToStr(c.Num);
+        SuitAndNum.text = BattleSystem.SuitToStr(c.Suit) + BattleSystem.NumToStr(c.Num);
         image.sprite = c.Image;
 
         Suit = c.Suit;
@@ -69,7 +69,7 @@ public class CardView : MonoBehaviour
             Clicked?.Invoke(this);
             return;
         }
-        if (card.ManualTargetEffects != null && SuitAndNumSystem.Instance.HasSameSuitOrNum(CardSuit, CardNum))
+        if (card.ManualTargetEffects != null && BattleSystem.Instance.HasSameSuitOrNum(CardSuit, CardNum))
         {
             // 1) 先取消 hover，让手牌状态回到“非突出”
             ownerHand?.OnCardHoverExit(this);
@@ -122,7 +122,7 @@ public class CardView : MonoBehaviour
         if (CardSystem.Instance.IsChoosingDiscard) return;
         if (!Interactions.Instance.PlayerCanInteract()) return;
         if (!isDragging) return;
-        if (card.ManualTargetEffects != null && SuitAndNumSystem.Instance.HasSameSuitOrNum(CardSuit, CardNum)) return;
+        if (card.ManualTargetEffects != null && BattleSystem.Instance.HasSameSuitOrNum(CardSuit, CardNum)) return;
         Vector3 mouseWorld = GetMouseWorld();
         Vector3 target = mouseWorld + dragMouseOffset;
 
@@ -139,7 +139,7 @@ public class CardView : MonoBehaviour
         isDragging = false;
 
         Interactions.Instance.PlayerIsDragging = false;
-        if (card.ManualTargetEffects != null && SuitAndNumSystem.Instance.HasSameSuitOrNum(CardSuit, CardNum))
+        if (card.ManualTargetEffects != null && BattleSystem.Instance.HasSameSuitOrNum(CardSuit, CardNum))
         {
             Enemy target = ManualTargetSystem.Instance.EndTargeting(GetMouseWorldOnZ(0f));
             ownerHand?.UnlockCard(this);

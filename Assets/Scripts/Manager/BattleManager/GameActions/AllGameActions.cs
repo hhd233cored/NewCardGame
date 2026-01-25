@@ -96,3 +96,25 @@ public class SetSuitAndNumGA : GameAction
         Num = num;
     }
 }
+
+public class GainBlockGA : GameAction
+{
+    public int Amount { get; set; }
+    public Character User { get; set; }
+    public GainBlockGA(int amount, Character user)
+    {
+        Amount = amount;
+        User = user;
+    }
+}
+
+public class RecoverGA : GameAction
+{
+    public int Amount { get; set; }
+    public Character User { get; set; }
+    public RecoverGA(int amount, Character user)
+    {
+        Amount = amount;
+        User = user;
+    }
+}
