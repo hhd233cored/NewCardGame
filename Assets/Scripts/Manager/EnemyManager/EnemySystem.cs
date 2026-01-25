@@ -30,7 +30,7 @@ public class EnemySystem : Singleton<EnemySystem>
        foreach(var enemy in enemyBoardView.Enemies)
        {
             AttackPlayerGA attackPlayerGA = new(enemy);
-            ActionSystem.Instance.AddReacyion(attackPlayerGA);
+            ActionSystem.Instance.AddReaction(attackPlayerGA);
        }
        yield return null;
     }
@@ -42,7 +42,7 @@ public class EnemySystem : Singleton<EnemySystem>
         attacker.transform.DOMoveX(attacker.transform.position.x + 1f, 0.25f);
         //TODO:造成伤害效果
         DealDamageGA dealDamageGA = new(attacker.AttackPower, new() { PlayerSystem.Instance.player }, attacker);
-        ActionSystem.Instance.AddReacyion(dealDamageGA);
+        ActionSystem.Instance.AddReaction(dealDamageGA);
     }
     private IEnumerator KillEnemyPerformer(KillEnemyGA killEnemyGA)
     {

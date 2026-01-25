@@ -47,7 +47,7 @@ public class ActionSystem : Singleton<ActionSystem>
     /// 允许 performer 或 subscriber 在当前阶段追加反应 action。
     /// 注意：追加到当前 reactions 列表（也就是正在结算的那一段）。
     /// </summary>
-    public void AddReacyion(GameAction gameAction)
+    public void AddReaction(GameAction gameAction)
     {
         if (gameAction == null) return;
         if (reactionsStack.Count == 0) return;
@@ -120,7 +120,7 @@ public class ActionSystem : Singleton<ActionSystem>
     }
 
     /// <summary>
-    /// 执行当前 reactions 列表里的所有 action，并允许在执行过程中不断 AddReacyion 插入新反应。
+    /// 执行当前 reactions 列表里的所有 action，并允许在执行过程中不断 AddReaction 插入新反应。
     /// </summary>
     private IEnumerator PerformReactions()
     {
