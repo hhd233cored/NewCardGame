@@ -6,15 +6,18 @@ using UnityEngine;
 public class Enemy : Character
 {
     [SerializeField] private TMP_Text attackText;
-    public int AttackPower { get; set; }
+    public List<Intention> IntentionStates;
+    public int currentState;
     public void Setup(EnemyData data)
     {
-        AttackPower = data.AttackPower;
+        IntentionStates = data.Intention;
+        currentState = 0;
         UpdateAttackText();
         SetupBase(data.Health, data.Image);
     }
-    private void UpdateAttackText()
+    public void UpdateAttackText()
     {
-        attackText.text = "ATK:" + AttackPower;
+        //TODO:œ‘ æ“‚Õº
+        attackText.text = "Intention:" + currentState;
     }
 }

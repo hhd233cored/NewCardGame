@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public enum SuitStyle { Nul, Diamonds, Clubs, Hearts, Spades }
 public class SuitAndNumSystem : Singleton<SuitAndNumSystem>
 {
-    [SerializeField] private SuitAndNumUI suitAndNumUI;
-    
+    [SerializeField] private TMP_Text suitNum;
+    [SerializeField] private string suit;
+    [SerializeField] private int num;
+   
+
     private SuitStyle currentSuit = SuitStyle.Nul;
     private int currentNum = 0;
     private void OnEnable()
@@ -78,7 +82,13 @@ public class SuitAndNumSystem : Singleton<SuitAndNumSystem>
     {
         if (setGa.Num != 1) currentNum = setGa.Num;
         currentSuit = setGa.Suit;
-        suitAndNumUI.UpdateSuitText(currentSuit, currentNum);
+        UpdateSuitText(currentSuit, currentNum);
         yield return null;
+    }
+    public void UpdateSuitText(SuitStyle suit, int num)
+    {
+        string suitStr = SuitToStr(suit);
+        string numStr = NumToStr(num);
+        suitNum.text = suitStr + numStr;
     }
 }

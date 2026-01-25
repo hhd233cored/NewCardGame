@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class EnemySystem : Singleton<EnemySystem>
 {
-    [SerializeField] private EnemyBoardView enemyBoardView;
-    public List<Enemy> Enemies => enemyBoardView.Enemies;
+    [SerializeField] private List<Transform> slots;
+    public List<Enemy> Enemies { get; private set; } = new();
     private void OnEnable()
     {
         ActionSystem.RegisterPerformer<EnemyTurnGA>(this, EnemyTurnPerformer);
@@ -20,14 +20,15 @@ public class EnemySystem : Singleton<EnemySystem>
     }
     public void Setup(List<EnemyData> enemyDatas)
     {
+        Enemies.Clear();
         foreach(var enemyData in enemyDatas)
         {
-            enemyBoardView.AddEnemy(enemyData);
+            AddEnemy(enemyData);
         }
     }
     private IEnumerator EnemyTurnPerformer(EnemyTurnGA enemyTurnGA)
     {
-       foreach(var enemy in enemyBoardView.Enemies)
+       foreach(var enemy in Enemies)
        {
             AttackPlayerGA attackPlayerGA = new(enemy);
             ActionSystem.Instance.AddReaction(attackPlayerGA);
@@ -41,11 +42,28 @@ public class EnemySystem : Singleton<EnemySystem>
         yield return tween.WaitForCompletion();
         attacker.transform.DOMoveX(attacker.transform.position.x + 1f, 0.25f);
         //TODO:造成伤害效果
-        DealDamageGA dealDamageGA = new(attacker.AttackPower, new() { PlayerSystem.Instance.player }, attacker);
-        ActionSystem.Instance.AddReaction(dealDamageGA);
+        GameAction gameAtcion = attacker.IntentionStates[attacker.currentState++].GetGameAction(new List<Character>() { PlayerSystem.Instance.player });
+        if (attacker.currentState > attacker.IntentionStates.Count - 1) attacker.currentState = 0;
+        attacker.UpdateAttackText();
+        ActionSystem.Instance.AddReaction(gameAtcion);
     }
     private IEnumerator KillEnemyPerformer(KillEnemyGA killEnemyGA)
     {
-        yield return enemyBoardView.RemoveEnemy(killEnemyGA.Enemy);
+        yield return RemoveEnemy(killEnemyGA.Enemy);
+    }
+
+    public void AddEnemy(EnemyData enemyData)
+    {
+        Transform slot = slots[Enemies.Count];
+        Enemy enemy = MainController.Instance.CreateEnemy(enemyData, slot.position, slot.rotation);
+        enemy.transform.parent = slot;
+        Enemies.Add(enemy);
+    }
+    public IEnumerator RemoveEnemy(Enemy enemy)
+    {
+        Enemies.Remove(enemy);
+        Tween tween = enemy.transform.DOScale(Vector3.zero, 0.25f);
+        yield return tween.WaitForCompletion();
+        Destroy(enemy.gameObject);
     }
 }

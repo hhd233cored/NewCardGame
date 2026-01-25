@@ -229,19 +229,18 @@ public class CardSystem : Singleton<CardSystem>
 
         Card card = cv.card;
 
-        // 1) 数据层：hand -> discardPile
+        //1.数据层：hand -> discardPile
         if (card != null)
         {
             hand.Remove(card);
             discardPile.Add(card);
         }
 
-        // 2) 视图层：从手牌视图列表移除
+        //2.视图层：从手牌视图列表移除
         handViews.Remove(cv);
 
         var tr = cv.transform;
 
-        // 先把这张卡从 HandView 布局控制中锁住（如果你做了 LockCard 方案）
         // handView.LockCard(cv);
 
         tr.DOKill();
@@ -259,7 +258,7 @@ public class CardSystem : Singleton<CardSystem>
 
         yield return seq.WaitForCompletion();
 
-        // 让手牌重排（这时卡已经飞走并缩小了）
+        // 让手牌重排
         yield return handView.RemoveCard(cv, 0.12f);
 
         // handView.UnlockCard(cv);
@@ -275,11 +274,11 @@ public class CardSystem : Singleton<CardSystem>
             Card card = drawPile.Draw();
             hand.Add(card);
 
-            CardView cardView = CardViewCreator.Instance.CreateCardView(
+            CardView cardView = MainController.Instance.CreateCardView(
                 card, drawPilePoint.position, drawPilePoint.rotation
             );
 
-            // 维护 handViews（关键）
+            // 维护 handViews
             handViews.Add(cardView);
 
             yield return handView.AddCard(cardView);
