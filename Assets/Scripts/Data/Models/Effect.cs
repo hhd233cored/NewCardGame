@@ -24,3 +24,22 @@ public class DrawCardsEffect : Effect
         return drawCardsGA;
     }
 }
+
+public class GainBlockEffect : Effect
+{
+    [SerializeField] private int amount;
+    public override GameAction GetGameAction(List<Character> targets)
+    {
+        GainBlockGA gainBlockGA = new(amount, PlayerSystem.Instance.player);
+        return gainBlockGA;
+    }
+}
+public class RecoverEffect : Effect
+{
+    [SerializeField] private int amount;
+    public override GameAction GetGameAction(List<Character> targets)
+    {
+        RecoverGA recoverGA = new(amount, PlayerSystem.Instance.player);
+        return recoverGA;
+    }
+}

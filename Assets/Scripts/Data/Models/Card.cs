@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+public enum SuitStyle { Nul, Diamonds, Clubs, Hearts, Spades }
 public class Card
 {
     public string Title => data.name;
