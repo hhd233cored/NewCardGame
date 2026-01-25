@@ -25,7 +25,7 @@ public class DamageSystem : Singleton<DamageSystem>
                 if(target is Enemy enemy)
                 {
                     KillEnemyGA killEnemyGA = new(enemy);
-                    ActionSystem.Instance.AddReaction(killEnemyGA);
+                    ActionSystem.Instance.AddReacyion(killEnemyGA);
                 }
                 else
                 {

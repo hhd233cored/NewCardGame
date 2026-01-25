@@ -9,22 +9,22 @@ public class ActionSystem : Singleton<ActionSystem>
 
     public bool IsPerforming { get; private set; } = false;
 
-    //订阅：在某个 action 流程开始/结束时做额外逻辑（UI/音效/日志）
+    // 订阅：在某个 action 流程开始/结束时做额外逻辑（UI/音效/日志）
     private static Dictionary<Type, List<Action<GameAction>>> preSubs = new();
     private static Dictionary<Type, List<Action<GameAction>>> postSubs = new();
 
-    //执行器：每种 GameAction 对应一个协程 performer
+    // 执行器：每种 GameAction 对应一个协程 performer
     private static Dictionary<Type, Func<GameAction, IEnumerator>> performers = new();
     //存储每个performer注册时所用的组件
     private static readonly Dictionary<object, HashSet<Type>> performerOwners = new();
 
-    //队列：保证同一时间只跑一个 action flow，其余排队
+    // 队列：保证同一时间只跑一个 action flow，其余排队
     private readonly Queue<(GameAction action, Action onDone)> queue = new();
 
     private readonly Stack<List<GameAction>> reactionsStack = new();
     [Header("Safety")]
     [SerializeField] private int maxChainActions = 200;//防无限连锁
-    [SerializeField] private int maxDepth = 30; //防过深递归链
+    [SerializeField] private int maxDepth = 30;//防过深递归链
 
     /// <summary>
     /// 入口：执行一个 action。若系统忙，则排队。
@@ -47,7 +47,7 @@ public class ActionSystem : Singleton<ActionSystem>
     /// 允许 performer 或 subscriber 在当前阶段追加反应 action。
     /// 注意：追加到当前 reactions 列表（也就是正在结算的那一段）。
     /// </summary>
-    public void AddReaction(GameAction gameAction)
+    public void AddReacyion(GameAction gameAction)
     {
         if (gameAction == null) return;
         if (reactionsStack.Count == 0) return;
@@ -70,6 +70,7 @@ public class ActionSystem : Singleton<ActionSystem>
                 onDone?.Invoke();
             });
 
+            //Flow 内部一般会自然结束，这里只是保险
             if (!finished)
                 onDone?.Invoke();
         }
@@ -101,7 +102,7 @@ public class ActionSystem : Singleton<ActionSystem>
         reactionsStack.Pop();
 
         //perform
-        reactions = action.PreformReactions;
+        reactions = action.PerformReactions;
         reactionsStack.Push(reactions);
         yield return PerformPerformer(action);
         yield return PerformReactions();//执行 performer 后反应
@@ -119,11 +120,11 @@ public class ActionSystem : Singleton<ActionSystem>
     }
 
     /// <summary>
-    /// 执行当前 reactions 列表里的所有 action，并允许在执行过程中不断 AddReaction 插入新反应。
+    /// 执行当前 reactions 列表里的所有 action，并允许在执行过程中不断 AddReacyion 插入新反应。
     /// </summary>
     private IEnumerator PerformReactions()
     {
-        //拷贝当前 reactions 引用（不是拷贝内容）
+        //拷贝当前 reactions 引用
         var list = reactions;
 
         if (list == null || list.Count == 0)

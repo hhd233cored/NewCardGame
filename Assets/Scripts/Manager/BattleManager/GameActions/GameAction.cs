@@ -9,7 +9,7 @@ public abstract class GameAction
     public List<GameAction> PreReactions { get; } = new();
 
     /// <summary>执行 action 本体之后立刻结算的反应（例如：伤害造成后触发吸血、护盾破裂等）</summary>
-    public List<GameAction> PreformReactions { get; } = new(); // 建议改名 PerformReactions
+    public List<GameAction> PerformReactions { get; } = new();
 
     /// <summary>整个 action 链结束前的反应（例如：回合结束、清理状态）</summary>
     public List<GameAction> PostReactions { get; } = new();

@@ -138,7 +138,7 @@ public class CardSystem : Singleton<CardSystem>
 
         //改变当前花色和点数
         SetSuitAndNumGA setSuitAndNumGA = new(ga.CardView.CardSuit, ga.CardView.CardNum);
-        ActionSystem.Instance.AddReaction(setSuitAndNumGA);
+        ActionSystem.Instance.AddReacyion(setSuitAndNumGA);
 
         if (takeEffect)
         {
@@ -147,13 +147,13 @@ public class CardSystem : Singleton<CardSystem>
             if (ga.CardView.card.ManualTargetEffects != null)
             {
                 PerformEffectGA performEffectGA = new(ga.CardView.card.ManualTargetEffects, new() { ga.Target });
-                ActionSystem.Instance.AddReaction(performEffectGA);
+                ActionSystem.Instance.AddReacyion(performEffectGA);
             }
             foreach (var effectWrapper in ga.CardView.card.OtherEffects)
             {
                 List<Character> targets = effectWrapper.TargetMode.GetTargets();
                 PerformEffectGA performEffectGA = new(effectWrapper.Effect, targets);
-                ActionSystem.Instance.AddReaction(performEffectGA);
+                ActionSystem.Instance.AddReacyion(performEffectGA);
             }
         }
         yield return DiscardOne(cv);
@@ -293,13 +293,13 @@ public class CardSystem : Singleton<CardSystem>
     private void EnemyTurnPreReaction(EnemyTurnGA enemyTurnGA)
     {
         DiscardCardsGA discardCardsGA = new(1, true);
-        ActionSystem.Instance.AddReaction(discardCardsGA);
+        ActionSystem.Instance.AddReacyion(discardCardsGA);
         SetSuitAndNumGA setSuitAndNumGA = new(SuitStyle.Nul,0);
-        ActionSystem.Instance.AddReaction(setSuitAndNumGA);
+        ActionSystem.Instance.AddReacyion(setSuitAndNumGA);
     }
     private void EnemyTurnPostReaction(EnemyTurnGA enemyTurnGA)
     {
         DrawCardsGA drawCardsGA = new(5);
-        ActionSystem.Instance.AddReaction(drawCardsGA);
+        ActionSystem.Instance.AddReacyion(drawCardsGA);
     }
 }
