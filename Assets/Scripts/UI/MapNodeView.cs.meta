@@ -3,7 +3,19 @@ guid: 164b8bc955f45f14c9d1dd6000f5ca4f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - iconImage: {instanceID: 0}
+  - nodeButton: {instanceID: 0}
+  - outlineImage: {instanceID: 0}
+  - monsterSprite: {instanceID: 0}
+  - eliteSprite: {instanceID: 0}
+  - bossSprite: {instanceID: 0}
+  - shopSprite: {instanceID: 0}
+  - restSprite: {instanceID: 0}
+  - treasureSprite: {instanceID: 0}
+  - eventSprite: {instanceID: 0}
+  - unknownSprite: {instanceID: 0}
+  - battleData: {fileID: 11400000, guid: 8b4e7d5f8593cef498e6093aeeb5ca43, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
