@@ -793,6 +793,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapGenerator: {fileID: 525594369}
   nodePrefab: {fileID: 2224267747164182605, guid: 1a8e4e53b84ce5946a66f2b901fc58ee, type: 3}
+  linePrefab: {fileID: 3040966762630705298, guid: 795cba27b316cfb4c9bf7e0e50eb5264, type: 3}
   mapContainer: {fileID: 598201923}
   scrollRect: {fileID: 229362843}
   xSpacing: 150

@@ -9,6 +9,7 @@ public class MapManager : MonoBehaviour
 
     [Header("UI 绑定")]
     [SerializeField] private GameObject nodePrefab;
+    [SerializeField] private GameObject linePrefab;
     [SerializeField] private RectTransform mapContainer;
     [SerializeField] private ScrollRect scrollRect;      
 
@@ -59,7 +60,7 @@ public class MapManager : MonoBehaviour
             }
         }
 
-        //TODO：绘制连线
+        DrawConnections(mapData);
 
         yield return null;
 
@@ -68,5 +69,43 @@ public class MapManager : MonoBehaviour
             scrollRect.verticalNormalizedPosition = 0f;
             Debug.Log("[Map] Scroll position reset to Bottom (0).");
         }
+    }
+
+    private void DrawConnections(List<List<MapNode>> mapData)
+    {
+        //遍历所有层
+        for (int y = 0; y < mapData.Count - 1; y++)
+        {
+            foreach (var node in mapData[y])
+            {
+                // 画线连接所有孩子
+                foreach (var child in node.children)
+                {
+                    CreateLine(node.uiObject.transform.localPosition, child.uiObject.transform.localPosition);
+                }
+            }
+        }
+    }
+
+    private void CreateLine(Vector3 startPos, Vector3 endPos)
+    {
+        //实例化线段
+        GameObject lineObj = Instantiate(linePrefab, mapContainer);
+
+
+        lineObj.transform.SetAsFirstSibling();
+        RectTransform rt = lineObj.GetComponent<RectTransform>();
+
+        //计算
+        Vector3 dir = endPos - startPos;
+        float distance = dir.magnitude;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        //设置位置
+        rt.localPosition = startPos;
+        rt.localRotation = Quaternion.Euler(0, 0, angle);
+
+        //设置长度
+        rt.sizeDelta = new Vector2(distance, rt.sizeDelta.y);
     }
 }

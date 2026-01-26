@@ -18,6 +18,7 @@ public class MapNodeView : MonoBehaviour
     [SerializeField] private Sprite treasureSprite;
     [SerializeField] private Sprite eventSprite;
     [SerializeField] private Sprite unknownSprite;
+    private Material _dynamicMaterial;
 
     //持有数据引用
     private MapNode nodeData;
@@ -40,8 +41,18 @@ public class MapNodeView : MonoBehaviour
         nodeButton.onClick.RemoveAllListeners();
         nodeButton.onClick.AddListener(OnNodeClicked);
 
+        if (_dynamicMaterial == null)
+        {
+            _dynamicMaterial = Instantiate(iconImage.material);
+            iconImage.material = _dynamicMaterial;
+        }
+        //初始化时先关掉描边
+        _dynamicMaterial.SetFloat("_ShowOutline", 0f);
+
         //默认设为不可交互（需要MapManager计算出可选路径后再开启）
         SetInteractable(false);
+
+        
     }
 
     /// <summary>
@@ -53,15 +64,17 @@ public class MapNodeView : MonoBehaviour
         nodeButton.interactable = interactable;
 
         //视觉反馈：可点时正常显示，不可点时变半透明
+        if (_dynamicMaterial != null)
+        {
+            float val = interactable ? 1f : 0f;
+            _dynamicMaterial.SetFloat("_ShowOutline", val);
+            iconImage.SetMaterialDirty(); 
+        }
         var color = iconImage.color;
         color.a = interactable ? 1f : 0.5f;
         iconImage.color = color;
 
-        //如果有高亮框，可点时显示
-        if (outlineImage != null)
-        {
-            outlineImage.enabled = interactable;
-        }
+        iconImage.SetMaterialDirty();
     }
 
     private void OnNodeClicked()
