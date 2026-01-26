@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class EnemySystem : Singleton<EnemySystem>
@@ -30,22 +31,23 @@ public class EnemySystem : Singleton<EnemySystem>
     {
        foreach(var enemy in Enemies)
        {
-            AttackPlayerGA attackPlayerGA = new(enemy);
-            ActionSystem.Instance.AddReaction(attackPlayerGA);
-       }
+            //执行意图
+            GameAction gameAtcion = enemy.IntentionStates[enemy.currentState++].GetGameAction(new List<Character>() { PlayerSystem.Instance.player }, enemy);
+            if (enemy.currentState > enemy.IntentionStates.Count - 1) enemy.currentState = 0;
+            ActionSystem.Instance.AddReaction(gameAtcion);
+            enemy.UpdateIntentionText();
+        }
        yield return null;
     }
     private IEnumerator AttackPlayerPerformer(AttackPlayerGA attackPlayerGA)
     {
-        Enemy attacker = attackPlayerGA.Attacker;
+        Character attacker = attackPlayerGA.Attacker;
         Tween tween = attacker.transform.DOMoveX(attacker.transform.position.x - 1f, 0.15f);
         yield return tween.WaitForCompletion();
         attacker.transform.DOMoveX(attacker.transform.position.x + 1f, 0.25f);
-        //TODO:造成伤害效果
-        GameAction gameAtcion = attacker.IntentionStates[attacker.currentState++].GetGameAction(new List<Character>() { PlayerSystem.Instance.player });
-        if (attacker.currentState > attacker.IntentionStates.Count - 1) attacker.currentState = 0;
-        attacker.UpdateAttackText();
-        ActionSystem.Instance.AddReaction(gameAtcion);
+
+        DealDamageGA dealDamageGA = new(attackPlayerGA.Amount, new() { PlayerSystem.Instance.player }, attacker);
+        ActionSystem.Instance.AddReaction(dealDamageGA);
     }
     private IEnumerator KillEnemyPerformer(KillEnemyGA killEnemyGA)
     {

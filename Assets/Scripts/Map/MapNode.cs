@@ -20,6 +20,9 @@ public class MapNode
     public int y; //层数（0-15）
     public NodeType nodeType;
 
+    //如果是战斗节点就挂载战斗场景data(?)
+    public BattleData battleData;
+
     // 连线关系
     [System.NonSerialized] public List<MapNode> parents = new List<MapNode>(); //上一层的连接点
     [System.NonSerialized] public List<MapNode> children = new List<MapNode>(); //下一层的连接点

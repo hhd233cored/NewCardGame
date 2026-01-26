@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class AttackPlayerGA : GameAction
 {
-    public Enemy Attacker {  get; private set; }
-    public AttackPlayerGA(Enemy attacker)
+    public Character Attacker {  get; private set; }
+    public int Amount { get; set; }
+    public AttackPlayerGA(Character attacker, int amount)
     {
         Attacker = attacker;
+        Amount = amount;
     }
 }
 

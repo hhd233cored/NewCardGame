@@ -14,13 +14,13 @@ public class Enemy : Character
     public int currentState;
     public void Setup(EnemyData data)
     {
-        IntentionStates = data.Intention;
+        IntentionStates = data.Intentions;
         currentState = 0;
         type = data.Type;
-        UpdateAttackText();
+        UpdateIntentionText();
         SetupBase(data.Health, data.Image);
     }
-    public void UpdateAttackText()
+    public void UpdateIntentionText()
     {
         //TODO:œ‘ æ“‚Õº
         attackText.text = "Intention:" + currentState;

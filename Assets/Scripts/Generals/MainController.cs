@@ -8,17 +8,7 @@ public class MainController:Singleton<MainController>
     [SerializeField] private CardView cardViewPrefab;
     [SerializeField] private PlayerData playerData;
     [SerializeField] private BattleData battleData;
-    /// <summary>
-    /// 初始化系统
-    /// </summary>
-    private void Start()
-    {
-        PlayerSystem.Instance.Setup(playerData);
-        EnemySystem.Instance.Setup(battleData.enemies);
-        CardSystem.Instance.Setup(playerData.Deck);
-        DrawCardsGA drawCardsGA = new(5);
-        ActionSystem.Instance.Perform(drawCardsGA);
-    }
+    [SerializeField] private Transform HandTrans;
     /// <summary>
     /// 初始化新战斗场景信息
     /// </summary>
@@ -50,7 +40,7 @@ public class MainController:Singleton<MainController>
     /// </summary>
     public CardView CreateCardView(Card card, Vector3 position, Quaternion rotation)
     {
-        CardView cardView = Instantiate(cardViewPrefab, position, rotation);
+        CardView cardView = Instantiate(cardViewPrefab, position, rotation,HandTrans);
         cardView.Setup(card);
         return cardView;
     }

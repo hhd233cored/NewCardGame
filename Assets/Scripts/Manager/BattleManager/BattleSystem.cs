@@ -95,7 +95,7 @@ public class BattleSystem : Singleton<BattleSystem>
         foreach(var target in dealDamageGA.Targets)
         {
             target.Damage(dealDamageGA.Amount);
-            Instantiate(damageVFX, target.transform.position, Quaternion.identity);
+            Instantiate(damageVFX, target.transform.position, Quaternion.identity,this.transform);
             yield return new WaitForSeconds(0.15f);
             if (target.CurrentHealth <= 0)
             {

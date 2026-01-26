@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TestBattle
   m_EditorClassIdentifier: 
   <enemies>k__BackingField:
-  - {fileID: 11400000, guid: 2946e6a7c79b88a418efc298eeb151d8, type: 2}
-  - {fileID: 11400000, guid: 2946e6a7c79b88a418efc298eeb151d8, type: 2}
-  - {fileID: 11400000, guid: 2946e6a7c79b88a418efc298eeb151d8, type: 2}
+  - {fileID: 11400000, guid: d68414f8a8d9a7945ba6378c707a2718, type: 2}
+  - {fileID: 11400000, guid: d68414f8a8d9a7945ba6378c707a2718, type: 2}
+  - {fileID: 11400000, guid: d68414f8a8d9a7945ba6378c707a2718, type: 2}

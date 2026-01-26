@@ -88,14 +88,17 @@ public class MapNodeView : MonoBehaviour
         {
             case NodeType.Monster:
                 GameManager.Instance.EnterBattle(BattleType.Normal);
+                GlobalController.Instance.NewBattle(nodeData.battleData);
                 break;
 
             case NodeType.Elite:
                 GameManager.Instance.EnterBattle(BattleType.Elite);
+                GlobalController.Instance.NewBattle(nodeData.battleData);
                 break;
 
             case NodeType.Boss:
                 GameManager.Instance.EnterBattle(BattleType.Boss);
+                GlobalController.Instance.NewBattle(nodeData.battleData);
                 break;
 
             case NodeType.Event:
