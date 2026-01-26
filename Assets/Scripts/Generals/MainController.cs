@@ -14,14 +14,14 @@ public class MainController:Singleton<MainController>
     public void NewBattle(List<EnemyData> enemiesD, List<CardData> cardD)
     {
         EnemySystem.Instance.Setup(enemiesD);
-        CardSystem.Instance.Setup(cardD);
+        CardSystem.Instance.Setup(PlayerSystem.Instance.player.CurrentCards);
         DrawCardsGA drawCardsGA = new(5);
         ActionSystem.Instance.Perform(drawCardsGA);
     }
     public void NewBattle(BattleData battle, List<CardData> cardD)
     {
         EnemySystem.Instance.Setup(battle.enemies);
-        CardSystem.Instance.Setup(cardD);
+        CardSystem.Instance.Setup(PlayerSystem.Instance.player.CurrentCards);
         DrawCardsGA drawCardsGA = new(5);
         ActionSystem.Instance.Perform(drawCardsGA);
     }

@@ -5,8 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : PersistentSingleton<GameManager>
 {
-    public PlayerData CurrentPlayerData { get; private set; }
+    //public PlayerData CurrentPlayerData { get; private set; }
     public BattleType NextBattleType { get; private set; }
+
+    [SerializeField] private PlayerData playerData;
+    [SerializeField] private Enemy enemyPrefab;
+    [SerializeField] private CardView cardViewPrefab;
+    [SerializeField] private BattleData battleData;
+    [SerializeField] private GameObject PlayerView;
 
     [Header("事件房概率控制")]
     [SerializeField] private float baseEventCombatChance = 0.1f; //初始10%
@@ -18,11 +24,19 @@ public class GameManager : PersistentSingleton<GameManager>
         base.Awake();
         currentEventCombatChance = baseEventCombatChance;
     }
+    //测试用
+    private void Start()
+    {
+        StartNewRun();
+    }
 
     //新的一局开始时调用
-    public void StartNewRun(PlayerData initialData)
+    public void StartNewRun()
     {
-        CurrentPlayerData = initialData;
+        //初始化玩家数据
+        PlayerSystem.Instance.Setup(playerData);
+        PlayerView.SetActive(false);
+        //生成地图
         currentEventCombatChance = baseEventCombatChance;
     }
 
@@ -66,7 +80,38 @@ public class GameManager : PersistentSingleton<GameManager>
         SceneManager.UnloadSceneAsync(mapSceneName);
 
         //此时场景加载完毕，实例已存在，可以安全初始化
-        GlobalController.Instance.NewBattle(enemies);
+        NewBattle(enemies);
+    }
+    //战斗结束返回地图界面
+    public IEnumerator EnterMapScene(string battleSceneName = "BattleScene", string mapSceneName = "MapScene")
+    {
+        //异步加载并等待完成
+        AsyncOperation op = SceneManager.LoadSceneAsync(mapSceneName, LoadSceneMode.Additive);
+        yield return op;
+
+        //卸载地图
+        SceneManager.UnloadSceneAsync(battleSceneName);
+
+        PlayerView.gameObject.SetActive(false);
+
+    }
+
+    //初始化新的战斗场景
+    public void NewBattle(List<EnemyData> enemiesD, List<CardData> cardD = null)
+    {
+        PlayerView.SetActive(true);
+        EnemySystem.Instance.Setup(enemiesD);
+        CardSystem.Instance.Setup(PlayerSystem.Instance.player.CurrentCards);
+        DrawCardsGA drawCardsGA = new(5);
+        ActionSystem.Instance.Perform(drawCardsGA);
+    }
+    public void NewBattle(BattleData battle, List<CardData> cardD = null)
+    {
+        PlayerView.gameObject.SetActive(true);
+        EnemySystem.Instance.Setup(battle.enemies);
+        CardSystem.Instance.Setup(PlayerSystem.Instance.player.CurrentCards);
+        DrawCardsGA drawCardsGA = new(5);
+        ActionSystem.Instance.Perform(drawCardsGA);
     }
 }
 

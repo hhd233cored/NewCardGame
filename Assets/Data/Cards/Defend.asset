@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Defend
   m_EditorClassIdentifier: 
   <Description>k__BackingField: gain 5 block,recover 10
-  <Mana>k__BackingField: 0
-  <Rare>k__BackingField: 0
+  <Rarity>k__BackingField: 0
   <Image>k__BackingField: {fileID: 21300000, guid: 5c377a56d40c6d54491e5a8370530f10, type: 3}
+  <CardType>k__BackingField: 1
   <ManualTargetEffects>k__BackingField:
     rid: -2
   <OtherEffects>k__BackingField:

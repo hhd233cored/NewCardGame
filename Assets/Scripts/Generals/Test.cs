@@ -11,7 +11,7 @@ public class Test : Singleton<Test>
     private void Start()
     {
         EnemySystem.Instance.Setup(battleData.enemies);
-        CardSystem.Instance.Setup(playerData.Deck);
+        CardSystem.Instance.Setup(PlayerSystem.Instance.player.CurrentCards);
         DrawCardsGA drawCardsGA = new(5);
         ActionSystem.Instance.Perform(drawCardsGA);
     }

@@ -139,6 +139,57 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3933458369860005884, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
   m_PrefabInstance: {fileID: 1170662985}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &692902983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 692902985}
+  - component: {fileID: 692902984}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &692902984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692902983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84b211684a2650b4f9441736eb4cba9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: a321bcc82030d51489ea1e304d4ca390, type: 2}
+  enemyPrefab: {fileID: 5266979687231847526, guid: 9b885149342f0c0498d02f6dc8cdf088, type: 3}
+  cardViewPrefab: {fileID: 5650580244069538341, guid: 8e2180a1be45678499d348f21ef07390, type: 3}
+  battleData: {fileID: 11400000, guid: 8b4e7d5f8593cef498e6093aeeb5ca43, type: 2}
+  PlayerView: {fileID: 1688364784}
+  baseEventCombatChance: 0.1
+  chanceIncrement: 0.15
+--- !u!4 &692902985
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692902983}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &715277150 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5053194944163074178, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
@@ -271,54 +322,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9541d86e2fd84c1d9990edf0852d74ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1907727764
+--- !u!1 &1688364784 stripped
 GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1831641190236385835, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
+  m_PrefabInstance: {fileID: 1170662985}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1907727766}
-  - component: {fileID: 1907727765}
-  m_Layer: 0
-  m_Name: GlobalController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1907727765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907727764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e4558b312464794d9812c4cec276f8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerData: {fileID: 11400000, guid: a321bcc82030d51489ea1e304d4ca390, type: 2}
-  enemyPrefab: {fileID: 5266979687231847526, guid: 9b885149342f0c0498d02f6dc8cdf088, type: 3}
-  cardViewPrefab: {fileID: 5650580244069538341, guid: 8e2180a1be45678499d348f21ef07390, type: 3}
-  battleData: {fileID: 11400000, guid: 8b4e7d5f8593cef498e6093aeeb5ca43, type: 2}
---- !u!4 &1907727766
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1907727764}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2043602336
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,5 +413,5 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2043602337}
-  - {fileID: 1907727766}
+  - {fileID: 692902985}
   - {fileID: 2089406195}

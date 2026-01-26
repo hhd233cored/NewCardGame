@@ -134,7 +134,6 @@ public class BattleSystem : Singleton<BattleSystem>
 
     private IEnumerator RecoverPerformer(RecoverGA recoverGA)
     {
-        Debug.Log("recover");
         recoverGA.User.Recover(recoverGA.Amount);
         yield return null;
     }

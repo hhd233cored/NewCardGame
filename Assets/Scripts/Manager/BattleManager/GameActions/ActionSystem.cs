@@ -8,6 +8,8 @@ public class ActionSystem : Singleton<ActionSystem>
     private List<GameAction> reactions = null;
 
     public bool IsPerforming { get; private set; } = false;
+    //判断系统是否完全空闲：既没有正在执行的动作流程，也没有在队列中排队的动作。
+    public bool IsIdle => !IsPerforming && queue.Count == 0;
 
     // 订阅：在某个 action 流程开始/结束时做额外逻辑（UI/音效/日志）
     private static Dictionary<Type, List<Action<GameAction>>> preSubs = new();
@@ -249,12 +251,16 @@ public class ActionSystem : Singleton<ActionSystem>
 
         return ok;
     }
-
+    /// <summary>
+    /// GameAction执行前订阅
+    /// </summary>
     public static void SubscribePre<T>(Action<T> sub) where T : GameAction
     {
         AddSub(preSubs, sub);
     }
-
+    /// <summary>
+    /// GameAction执行后订阅
+    /// </summary>
     public static void SubscribePost<T>(Action<T> sub) where T : GameAction
     {
         AddSub(postSubs, sub);
@@ -272,5 +278,27 @@ public class ActionSystem : Singleton<ActionSystem>
         }
 
         list.Add((ga) => sub((T)ga));
+    }
+
+    private void Update()
+    {
+        // 只有当动作系统完全静止时，才去判断胜负
+        if (ActionSystem.Instance.IsIdle)
+        {
+            CheckBattleResolution();
+        }
+    }
+
+    private void CheckBattleResolution()
+    {
+        // 检查存活敌怪
+        if (EnemySystem.Instance.Enemies.Count == 0)
+        {
+            // 确保不会重复触发
+            this.enabled = false;
+
+            //Debug.Log("Finsh Battle");
+            StartCoroutine(GameManager.Instance.EnterMapScene());
+        }
     }
 }

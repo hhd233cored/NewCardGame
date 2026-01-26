@@ -9,14 +9,16 @@ using static UnityEngine.GraphicsBuffer;
 
 public class CardSystem : Singleton<CardSystem>
 {
-    public bool IsChoosingDiscard => isChoosingDiscard;
+    [Header("组件")]
     [SerializeField] private HandView handView;
     [SerializeField] private Transform drawPilePoint;
     [SerializeField] private Transform discardPilePoint;
-    [SerializeField] private const int maxHand = 10;
-    private readonly List<Card> drawPile = new();
-    private readonly List<Card> discardPile = new();
-    private readonly List<Card> hand = new();
+
+   
+    [field: SerializeField] private readonly List<Card> drawPile = new();
+    [field: SerializeField] private readonly List<Card> discardPile = new();
+    [field: SerializeField] private readonly List<Card> hand = new();
+    [SerializeField] private List<Card> UseCardsHistory = new();
 
     // 关键：在 CardSystem 里维护手牌视图
     private readonly List<CardView> handViews = new();
@@ -26,6 +28,8 @@ public class CardSystem : Singleton<CardSystem>
     private int needChooseAmount = 0;
     private readonly HashSet<CardView> chosen = new();
 
+    private const int maxHand = 10;
+    public bool IsChoosingDiscard => isChoosingDiscard;
     private void OnEnable()
     {
         ActionSystem.RegisterPerformer<DrawCardsGA>(this, DrawCardsPerformer);
@@ -40,30 +44,10 @@ public class CardSystem : Singleton<CardSystem>
         ActionSystem.UnregisterPerformersByOwner(this);
         ExitDiscardChooseMode(); // 防止卸载时还挂着事件
     }
-    public void Setup(List<CardData> deckData)
+    public void Setup(List<Card> cards)
     {
-        foreach(var cardData in deckData)
+        foreach(var card in cards)
         {
-            Card card = new(cardData);
-            switch ((int)UnityEngine.Random.Range(1, 5))
-            {
-                case 1:
-                    card.Suit = SuitStyle.Diamonds;
-                    break;
-                case 2:
-                    card.Suit = SuitStyle.Clubs;
-                    break;
-                case 3:
-                    card.Suit = SuitStyle.Hearts;
-                    break;
-                case 4:
-                    card.Suit = SuitStyle.Spades;
-                    break;
-                default:
-                    card.Suit = SuitStyle.Nul;
-                    break;
-            }
-            card.Num = UnityEngine.Random.Range(1, 14);
             drawPile.Add(card);
         }
     }
@@ -156,6 +140,9 @@ public class CardSystem : Singleton<CardSystem>
                 ActionSystem.Instance.AddReaction(performEffectGA);
             }
         }
+
+        UseCardsHistory.Add(cv.card);
+
         yield return DiscardOne(cv);
     }
     public bool TryPlayCardFromDrag(CardView cv)
