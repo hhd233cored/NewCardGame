@@ -1,3 +1,4 @@
+using SerializeReferenceEditor;
 using System.Collections.Generic;
 using UnityEngine;
 public enum SuitStyle { Nul, Diamonds, Clubs, Hearts, Spades }
@@ -20,6 +21,7 @@ public class Card
     public Effect ManualTargetEffects => data.ManualTargetEffects;
     public List<AutoTargetEffect> OtherEffects => data.OtherEffects;
     [SerializeField] private CardData data;
+    //[field: SerializeReference, SR] Power power = null;//能力牌的能力
     public Card(CardData cardData)
     {
         data = cardData;

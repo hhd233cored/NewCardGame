@@ -20,6 +20,7 @@ public class BattleSystem : Singleton<BattleSystem>
         ActionSystem.RegisterPerformer<SetSuitAndNumGA>(this, SetSuitAndNumPerformer);
         ActionSystem.RegisterPerformer<GainBlockGA>(this, GainBlockPerformer);//该动作的使用对象①对于敌怪将会在执行意图时设置②对于玩家则是在Effect上实现
         ActionSystem.RegisterPerformer<RecoverGA>(this, RecoverPerformer);
+        ActionSystem.RegisterPerformer<GainBuffGA>(this, GainBuffPerformer);
     }
     private void OnDisable()
     {
@@ -135,6 +136,19 @@ public class BattleSystem : Singleton<BattleSystem>
     private IEnumerator RecoverPerformer(RecoverGA recoverGA)
     {
         recoverGA.User.Recover(recoverGA.Amount);
+        yield return null;
+    }
+    private IEnumerator GainBuffPerformer(GainBuffGA gainBuffGA)
+    {
+        foreach (var target in gainBuffGA.Targets)
+        {
+            if (target == null) continue;
+
+            // 这里需要调用角色身上的 Buff 管理逻辑
+            target.AddBuff(gainBuffGA.Buff);
+
+            Debug.Log($"给 {target.name} 添加了 {gainBuffGA.Buff.GetType().Name}");
+        }
         yield return null;
     }
 }

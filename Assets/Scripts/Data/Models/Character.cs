@@ -13,6 +13,7 @@ public class Character : MonoBehaviour
     public int CurrentHealth { get; private set; }
     public const int MaxBlock = 999;
     public int CurrentBlock { get; private set; }
+    public List<Buff> BuffList = new();
     protected void SetupBase(int health,Sprite image)
     {
         MaxHealth = health;
@@ -56,5 +57,30 @@ public class Character : MonoBehaviour
         CurrentHealth += recoverAmount;
         if (CurrentHealth>MaxHealth) CurrentHealth=MaxHealth;
         UpdateHealthText();
+    }
+    public void AddBuff(Buff buff)
+    {
+        // 1. 检查是否存在同类 Buff
+        Buff existing = BuffList.Find(b => b.GetType() == buff.GetType());
+
+        if (existing != null)
+        {
+            // 2. 叠加层数
+            existing.AddStacks(1);
+        }
+        else
+        {
+            Buff instance = System.Activator.CreateInstance(buff.GetType()) as Buff;
+            //instance.Initialize(this, 1, buff.GetData()); // 建议在 Buff 类里加个 GetData()
+            BuffList.Add(instance);
+        }
+    }
+    public void RemoveBuff(Buff buff)
+    {
+        if (BuffList.Contains(buff))
+        {
+            buff.OnRemove(); // 执行取消订阅
+            BuffList.Remove(buff);
+        }
     }
 }

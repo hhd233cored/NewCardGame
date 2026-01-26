@@ -1,3 +1,4 @@
+using SerializeReferenceEditor;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -43,3 +44,14 @@ public class RecoverEffect : Effect
         return recoverGA;
     }
 }
+
+public class GainBuffEffect : Effect
+{
+    [field: SerializeReference, SR] private Buff buff;
+    public override GameAction GetGameAction(List<Character> targets)
+    {
+        GainBuffGA gainBuffGA = new(targets, PlayerSystem.Instance.player, buff);
+        return gainBuffGA;
+    }
+}
+

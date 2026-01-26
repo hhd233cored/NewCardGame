@@ -279,6 +279,48 @@ public class ActionSystem : Singleton<ActionSystem>
 
         list.Add((ga) => sub((T)ga));
     }
+    /// <summary>
+    /// 取消 Pre 阶段的订阅
+    /// </summary>
+    public static void UnsubscribePre<T>(Action<T> sub) where T : GameAction
+    {
+        RemoveSub(preSubs, sub);
+    }
+
+    /// <summary>
+    /// 取消 Post 阶段的订阅
+    /// </summary>
+    public static void UnsubscribePost<T>(Action<T> sub) where T : GameAction
+    {
+        RemoveSub(postSubs, sub);
+    }
+
+    private static void RemoveSub<T>(Dictionary<Type, List<Action<GameAction>>> dict, Action<T> sub) where T : GameAction
+    {
+        if (sub == null) return;
+
+        Type t = typeof(T);
+        if (dict.TryGetValue(t, out var list))
+        {
+            //由于包装成了Lambda，我们需要通过 Target 和 Method 来寻找原始委托
+            for (int i = list.Count - 1; i >= 0; i--)
+            {
+                var currentSub = list[i];
+
+                //检查这个包装后的动作是否指向同一个对象和方法
+                //这里利用了闭包内部会持有原始 sub 引用的特性进行比对
+                if (currentSub.Target.Equals(sub.Target) && currentSub.Method.Equals(sub.Method))
+                {
+                    list.RemoveAt(i);
+                }
+            }
+
+            if (list.Count == 0)
+            {
+                dict.Remove(t);
+            }
+        }
+    }
 
     private void Update()
     {
@@ -296,7 +338,8 @@ public class ActionSystem : Singleton<ActionSystem>
         {
             // 确保不会重复触发
             this.enabled = false;
-
+            //战斗结束后清空buff
+            PlayerSystem.Instance.player.BuffList.Clear();
             //Debug.Log("Finsh Battle");
             StartCoroutine(GameManager.Instance.EnterMapScene());
         }

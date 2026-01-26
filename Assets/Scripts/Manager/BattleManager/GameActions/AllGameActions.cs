@@ -120,3 +120,16 @@ public class RecoverGA : GameAction
         User = user;
     }
 }
+
+public class GainBuffGA : GameAction
+{
+    public List<Character> Targets {  get; set; }
+    public Character User { get; set; }
+    public Buff Buff { get; set; }
+    public GainBuffGA(List<Character> targets, Character user, Buff buff)
+    {
+        Targets = targets;
+        User = user;
+        Buff = buff;
+    }
+}
