@@ -144,3 +144,4 @@ MonoBehaviour:
   treasureSprite: {fileID: 21300000, guid: 0369490b5c624434f9069f01cf7820c9, type: 3}
   eventSprite: {fileID: 21300000, guid: 46ae2b5d9e1941442aef7f1087651c7b, type: 3}
   unknownSprite: {fileID: 0}
+  battleData: {fileID: 11400000, guid: 8b4e7d5f8593cef498e6093aeeb5ca43, type: 2}

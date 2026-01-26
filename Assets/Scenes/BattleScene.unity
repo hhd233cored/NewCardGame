@@ -275,7 +275,7 @@ MonoBehaviour:
   arrowHead: {fileID: 679603415}
   lineRenderer: {fileID: 1207812882}
   headBackOffset: 0.5
-  cam: {fileID: 0}
+  cam: {fileID: 787054505}
 --- !u!1 &119890748
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +331,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161115278}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1004,8 +1004,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handView: {fileID: 1109227963}
-  drawPilePoint: {fileID: 386576132}
-  discardPilePoint: {fileID: 119890749}
+  drawPilePoint: {fileID: 1575244991}
+  discardPilePoint: {fileID: 460726942}
 --- !u!1 &1014387517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1391,7 +1391,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1426728186}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1431,9 +1431,9 @@ Transform:
   m_Children:
   - {fileID: 1983357700}
   - {fileID: 311628834}
+  - {fileID: 1781790190}
   - {fileID: 161115279}
   - {fileID: 1426728187}
-  - {fileID: 1781790190}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1575244990
@@ -2486,7 +2486,7 @@ MonoBehaviour:
   cardViewPrefab: {fileID: 5650580244069538341, guid: 8e2180a1be45678499d348f21ef07390, type: 3}
   playerData: {fileID: 11400000, guid: a321bcc82030d51489ea1e304d4ca390, type: 2}
   battleData: {fileID: 11400000, guid: 8b4e7d5f8593cef498e6093aeeb5ca43, type: 2}
-  HandTrans: {fileID: 1109227962}
+  HandTrans: {fileID: 0}
 --- !u!4 &2141192606
 Transform:
   m_ObjectHideFlags: 0

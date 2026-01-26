@@ -277,7 +277,7 @@ public class CardSystem : Singleton<CardSystem>
             CardView cardView = MainController.Instance.CreateCardView(
                 card, drawPilePoint.position, drawPilePoint.rotation
             );
-
+            cardView.transform.parent = handView.transform;
             // Î¬»¤ handViews
             handViews.Add(cardView);
 

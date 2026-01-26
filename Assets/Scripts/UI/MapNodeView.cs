@@ -25,6 +25,8 @@ public class MapNodeView : MonoBehaviour
     //状态标记
     private bool isInteractable = false;
 
+    [SerializeField] private BattleData battleData;//这句仅测试用，更规范的写法应该是写在MapNode里
+
     /// <summary>
     /// 初始化节点视图 (由MapManager调用)
     /// </summary>
@@ -87,18 +89,18 @@ public class MapNodeView : MonoBehaviour
         switch (nodeData.nodeType)
         {
             case NodeType.Monster:
-                GameManager.Instance.EnterBattle(BattleType.Normal);
-                GlobalController.Instance.NewBattle(nodeData.battleData);
+                // 使用 StartCoroutine 启动
+                StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battleData.enemies));
                 break;
 
             case NodeType.Elite:
-                GameManager.Instance.EnterBattle(BattleType.Elite);
-                GlobalController.Instance.NewBattle(nodeData.battleData);
+                // 使用 StartCoroutine 启动
+                StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battleData.enemies));
                 break;
 
             case NodeType.Boss:
-                GameManager.Instance.EnterBattle(BattleType.Boss);
-                GlobalController.Instance.NewBattle(nodeData.battleData);
+                // 使用 StartCoroutine 启动
+                StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battleData.enemies));
                 break;
 
             case NodeType.Event:
@@ -134,7 +136,8 @@ public class MapNodeView : MonoBehaviour
         if (outcome == EventRoomOutcome.Combat)
         {
             Debug.Log("Event Result: Combat!");
-            GameManager.Instance.EnterBattle(BattleType.Normal);
+            // 使用 StartCoroutine 启动
+            StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battleData.enemies));
         }
         else
         {

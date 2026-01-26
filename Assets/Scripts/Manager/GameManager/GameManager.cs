@@ -27,11 +27,12 @@ public class GameManager : PersistentSingleton<GameManager>
     }
 
     //进入战斗场景
-    public void EnterBattle(BattleType type, string battleSceneName = "BattleScene")
+    /*public void EnterBattle(BattleType type, string battleSceneName = "BattleScene", string mapSceneName = "MapScene")
     {
         NextBattleType = type;
-        SceneManager.LoadScene(battleSceneName);
-    }
+        SceneManager.LoadScene(battleSceneName, LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(mapSceneName);
+    }*/
 
     //处理事件房逻辑
     public EventRoomOutcome ResolveEventRoom()
@@ -52,7 +53,23 @@ public class GameManager : PersistentSingleton<GameManager>
             return EventRoomOutcome.NonCombat;
         }
     }
+    //进入战斗场景（协程）
+    public IEnumerator EnterBattleRoutine(BattleType type, List<EnemyData> enemies, string battleSceneName = "BattleScene", string mapSceneName = "MapScene")
+    {
+        NextBattleType = type;
+
+        //异步加载并等待完成
+        AsyncOperation op = SceneManager.LoadSceneAsync(battleSceneName, LoadSceneMode.Additive);
+        yield return op;
+
+        //卸载地图
+        SceneManager.UnloadSceneAsync(mapSceneName);
+
+        //此时场景加载完毕，实例已存在，可以安全初始化
+        GlobalController.Instance.NewBattle(enemies);
+    }
 }
+
 
 public enum EventRoomOutcome { Combat, NonCombat }
 public enum BattleType { None, Normal, Elite, Boss }

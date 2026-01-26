@@ -8,7 +8,6 @@ public class MainController:Singleton<MainController>
     [SerializeField] private CardView cardViewPrefab;
     [SerializeField] private PlayerData playerData;
     [SerializeField] private BattleData battleData;
-    [SerializeField] private Transform HandTrans;
     /// <summary>
     /// 初始化新战斗场景信息
     /// </summary>
@@ -40,7 +39,7 @@ public class MainController:Singleton<MainController>
     /// </summary>
     public CardView CreateCardView(Card card, Vector3 position, Quaternion rotation)
     {
-        CardView cardView = Instantiate(cardViewPrefab, position, rotation,HandTrans);
+        CardView cardView = Instantiate(cardViewPrefab, position, rotation);
         cardView.Setup(card);
         return cardView;
     }

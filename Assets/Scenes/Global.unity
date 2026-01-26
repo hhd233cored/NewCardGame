@@ -301,6 +301,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 11400000, guid: a321bcc82030d51489ea1e304d4ca390, type: 2}
+  enemyPrefab: {fileID: 5266979687231847526, guid: 9b885149342f0c0498d02f6dc8cdf088, type: 3}
+  cardViewPrefab: {fileID: 5650580244069538341, guid: 8e2180a1be45678499d348f21ef07390, type: 3}
+  battleData: {fileID: 11400000, guid: 8b4e7d5f8593cef498e6093aeeb5ca43, type: 2}
 --- !u!4 &1907727766
 Transform:
   m_ObjectHideFlags: 0
@@ -365,7 +368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2089406194
 MonoBehaviour:
   m_ObjectHideFlags: 0
