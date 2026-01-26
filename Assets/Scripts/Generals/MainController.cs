@@ -48,6 +48,28 @@ public class MainController:Singleton<MainController>
     /// </summary>
     public static void EndTurn()
     {
+        //弃牌阶段
+        //DiscardCardsGA discardCardsGA = new(1, true);
+        //ActionSystem.Instance.AddReaction(discardCardsGA);
+
+        //重置“上一张牌”的花色点数
+        SetSuitAndNumGA setSuitAndNumGA = new(SuitStyle.Nul, 0);
+        ActionSystem.Instance.AddReaction(setSuitAndNumGA);
+
+        //执行buff结算
+        foreach (var enemy in EnemySystem.Instance.Enemies)
+        {
+            for (int i = enemy.BuffList.Count - 1; i >= 0; i--)
+            {
+                var buff = enemy.BuffList[i];
+                if (!buff.OnTick())
+                {
+                    enemy.RemoveBuff(buff);
+                }
+            }
+        }
+
+        //进入敌人回合
         EnemyTurnGA enemyTurnGA = new();
         ActionSystem.Instance.Perform(enemyTurnGA);
     }

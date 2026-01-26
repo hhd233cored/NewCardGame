@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <player>k__BackingField: {fileID: 305234063}
+  CurrentCards: []
 --- !u!1001 &1170662985
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -248,6 +249,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2043602337}
     m_Modifications:
+    - target: {fileID: 1831641190236385835, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2510146931010060790, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
       propertyPath: BlockUI
       value: 
@@ -303,13 +308,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7576118729526834113, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
-    - targetCorrespondingSourceObject: {fileID: 5196292347863337057, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 0}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
 --- !u!114 &1645597821 stripped
 MonoBehaviour:

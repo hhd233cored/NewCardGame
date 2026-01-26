@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 579e8ce307d6d324c8aa1d0a8be361f2, type: 3}
-  m_Name: BuffCard
+  m_Name: Prison
   m_EditorClassIdentifier: 
   <Title>k__BackingField: Prison(Test)
   <Description>k__BackingField: Give all 5 prison
   <Rarity>k__BackingField: 0
-  <Image>k__BackingField: {fileID: 21300000, guid: f95db9384a39c8e44b1322a9c7351a3b, type: 3}
-  <CardType>k__BackingField: 0
+  <Image>k__BackingField: {fileID: 21300000, guid: 5c377a56d40c6d54491e5a8370530f10, type: 3}
+  <CardType>k__BackingField: 1
   <ManualTargetEffects>k__BackingField:
     rid: -2
   <OtherEffects>k__BackingField:
@@ -42,6 +42,7 @@ MonoBehaviour:
       type: {class: PoisonBuff, ns: , asm: Assembly-CSharp}
       data:
         stacks: 5
+        data: {fileID: 11400000, guid: 8b10a5b606c651f4d8ab10d5dc3acd79, type: 2}
         type: 1
     - rid: 7198748416638976006
       type: {class: AllEnemiesTM, ns: , asm: Assembly-CSharp}

@@ -133,3 +133,12 @@ public class GainBuffGA : GameAction
         Buff = buff;
     }
 }
+
+public class AllBuffsTickGA : GameAction//仅作为一个状态机用于处理回合前buff结算
+{
+    public bool isPlayerTurn;
+    public AllBuffsTickGA(bool isPlayerTurn)
+    {
+        this.isPlayerTurn = isPlayerTurn;
+    }
+}

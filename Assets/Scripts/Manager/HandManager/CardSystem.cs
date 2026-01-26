@@ -278,10 +278,7 @@ public class CardSystem : Singleton<CardSystem>
     }
     private void EnemyTurnPreReaction(EnemyTurnGA enemyTurnGA)
     {
-        DiscardCardsGA discardCardsGA = new(1, true);
-        ActionSystem.Instance.AddReaction(discardCardsGA);
-        SetSuitAndNumGA setSuitAndNumGA = new(SuitStyle.Nul,0);
-        ActionSystem.Instance.AddReaction(setSuitAndNumGA);
+      
     }
     private void EnemyTurnPostReaction(EnemyTurnGA enemyTurnGA)
     {

@@ -7,7 +7,7 @@ public abstract class Buff
 {
     protected Character owner;//拥有者
     public int stacks;//层数
-    protected BuffData data;//ScriptableObject
+    public BuffData data;//ScriptableObject
     public BuffType type;
 
     public virtual void Initialize(Character target, int initialStacks, BuffData buffData)
@@ -73,7 +73,7 @@ public class PoisonBuff : Buff
     public override bool OnTick()
     {
         // 每一轮开始时，直接调用 ActionSystem 执行扣血
-        ActionSystem.Instance.Perform(new DealDamageGA(stacks, new List<Character>() { owner }, null));
+        ActionSystem.Instance.Perform(new DealDamageGA(stacks, new List<Character>() { owner }, PlayerSystem.Instance.player));
 
         // 中毒每回合层数减一
         stacks--;

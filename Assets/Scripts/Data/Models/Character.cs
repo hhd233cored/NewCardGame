@@ -60,18 +60,20 @@ public class Character : MonoBehaviour
     }
     public void AddBuff(Buff buff)
     {
-        // 1. 检查是否存在同类 Buff
         Buff existing = BuffList.Find(b => b.GetType() == buff.GetType());
-
+        
         if (existing != null)
         {
-            // 2. 叠加层数
+            //重复则叠加层数
             existing.AddStacks(1);
         }
         else
         {
+            //否则添加buff
             Buff instance = System.Activator.CreateInstance(buff.GetType()) as Buff;
-            //instance.Initialize(this, 1, buff.GetData()); // 建议在 Buff 类里加个 GetData()
+
+            // 传入当前角色(this)和配置数据(buff.data)
+            instance.Initialize(this, 1, buff.data);
             BuffList.Add(instance);
         }
     }

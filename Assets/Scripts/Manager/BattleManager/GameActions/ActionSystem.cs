@@ -30,6 +30,7 @@ public class ActionSystem : Singleton<ActionSystem>
 
     /// <summary>
     /// 入口：执行一个 action。若系统忙，则排队。
+    /// 排队
     /// </summary>
     public void Perform(GameAction action, System.Action OnPerformFinished = null)
     {
@@ -48,6 +49,7 @@ public class ActionSystem : Singleton<ActionSystem>
     /// <summary>
     /// 允许 performer 或 subscriber 在当前阶段追加反应 action。
     /// 注意：追加到当前 reactions 列表（也就是正在结算的那一段）。
+    /// 插队
     /// </summary>
     public void AddReaction(GameAction gameAction)
     {
