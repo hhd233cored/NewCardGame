@@ -82,15 +82,17 @@ public class MapNodeView : MonoBehaviour
         if (!isInteractable) return;
 
         Debug.Log($"[Map] Player selected node: {nodeData.nodeType} at Layer {nodeData.y}");
-
-        //点击后锁定，防止连点
         SetInteractable(false);
-
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.CurrentNode = nodeData;
+        }
         HandleNodeInteraction();
     }
 
     private void HandleNodeInteraction()
     {
+        var mapManager = FindObjectOfType<MapManager>();
         if (GameManager.Instance == null)
         {
             Debug.LogError("GameManager instance not found!");
@@ -117,45 +119,41 @@ public class MapNodeView : MonoBehaviour
                 break;
 
             case NodeType.Event:
-                HandleEventRoom();
+                HandleEventRoom(mapManager);
                 break;
 
             case NodeType.Shop:
-                //TODO: 加载商店场景或打开商店UI
-                Debug.Log("Enter Shop Logic...");
+                Debug.Log("进入商店...");
+                mapManager?.UnlockNextLayer();
                 break;
 
             case NodeType.Rest:
-                //TODO: 加载安全屋场景或打开休息UI
-                Debug.Log("Enter Rest Site Logic...");
+                Debug.Log("进入安全屋...");
+                // 简单模拟回血
+                PlayerSystem.Instance.player.Recover(30);
+                mapManager?.UnlockNextLayer();
                 break;
 
             case NodeType.Treasure:
-                //TODO: 打开宝箱奖励UI
-                Debug.Log("Enter Treasure Logic...");
-                break;
-
-            default:
-                Debug.LogWarning("Unknown node type clicked.");
+                Debug.Log("打开宝箱...");
+                mapManager?.UnlockNextLayer();
                 break;
         }
     }
 
-    private void HandleEventRoom()
+    private void HandleEventRoom(MapManager mapManager)
     {
-        //调用GameManager里的概率逻辑
         var outcome = GameManager.Instance.ResolveEventRoom();
 
         if (outcome == EventRoomOutcome.Combat)
         {
-            Debug.Log("Event Result: Combat!");
-            // 使用 StartCoroutine 启动
+            Debug.Log("事件结果：遭遇战斗！");
             StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battleData.enemies));
         }
         else
         {
-            Debug.Log("Event Result: Non-Combat Story");
-            //调用UI系统弹出一个事件对话框
+            Debug.Log("事件结果：平安无事（或获得奖励）");  
+            mapManager?.UnlockNextLayer();
         }
     }
 

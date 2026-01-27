@@ -19,6 +19,9 @@ public class GameManager : PersistentSingleton<GameManager>
     [SerializeField] private float chanceIncrement = 0.15f;      //每次非战斗增加15%
     private float currentEventCombatChance;
 
+    public List<List<MapNode>> CurrentMapData { get; private set; } //保存整张地图结构
+    public MapNode CurrentNode { get; set; } //记录玩家当前站在哪个点上
+
     protected override void Awake()
     {
         base.Awake();
@@ -37,6 +40,8 @@ public class GameManager : PersistentSingleton<GameManager>
         PlayerSystem.Instance.Setup(playerData);
         PlayerView.SetActive(false);
         //生成地图
+        CurrentMapData = null;
+        CurrentNode = null;
         currentEventCombatChance = baseEventCombatChance;
     }
 
@@ -112,6 +117,12 @@ public class GameManager : PersistentSingleton<GameManager>
         CardSystem.Instance.Setup(PlayerSystem.Instance.player.CurrentCards);
         DrawCardsGA drawCardsGA = new(5);
         ActionSystem.Instance.Perform(drawCardsGA);
+    }
+
+    //提供给MapManager保存数据用
+    public void SaveMapState(List<List<MapNode>> map)
+    {
+        CurrentMapData = map;
     }
 }
 
