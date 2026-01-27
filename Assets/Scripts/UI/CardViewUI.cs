@@ -8,7 +8,7 @@ public class CardViewUI : MonoBehaviour
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text suitNumText;
-    [SerializeField] private SpriteRenderer cardImage;
+    [SerializeField] private Image cardImage;
 
     [Header("Card Data")]
     private Card cardData;

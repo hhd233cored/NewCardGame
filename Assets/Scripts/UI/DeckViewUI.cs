@@ -1,160 +1,113 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Unity.Collections.LowLevel.Unsafe;
+using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System.Collections.Generic;
 
-public class DeckBrowserUI : MonoBehaviour
+public class DeckViewUI : Singleton<DeckViewUI>
 {
     [Header("UI References")]
-    [SerializeField] private GameObject browserPanel;
-    [SerializeField] private Transform cardGridContainer;
-    [SerializeField] private GameObject cardUIPrefab;
+    [SerializeField] private RectTransform contentFolder;
+    [SerializeField] private CardViewUI cardPrefab;
     [SerializeField] private ScrollRect scrollRect;
-    [SerializeField] private Button closeButton;
-    [SerializeField] private TMP_Text cardCountText;
 
-    [Header("布局设置")]
-    [SerializeField] private GridLayoutGroup gridLayoutGroup;
-    [SerializeField] private int cardsPerRow = 4;
+    [Header("Layout Settings")]
+    [SerializeField] private int cardsPerRow = 5;
+    [SerializeField] private Vector2 cellSize = new Vector2(200, 300);
+    [SerializeField] private Vector2 spacing = new Vector2(40, 50);
+    [SerializeField] private float paddingTop = 50f;
+    [SerializeField] private float cardScale = 0.7f;    // 调整为你需要的 0.7 缩放
 
-    private List<CardViewUI> cardUIInstances = new List<CardViewUI>();
+    private bool active;
 
-    void Start()
+    private void Start()
     {
-        // 设置关闭按钮
-        if (closeButton != null)
-            closeButton.onClick.AddListener(() => browserPanel.SetActive(false));
-
-        // 初始隐藏浏览器
-        browserPanel.SetActive(false);
+        active = false;
+    }
+    public void TogglePlayerDeckView()
+    {
+        active = !active;
+        scrollRect.gameObject.SetActive(active);
+        if (active) RefreshDisplay(PlayerSystem.Instance.CurrentCards);
+    }
+    public void ToggleDeckView(List<Card> cards)
+    {
+        active = !active;
+        scrollRect.gameObject.SetActive(active);
+        if (active) RefreshDisplay(cards);
     }
 
-    /// <summary>
-    /// 打开卡组浏览器
-    /// </summary>
-    public void OpenDeckBrowser()
+    private void RefreshDisplay(List<Card> c)
     {
-        if (PlayerSystem.Instance == null)
+        // 1. 清理
+        foreach (Transform child in contentFolder)
         {
-            Debug.LogError("PlayerSystem实例不存在");
-            return;
+            Destroy(child.gameObject);
         }
 
-        browserPanel.SetActive(true);
-        RefreshDeckDisplay();
-    }
+        // 2. 数据获取与排序
+        var cards = c.OrderBy(c => c.Num).ToList();
 
-    /// <summary>
-    /// 刷新卡组显示
-    /// </summary>
-    private void RefreshDeckDisplay()
-    {
-        ClearCardInstances();
+        // 3. 配置容器
+        // 设置容器锚点在顶部中心，Pivot 也在顶部中心
+        // 锚点设为：水平居中(0.5)，垂直顶部(1)
+        contentFolder.anchorMin = new Vector2(0.5f, 1);
+        contentFolder.anchorMax = new Vector2(0.5f, 1);
+        // 轴心点设为：水平居中(0.5)，垂直顶部(1)
+        contentFolder.pivot = new Vector2(0.5f, 1);
 
-        // 获取玩家卡组
-        var playerCards = PlayerSystem.Instance.CurrentCards;
-        if (playerCards == null || playerCards.Count == 0)
+        // 将位置强制归零（确保它贴在 ScrollView 的顶部）
+        contentFolder.anchoredPosition = Vector2.zero;
+
+
+        int totalRows = Mathf.CeilToInt((float)cards.Count / cardsPerRow);
+
+        float calculatedHeight = paddingTop + (totalRows * cellSize.y) + (Mathf.Max(0, totalRows - 1) * spacing.y) + 100f;
+
+        contentFolder.sizeDelta = new Vector2(contentFolder.sizeDelta.x, calculatedHeight);
+
+        // 4. 计算起始 X 坐标（让卡牌居中排列）
+        float rowWidth = (cardsPerRow * cellSize.x) + ((cardsPerRow - 1) * spacing.x);
+        float startX = -rowWidth / 2f + cellSize.x / 2f;
+
+        // 5. 生成卡牌
+        for (int i = 0; i < cards.Count; i++)
         {
-            Debug.LogWarning("玩家卡组为空");
-            UpdateCardCountText(0);
-            return;
-        }
+            int row = i / cardsPerRow;
+            int col = i % cardsPerRow;
 
-        // 生成卡牌UI
-        GenerateCardUIs(playerCards);
+            CardViewUI cardUI = Instantiate(cardPrefab, contentFolder);
+            cardUI.Setup(cards[i]);
 
-        // 更新布局和计数
-        UpdateGridLayout();
-        UpdateCardCountText(playerCards.Count);
-    }
-
-    /// <summary>
-    /// 生成卡牌UI实例
-    /// </summary>
-    private void GenerateCardUIs(List<Card> cards)
-    {
-        if (cardUIPrefab == null || cardGridContainer == null)
-        {
-            Debug.LogError("卡牌预制体或容器未设置");
-            return;
-        }
-
-        foreach (var card in cards)
-        {
-            GameObject cardObj = Instantiate(cardUIPrefab, cardGridContainer);
-            CardViewUI cardUI = cardObj.GetComponent<CardViewUI>();
-
-            if (cardUI != null)
+            RectTransform rect = cardUI.GetComponent<RectTransform>();
+            if (rect != null)
             {
-                cardUI.Setup(card);
-                cardUIInstances.Add(cardUI);
+                // 计算当前容器的半高度（这是从中心到顶边的距离）
+                float halfContentHeight = contentFolder.sizeDelta.y / 2f;
+
+                // 计算横向位置
+                float xPos = startX + col * (cellSize.x + spacing.x);
+
+                // 【关键修改】：
+                // 1. halfContentHeight 将坐标原点“推”到了容器顶边
+                // 2. 然后再减去 paddingTop 和 行间距 往下排
+                float yPos = halfContentHeight - paddingTop - (row * (cellSize.y + spacing.y)) - (cellSize.y / 2f);
+
+                rect.anchoredPosition = new Vector2(xPos, yPos);
+                rect.localScale = Vector3.one * cardScale;
+
+                // 习惯性清空 Z 轴
+                rect.anchoredPosition3D = new Vector3(xPos, yPos, 0);
             }
         }
-    }
 
-    /// <summary>
-    /// 清理所有卡牌UI实例
-    /// </summary>
-    private void ClearCardInstances()
-    {
-        foreach (var cardUI in cardUIInstances)
+        // 6. 重置滚动条
+        if (scrollRect != null)
         {
-            if (cardUI != null && cardUI.gameObject != null)
-                Destroy(cardUI.gameObject);
-        }
-        cardUIInstances.Clear();
-    }
-
-    /// <summary>
-    /// 更新网格布局
-    /// </summary>
-    private void UpdateGridLayout()
-    {
-        if (gridLayoutGroup == null) return;
-
-        RectTransform containerRect = cardGridContainer as RectTransform;
-        if (containerRect != null)
-        {
-            float containerWidth = containerRect.rect.width;
-            float spacing = containerWidth * 0.02f; // 2%间距
-            float cellWidth = (containerWidth - spacing * (cardsPerRow - 1)) / cardsPerRow;
-
-            gridLayoutGroup.cellSize = new Vector2(cellWidth, cellWidth * 1.4f);
-            gridLayoutGroup.spacing = new Vector2(spacing, spacing);
+            Canvas.ForceUpdateCanvases();
+            scrollRect.verticalNormalizedPosition = 1f;
         }
     }
 
-    /// <summary>
-    /// 更新卡牌数量文本
-    /// </summary>
-    private void UpdateCardCountText(int count)
-    {
-        if (cardCountText != null)
-            cardCountText.text = $"卡牌数量: {count}";
-    }
-
-    /// <summary>
-    /// 切换浏览器显示/隐藏
-    /// </summary>
-    public void ToggleBrowser()
-    {
-        bool shouldShow = !browserPanel.activeSelf;
-        browserPanel.SetActive(shouldShow);
-
-        if (shouldShow)
-        {
-            RefreshDeckDisplay();
-        }
-    }
-
-    /// <summary>
-    /// 强制刷新显示（当卡组变化时调用）
-    /// </summary>
-    public void ForceRefresh()
-    {
-        if (browserPanel.activeSelf)
-        {
-            RefreshDeckDisplay();
-        }
-    }
+    public void Close() => gameObject.SetActive(false);
 }

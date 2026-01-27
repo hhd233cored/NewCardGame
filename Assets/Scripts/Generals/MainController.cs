@@ -73,4 +73,12 @@ public class MainController:Singleton<MainController>
         EnemyTurnGA enemyTurnGA = new();
         ActionSystem.Instance.Perform(enemyTurnGA);
     }
+    public void ToggleDrawPileView()
+    {
+        DeckViewUI.Instance.ToggleDeckView(CardSystem.Instance.DrawPile);
+    }
+    public void ToggleDiscardPileView()
+    {
+        DeckViewUI.Instance.ToggleDeckView(CardSystem.Instance.DisCardPile);
+    }
 }

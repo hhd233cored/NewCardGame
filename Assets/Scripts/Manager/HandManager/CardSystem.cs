@@ -30,6 +30,9 @@ public class CardSystem : Singleton<CardSystem>
 
     private const int maxHand = 10;
     public bool IsChoosingDiscard => isChoosingDiscard;
+
+    public List<Card> DrawPile => drawPile;
+    public List<Card> DisCardPile => discardPile;
     private void OnEnable()
     {
         ActionSystem.RegisterPerformer<DrawCardsGA>(this, DrawCardsPerformer);
