@@ -9,6 +9,8 @@ public class CardViewUI : MonoBehaviour
     [SerializeField] private TMP_Text descriptionText;
     [SerializeField] private TMP_Text suitNumText;
     [SerializeField] private Image cardImage;
+    [SerializeField] private Image backgroundImage;
+    private Material _dynamicMaterial;
 
     [Header("Card Data")]
     private Card cardData;
@@ -24,6 +26,12 @@ public class CardViewUI : MonoBehaviour
             BattleSystem.SuitToStr(card.Suit) + BattleSystem.NumToStr(card.Num);
         if (cardImage != null && card.Image != null)
             cardImage.sprite = card.Image;
+        if (_dynamicMaterial == null)
+        {
+            _dynamicMaterial = Instantiate(backgroundImage.material);
+            backgroundImage.material = _dynamicMaterial;
+            _dynamicMaterial.SetFloat("_ShowOutline", 1f);
+        }
     }
     public void ClickCard()
     {

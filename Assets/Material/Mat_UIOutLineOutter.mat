@@ -7,13 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_UIOutLine
-  m_Shader: {fileID: 4800000, guid: dbb1b7ca126ba9f42a3133135f39eb06, type: 3}
+  m_Name: Mat_UIOutLineOutter
+  m_Shader: {fileID: 4800000, guid: dd9ed9bcc19d5534ab450ceb2d180c3c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords:
-  - _FORCERECTBORDER_ON
   - _SHOWOUTLINE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -31,10 +30,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BreathSpeed: 4
+    - _BreathSpeed: 1.12
     - _ColorMask: 15
-    - _ForceRectBorder: 1
-    - _OutlineWidth: 0.0255
+    - _OutlineWidth: 0.01
     - _ShowOutline: 1
     - _Stencil: 0
     - _StencilComp: 8
@@ -44,5 +42,5 @@ Material:
     - _UseUIAlphaClip: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 1.4142135, g: 1.4142135, b: 1.4142135, a: 1}
   m_BuildTextureStacks: []
