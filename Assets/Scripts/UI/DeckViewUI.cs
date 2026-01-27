@@ -16,13 +16,18 @@ public class DeckViewUI : Singleton<DeckViewUI>
     [SerializeField] private Vector2 cellSize = new Vector2(200, 300);
     [SerializeField] private Vector2 spacing = new Vector2(40, 50);
     [SerializeField] private float paddingTop = 50f;
+    [SerializeField] private float paddingBottom = 100f;
     [SerializeField] private float cardScale = 0.7f;    // 调整为你需要的 0.7 缩放
 
-    private bool active;
+    public bool active;
+    public bool deleteMode;//为true时点击卡牌会删牌
+    public bool upgradeMode;//为true时点击卡牌会升级卡牌
 
     private void Start()
     {
         active = false;
+        deleteMode = false;
+        upgradeMode = false;
     }
     public void TogglePlayerDeckView()
     {
@@ -35,6 +40,10 @@ public class DeckViewUI : Singleton<DeckViewUI>
         active = !active;
         scrollRect.gameObject.SetActive(active);
         if (active) RefreshDisplay(cards);
+    }
+    public void Refresh(List<Card> c)
+    {
+        RefreshDisplay(c);
     }
 
     private void RefreshDisplay(List<Card> c)
@@ -62,7 +71,7 @@ public class DeckViewUI : Singleton<DeckViewUI>
 
         int totalRows = Mathf.CeilToInt((float)cards.Count / cardsPerRow);
 
-        float calculatedHeight = paddingTop + (totalRows * cellSize.y) + (Mathf.Max(0, totalRows - 1) * spacing.y) + 100f;
+        float calculatedHeight = paddingTop + (totalRows * cellSize.y) + (Mathf.Max(0, totalRows - 1) * spacing.y) + paddingBottom;
 
         contentFolder.sizeDelta = new Vector2(contentFolder.sizeDelta.x, calculatedHeight);
 

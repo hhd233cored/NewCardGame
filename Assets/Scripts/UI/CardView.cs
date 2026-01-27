@@ -21,6 +21,7 @@ public class CardView : MonoBehaviour
     public Card card { get; private set; }
     private HandView ownerHand;
 
+    private bool isInDeckView => DeckViewUI.Instance.active;
     private bool isDragging;
     private Vector3 dragStartPosition;
     private Quaternion dragStartRotation;
@@ -49,6 +50,7 @@ public class CardView : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        if (isInDeckView) return;
         if (!Interactions.Instance.PlayerCanHover()) return;
         if (isDragging) return;
         ownerHand?.OnCardHoverEnter(this);
@@ -56,6 +58,7 @@ public class CardView : MonoBehaviour
 
     private void OnMouseExit()
     {
+        if (isInDeckView) return;
         if (!Interactions.Instance.PlayerCanHover()) return;
         if (isDragging) return;
         ownerHand?.OnCardHoverExit(this);
@@ -63,6 +66,7 @@ public class CardView : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (isInDeckView) return;
         if (!Interactions.Instance.PlayerCanInteract()) return;
         if (CardSystem.Instance.IsChoosingDiscard)
         {
@@ -119,6 +123,7 @@ public class CardView : MonoBehaviour
 
     private void OnMouseDrag()
     {
+        if (isInDeckView) return;
         if (CardSystem.Instance.IsChoosingDiscard) return;
         if (!Interactions.Instance.PlayerCanInteract()) return;
         if (!isDragging) return;
@@ -134,6 +139,7 @@ public class CardView : MonoBehaviour
 
     private void OnMouseUp()
     {
+        if (isInDeckView) return;
         if (!isDragging) return;
 
         isDragging = false;
