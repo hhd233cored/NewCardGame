@@ -38,12 +38,16 @@ public class CardView : MonoBehaviour
     {
         card = c;
         title.text = c.Title;
-        description.text = c.Description;
+        description.text = c.GetDynamicDescription();
         SuitAndNum.text = BattleSystem.SuitToStr(c.Suit) + BattleSystem.NumToStr(c.Num);
         image.sprite = c.Image;
 
         Suit = c.Suit;
         Num = c.Num;
+    }
+    public void ResetDescription()
+    {
+        description.text = card.GetDynamicDescription();
     }
 
     public void SetOwnerHand(HandView hand) => ownerHand = hand;

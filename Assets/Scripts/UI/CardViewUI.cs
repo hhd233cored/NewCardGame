@@ -13,11 +13,11 @@ public class CardViewUI : MonoBehaviour
     private Material _dynamicMaterial;
 
     [Header("Card Data")]
-    private Card cardData;
+    private Card card;
 
-    public void Setup(Card card)
+    public void Setup(Card c)
     {
-        cardData = card;
+        card = c;
 
         // 更新UI显示
         if (titleText != null) titleText.text = card.Title;
@@ -30,7 +30,7 @@ public class CardViewUI : MonoBehaviour
         {
             _dynamicMaterial = Instantiate(backgroundImage.material);
             backgroundImage.material = _dynamicMaterial;
-            _dynamicMaterial.SetFloat("_ShowOutline", 1f);
+            _dynamicMaterial.SetFloat("_ShowOutline", 0f);
         }
     }
     public void ClickCard()
@@ -41,21 +41,26 @@ public class CardViewUI : MonoBehaviour
     }
     public void DeletCard()
     {
-        PlayerSystem.Instance.CurrentCards.Remove(cardData);
+        PlayerSystem.Instance.CurrentCards.Remove(card);
         DeckViewUI.Instance.Refresh(PlayerSystem.Instance.CurrentCards);
     }
     public void UpgradeCard()
     {
-        Debug.Log("Upgrade " + cardData.Title);
+        Debug.Log("Upgrade " + card.Title);
     }
     public void SelectCard()
     {
         if (SelectCardView.Instance.cardUIs.Contains(this))
         {
-            PlayerSystem.Instance.CurrentCards.Add(cardData);
+            PlayerSystem.Instance.CurrentCards.Add(card);
             SelectCardView.Instance.cardUIs.Remove(this);
             SelectCardView.Instance.TestFill();
+            SelectCardView.Instance.FinishSelect();
         }
     }
-    public Card GetCardData() => cardData;
+    public void GainCard()//获得牌、买牌调用
+    {
+        PlayerSystem.Instance.CurrentCards.Add(card);
+    }
+    public Card GetCardData() => card;
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.GraphicsBuffer;
 
 public class CardSystem : Singleton<CardSystem>
@@ -133,13 +134,13 @@ public class CardSystem : Singleton<CardSystem>
             Debug.Log("Take Effect");
             if (ga.CardView.card.ManualTargetEffects != null)
             {
-                PerformEffectGA performEffectGA = new(ga.CardView.card.ManualTargetEffects, new() { ga.Target });
+                PerformEffectGA performEffectGA = new(ga.CardView.card.ManualTargetEffects, new() { ga.Target },PlayerSystem.Instance.player);
                 ActionSystem.Instance.AddReaction(performEffectGA);
             }
             foreach (var effectWrapper in ga.CardView.card.OtherEffects)
             {
                 List<Character> targets = effectWrapper.TargetMode.GetTargets();
-                PerformEffectGA performEffectGA = new(effectWrapper.Effect, targets);
+                PerformEffectGA performEffectGA = new(effectWrapper.Effect, targets, PlayerSystem.Instance.player);
                 ActionSystem.Instance.AddReaction(performEffectGA);
             }
         }
@@ -285,6 +286,20 @@ public class CardSystem : Singleton<CardSystem>
     }
     private void EnemyTurnPostReaction(EnemyTurnGA enemyTurnGA)
     {
+        if (EnemySystem.Instance.Enemies.Count == 0) return;
+
+        //Ö´ÐÐBuff
+        Player player = PlayerSystem.Instance.player;
+        for (int i = player.BuffList.Count - 1; i >= 0; i--)
+        {
+            var buff = player.BuffList[i];
+            if (!buff.OnTick())
+            {
+                player.RemoveBuff(buff);
+            }
+        }
+
+        //ÃþÅÆ½×¶Î
         DrawCardsGA drawCardsGA = new(5);
         ActionSystem.Instance.AddReaction(drawCardsGA);
     }

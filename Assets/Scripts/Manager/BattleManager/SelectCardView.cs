@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEditor.FilePathAttribute;
@@ -7,6 +8,7 @@ using static UnityEditor.FilePathAttribute;
 public class SelectCardView : Singleton<SelectCardView>
 {
     [SerializeField] private List<Transform> slots;
+    [SerializeField] private GameObject skipButton;
     public List<CardViewUI> cardUIs;
     [SerializeField] private CardViewUI perfab;
     public List<CardData> CardDataList;
@@ -14,6 +16,7 @@ public class SelectCardView : Singleton<SelectCardView>
     private void Start()
     {
         isSelect = false;
+        skipButton.SetActive(false);
     }
     public void TestFill()
     {
@@ -22,6 +25,7 @@ public class SelectCardView : Singleton<SelectCardView>
         {
             slot.gameObject.SetActive(isSelect);
         }
+        skipButton.SetActive(isSelect);
         if (isSelect) SetCardToSlots(CardDataList);
     }
     public void SetCardToSlots(List<CardData> cards)
@@ -42,6 +46,26 @@ public class SelectCardView : Singleton<SelectCardView>
             Transform slot = slots[i++];
             Card card = new(cardData);
 
+            switch ((int)UnityEngine.Random.Range(1, 5))
+            {
+                case 1:
+                    card.Suit = SuitStyle.Diamonds;
+                    break;
+                case 2:
+                    card.Suit = SuitStyle.Clubs;
+                    break;
+                case 3:
+                    card.Suit = SuitStyle.Hearts;
+                    break;
+                case 4:
+                    card.Suit = SuitStyle.Spades;
+                    break;
+                default:
+                    card.Suit = SuitStyle.Nul;
+                    break;
+            }
+            card.Num = UnityEngine.Random.Range(1, 14);
+
             // 1. 实例化时直接指定父物体，这是最高效且不容易出错的做法
             CardViewUI cardViewUI = Instantiate(perfab, slot);
 
@@ -59,5 +83,14 @@ public class SelectCardView : Singleton<SelectCardView>
             cardViewUI.Setup(card);
             cardUIs.Add(cardViewUI);
         }
+    }
+    public void SkipSelect()
+    {
+        TestFill();
+        FinishSelect();
+    }
+    public void FinishSelect()
+    {
+        StartCoroutine(GameManager.Instance.EnterMapScene());
     }
 }

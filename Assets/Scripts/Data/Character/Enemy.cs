@@ -17,12 +17,12 @@ public class Enemy : Character
         IntentionStates = data.Intentions;
         currentState = 0;
         type = data.Type;
-        UpdateIntentionText();
+        UpdateIntentionText(this.IntentionStates[currentState].type.ToString());
         SetupBase(data.Health, data.Image);
     }
-    public void UpdateIntentionText()
+    public void UpdateIntentionText(string text)
     {
         //TODO:œ‘ æ“‚Õº
-        attackText.text = "Intention:" + currentState;
+        attackText.text = text;
     }
 }

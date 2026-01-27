@@ -73,7 +73,7 @@ public class PoisonBuff : Buff
     public override bool OnTick()
     {
         // 每一轮开始时，直接调用 ActionSystem 执行扣血
-        ActionSystem.Instance.Perform(new DealDamageGA(stacks, new List<Character>() { owner }, PlayerSystem.Instance.player));
+        ActionSystem.Instance.AddReaction(new DealDamageGA(stacks, new List<Character>() { owner }, PlayerSystem.Instance.player));
 
         // 中毒每回合层数减一
         stacks--;
@@ -83,5 +83,18 @@ public class PoisonBuff : Buff
     public override void OnRemove()
     {
         Debug.Log($"{owner.name} 的毒解了。");
+    }
+}
+
+public class PowerBuff : Buff
+{
+    public override void OnRemove()
+    {
+        
+    }
+
+    protected override void OnApply()
+    {
+        Debug.Log($"{owner.name} 获得力量！");
     }
 }

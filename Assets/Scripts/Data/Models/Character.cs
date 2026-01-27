@@ -29,6 +29,7 @@ public class Character : MonoBehaviour
     }
     private void UpdateBlockText()
     {
+        if (BlockUI == null) return;
         BlockText.text = CurrentBlock.ToString();
         if (CurrentBlock <= 0) BlockUI.SetActive(false);
         else BlockUI.SetActive(true);
@@ -37,13 +38,14 @@ public class Character : MonoBehaviour
     {
         int loseHp = damageAmount - CurrentBlock;
         CurrentBlock -= damageAmount;
-        if (loseHp > 0) CurrentHealth -= loseHp;
+        
         if (CurrentBlock <= 0)
             CurrentBlock = 0;
+        UpdateBlockText();
+        if (loseHp > 0) CurrentHealth -= loseHp;
         if (CurrentHealth <= 0)
             CurrentHealth = 0;
         transform.DOShakePosition(0.2f, 0.5f);
-        UpdateBlockText();
         UpdateHealthText();
     }
     public void GainBlock(int blockAmount)
@@ -73,7 +75,7 @@ public class Character : MonoBehaviour
             Buff instance = System.Activator.CreateInstance(buff.GetType()) as Buff;
 
             // 传入当前角色(this)和配置数据(buff.data)
-            instance.Initialize(this, 1, buff.data);
+            instance.Initialize(this, buff.stacks, buff.data);
             BuffList.Add(instance);
         }
     }

@@ -55,7 +55,7 @@ public class DeckViewUI : Singleton<DeckViewUI>
         }
 
         // 2. 数据获取与排序
-        var cards = c.OrderBy(c => c.Num).ToList();
+        var cards = c;
 
         // 3. 配置容器
         // 设置容器锚点在顶部中心，Pivot 也在顶部中心

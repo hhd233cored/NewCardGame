@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class BattleSystem : Singleton<BattleSystem>
 {
@@ -95,7 +96,7 @@ public class BattleSystem : Singleton<BattleSystem>
     {
         foreach(var target in dealDamageGA.Targets)
         {
-            target.Damage(dealDamageGA.Amount);
+            target.Damage(MainController.Instance.TotalDamage(dealDamageGA.Amount, dealDamageGA.Targets, dealDamageGA.Source));
             Instantiate(damageVFX, target.transform.position, Quaternion.identity,this.transform);
             yield return new WaitForSeconds(0.15f);
             if (target.CurrentHealth <= 0)
@@ -114,7 +115,7 @@ public class BattleSystem : Singleton<BattleSystem>
     }
     private IEnumerator PerformEffectPerformer(PerformEffectGA performEffectGA)
     {
-        GameAction effectAction = performEffectGA.Effect.GetGameAction(performEffectGA.Targets);
+        GameAction effectAction = performEffectGA.Effect.GetGameAction(performEffectGA.Targets,performEffectGA.Source);
         ActionSystem.Instance.AddReaction(effectAction);
         yield return null;
     }
@@ -129,13 +130,19 @@ public class BattleSystem : Singleton<BattleSystem>
    
     private IEnumerator GainBlockPerformer(GainBlockGA gainBlockGA)
     {
-        gainBlockGA.User.GainBlock(gainBlockGA.Amount);
+        foreach(var target in gainBlockGA.Target)
+        {
+            target.GainBlock(gainBlockGA.Amount);
+        }
         yield return null;
     }
 
     private IEnumerator RecoverPerformer(RecoverGA recoverGA)
     {
-        recoverGA.User.Recover(recoverGA.Amount);
+        foreach (var target in recoverGA.Target)
+        {
+            target.Recover(recoverGA.Amount);
+        }
         yield return null;
     }
     private IEnumerator GainBuffPerformer(GainBuffGA gainBuffGA)

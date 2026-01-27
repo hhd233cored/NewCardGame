@@ -17,16 +17,48 @@ MonoBehaviour:
   <AttackPower>k__BackingField: 0
   <Type>k__BackingField: 0
   <Intentions>k__BackingField:
-  - rid: 7198748408597446676
-  - rid: 7198748408597446677
+  - rid: 7198748441902579712
+  - rid: 7198748441902579718
   references:
     version: 2
     RefIds:
-    - rid: 7198748408597446676
-      type: {class: AttackPlayerIntention, ns: , asm: Assembly-CSharp}
+    - rid: 7198748441902579712
+      type: {class: Intention, ns: , asm: Assembly-CSharp}
       data:
-        damgeAmount: 10
-    - rid: 7198748408597446677
-      type: {class: GainBlockIntention, ns: , asm: Assembly-CSharp}
+        type: 1
+        <ATEffects>k__BackingField:
+        - rid: 7198748441902579713
+    - rid: 7198748441902579713
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
       data:
-        amount: 5
+        <TargetMode>k__BackingField:
+          rid: 7198748441902579715
+        <Effect>k__BackingField:
+          rid: 7198748441902579717
+    - rid: 7198748441902579715
+      type: {class: SelfTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 7198748441902579717
+      type: {class: GainBlockEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: 7
+    - rid: 7198748441902579718
+      type: {class: Intention, ns: , asm: Assembly-CSharp}
+      data:
+        type: 0
+        <ATEffects>k__BackingField:
+        - rid: 7198748441902579719
+    - rid: 7198748441902579719
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 7198748441902579720
+        <Effect>k__BackingField:
+          rid: 7198748441902579721
+    - rid: 7198748441902579720
+      type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 7198748441902579721
+      type: {class: AttackPlayerEffect, ns: , asm: Assembly-CSharp}
+      data:
+        damgeAmount: 7

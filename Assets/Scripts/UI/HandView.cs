@@ -70,6 +70,8 @@ public class HandView : MonoBehaviour
 
         for (int i = 0; i < cards.Count; i++)
         {
+            cards[i].ResetDescription();
+
             if (locked.Contains(cards[i]))
                 continue;
             // 1) 先算原始参数 p（不带挤开）

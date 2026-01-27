@@ -65,10 +65,12 @@ public class PerformEffectGA : GameAction
 {
     public Effect Effect { get; set; }
     public List<Character> Targets { get; set; }
-    public PerformEffectGA(Effect effect, List<Character> targets)
+    public Character Source { get; set; }
+    public PerformEffectGA(Effect effect, List<Character> targets, Character source)
     {
         Effect = effect;
-        Targets = targets == null ? null : new(targets);
+        Targets = targets;
+        Source = source;
     }
 }
 
@@ -102,22 +104,32 @@ public class SetSuitAndNumGA : GameAction
 public class GainBlockGA : GameAction
 {
     public int Amount { get; set; }
-    public Character User { get; set; }
-    public GainBlockGA(int amount, Character user)
+    public List<Character> Target { get; set; }
+    public GainBlockGA(int amount, Character target)
     {
         Amount = amount;
-        User = user;
+        Target = new() { target };
+    }
+    public GainBlockGA(int amount, List<Character> target)
+    {
+        Amount = amount;
+        Target = target;
     }
 }
 
 public class RecoverGA : GameAction
 {
     public int Amount { get; set; }
-    public Character User { get; set; }
-    public RecoverGA(int amount, Character user)
+    public List<Character> Target { get; set; }
+    public RecoverGA(int amount, Character target)
     {
         Amount = amount;
-        User = user;
+        Target = new() { target };
+    }
+    public RecoverGA(int amount, List<Character> target)
+    {
+        Amount = amount;
+        Target = target;
     }
 }
 
@@ -126,6 +138,12 @@ public class GainBuffGA : GameAction
     public List<Character> Targets {  get; set; }
     public Character User { get; set; }
     public Buff Buff { get; set; }
+    public GainBuffGA(Character targets, Character user, Buff buff)
+    {
+        Targets = new() { targets };
+        User = user;
+        Buff = buff;
+    }
     public GainBuffGA(List<Character> targets, Character user, Buff buff)
     {
         Targets = targets;
@@ -133,16 +151,6 @@ public class GainBuffGA : GameAction
         Buff = buff;
     }
 }
-
-public class AllBuffsTickGA : GameAction//仅作为一个状态机用于处理回合前buff结算
-{
-    public bool isPlayerTurn;
-    public AllBuffsTickGA(bool isPlayerTurn)
-    {
-        this.isPlayerTurn = isPlayerTurn;
-    }
-}
-
 public class ChangeGoldGA : GameAction
 {
     public int Amount { get; private set; }
@@ -156,3 +164,17 @@ public class ChangeGoldGA : GameAction
         Source = source;
     }
 }
+/*
+public class AllBuffsTickGA : GameAction//仅作为一个状态机用于处理回合前buff结算
+{
+    public bool isPlayerTurn;
+    public AllBuffsTickGA(bool isPlayerTurn)
+    {
+        this.isPlayerTurn = isPlayerTurn;
+    }
+}
+<<<<<<< Updated upstream
+
+
+=======
+*/

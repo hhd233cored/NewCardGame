@@ -327,7 +327,7 @@ public class ActionSystem : Singleton<ActionSystem>
     private void Update()
     {
         // 只有当动作系统完全静止时，才去判断胜负
-        if (ActionSystem.Instance.IsIdle)
+        if (ActionSystem.Instance.IsIdle && EnemySystem.Instance.Enemies.Count == 0)
         {
             CheckBattleResolution();
         }
@@ -335,15 +335,10 @@ public class ActionSystem : Singleton<ActionSystem>
 
     private void CheckBattleResolution()
     {
-        // 检查存活敌怪
-        if (EnemySystem.Instance.Enemies.Count == 0)
-        {
-            // 确保不会重复触发
-            this.enabled = false;
-            //战斗结束后清空buff
-            PlayerSystem.Instance.player.BuffList.Clear();
-            //Debug.Log("Finsh Battle");
-            StartCoroutine(GameManager.Instance.EnterMapScene());
-        }
+        // 确保不会重复触发
+        this.enabled = false;
+        //战斗结束后清空buff
+        PlayerSystem.Instance.player.BuffList.Clear();
+        SelectCardView.Instance.TestFill();
     }
 }

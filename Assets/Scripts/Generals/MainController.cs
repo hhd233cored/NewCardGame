@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MainController:Singleton<MainController>
@@ -56,29 +57,27 @@ public class MainController:Singleton<MainController>
         SetSuitAndNumGA setSuitAndNumGA = new(SuitStyle.Nul, 0);
         ActionSystem.Instance.AddReaction(setSuitAndNumGA);
 
-        //执行buff结算
-        foreach (var enemy in EnemySystem.Instance.Enemies)
-        {
-            for (int i = enemy.BuffList.Count - 1; i >= 0; i--)
-            {
-                var buff = enemy.BuffList[i];
-                if (!buff.OnTick())
-                {
-                    enemy.RemoveBuff(buff);
-                }
-            }
-        }
-
         //进入敌人回合
         EnemyTurnGA enemyTurnGA = new();
         ActionSystem.Instance.Perform(enemyTurnGA);
     }
     public void ToggleDrawPileView()
     {
-        DeckViewUI.Instance.ToggleDeckView(CardSystem.Instance.DrawPile);
+        DeckViewUI.Instance.ToggleDeckView(CardSystem.Instance.DrawPile.OrderBy(c => c.Num).ToList());
     }
     public void ToggleDiscardPileView()
     {
         DeckViewUI.Instance.ToggleDeckView(CardSystem.Instance.DisCardPile);
+    }
+
+    public int TotalDamage(int basicDamage, List<Character> targets, Character source)
+    {
+        int damage = basicDamage;
+
+        //力量加成，1点力量+2点伤害
+        Buff power = source.BuffList.Find(buff => buff.data.Title == "Power");
+        if (power != null) damage += power.stacks * 2;
+
+        return damage;
     }
 }
