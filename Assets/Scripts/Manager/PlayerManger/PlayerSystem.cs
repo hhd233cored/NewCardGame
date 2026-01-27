@@ -38,4 +38,27 @@ public class PlayerSystem : Singleton<PlayerSystem>
             CurrentCards.Add(card);
         }
     }
+
+    private void OnEnable()
+    {
+        ActionSystem.RegisterPerformer<ChangeGoldGA>(this, ChangeGoldPerformer);
+    }
+
+    private void OnDisable()
+    {
+        ActionSystem.UnregisterPerformersByOwner(this);
+    }
+
+    //执行金币变化的协程
+    private IEnumerator ChangeGoldPerformer(ChangeGoldGA action)
+    {
+        if (player != null)
+        {
+            player.ChangeGold(action.Amount);
+
+            //如果有获得金币的音效或者动画，在这里播放
+
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
 }

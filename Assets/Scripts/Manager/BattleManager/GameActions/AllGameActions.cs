@@ -142,3 +142,17 @@ public class AllBuffsTickGA : GameAction//仅作为一个状态机用于处理回合前buff结算
         this.isPlayerTurn = isPlayerTurn;
     }
 }
+
+public class ChangeGoldGA : GameAction
+{
+    public int Amount { get; private set; }
+
+    //source可以是null，也可以是来源（比如战斗奖励、宝箱、商店）
+    public object Source { get; private set; }
+
+    public ChangeGoldGA(int amount, object source = null)
+    {
+        Amount = amount;
+        Source = source;
+    }
+}
