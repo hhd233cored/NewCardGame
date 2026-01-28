@@ -17,7 +17,7 @@ MonoBehaviour:
   <Rarity>k__BackingField: 0
   <Num>k__BackingField: 2
   <Suit>k__BackingField: 4
-  <Image>k__BackingField: {fileID: 21300000, guid: 32cae32a9cb995b4e9f13ea30850d15d, type: 3}
+  <Image>k__BackingField: {fileID: 21300000, guid: 11796056a0f717b42b0cc613f8ed397f, type: 3}
   <CardType>k__BackingField: 1
   <ManualTargetEffects>k__BackingField: []
   <OtherEffects>k__BackingField:

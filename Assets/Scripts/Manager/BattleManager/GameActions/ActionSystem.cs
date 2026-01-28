@@ -339,6 +339,9 @@ public class ActionSystem : Singleton<ActionSystem>
         this.enabled = false;
         //战斗结束后清空buff
         PlayerSystem.Instance.player.BuffList.Clear();
-        SelectCardView.Instance.TestFill();
+        int gainGold = UnityEngine.Random.Range(10, 20);
+        Debug.Log("Gain Gold: " + gainGold);
+        PlayerSystem.Instance.player.ChangeGold(gainGold);
+        SelectCardView.Instance.TestFill(gainGold);
     }
 }

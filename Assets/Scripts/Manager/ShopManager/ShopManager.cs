@@ -1,45 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.FilePathAttribute;
 
-public class SelectCardView : Singleton<SelectCardView>
+public class ShopManager : Singleton<ShopManager>
 {
     [SerializeField] private List<Transform> slots;
-    [SerializeField] private GameObject background;
-    [SerializeField] private GameObject skipButton;
-    [SerializeField] private TMP_Text gainGold;
-    public List<CardViewUI> cardUIs;
-    [SerializeField] private CardViewUI perfab;
     public List<CardData> CardDataList;
-    public bool isSelect;
+    public List<TMP_Text> costList;
+    public List<CardViewUI> cardUIs;
+    public TMP_Text deleteCardUITitle;
+
+    [SerializeField] private CardViewUI perfab;
+
+    public bool hasDel;
+
+    public bool isShop;
     private void Start()
     {
-        isSelect = false;
-        skipButton.SetActive(false);
-        background.SetActive(false);
-        gainGold.gameObject.SetActive(false);
+        hasDel = false;
+        isShop = true;
+        SetCardToSlots(CardDataList);
     }
-    public void TestFill(int gain = 0)
-    {
-        isSelect = !isSelect;
-        foreach (var slot in slots)
-        {
-            slot.gameObject.SetActive(isSelect);
-        }
-        skipButton.SetActive(isSelect);
-        background.SetActive(isSelect);
-        gainGold.gameObject.SetActive(false);
-        if (isSelect) SetCardToSlots(CardDataList);
-        if (gain != 0)
-        {
-            gainGold.gameObject.SetActive(true);
-            gainGold.text = "Victory, You Gain " + gain + " Gold";
-        }
-    }
+    
     public void SetCardToSlots(List<CardData> cards)
     {
         // 先清理旧的 UI（防止多次点击 TestFill 导致卡牌重叠）
@@ -49,13 +32,21 @@ public class SelectCardView : Singleton<SelectCardView>
         }
         cardUIs.Clear();
 
-        int i = 0;
-        foreach (var cardData in cards)
+        int sale = Random.Range(0, slots.Count);
+
+        for (int i = 0; i < slots.Count; i++)
         {
             // 防止数据多于格子时报错
             if (i >= slots.Count) break;
+            int rand = Random.Range(0, CardDataList.Count);
+            CardData cardData = CardDataList[rand];
 
-            Transform slot = slots[i++];
+            Transform slot = slots[i];
+            int cost = Random.Range(45, 56);
+            if (sale == i) cost /= 2;
+            TMP_Text price = slot.GetComponentInChildren<TextMeshProUGUI>();
+            if (sale == i) price.text = "Sale: " + cost.ToString();
+            price.gameObject.SetActive(true);
             Card card = new(cardData);
             /*
             switch ((int)UnityEngine.Random.Range(1, 5))
@@ -80,7 +71,7 @@ public class SelectCardView : Singleton<SelectCardView>
             */
             // 1. 实例化时直接指定父物体，这是最高效且不容易出错的做法
             CardViewUI cardViewUI = Instantiate(perfab, slot);
-
+            
             // 2. 如果一定要在实例化后修改父物体，请使用 SetParent 如下：
             // cardViewUI.transform.SetParent(slot, false); 
 
@@ -89,20 +80,34 @@ public class SelectCardView : Singleton<SelectCardView>
             if (rect != null)
             {
                 rect.anchoredPosition = Vector2.zero;
-                rect.localScale = Vector3.one; // 确保缩放是 1
             }
 
             cardViewUI.Setup(card);
+            cardViewUI.cost = cost;
+            cardViewUI.priceText = price.gameObject;
             cardUIs.Add(cardViewUI);
         }
     }
-    public void SkipSelect()
+    public void HasDeleteCard()
     {
-        TestFill();
-        FinishSelect();
+        hasDel = true;
+        deleteCardUITitle.text = "Disable";
     }
-    public void FinishSelect()
+    public void DeleteCard()
     {
-        StartCoroutine(GameManager.Instance.EnterMapScene());
+        if (PlayerSystem.Instance.player.CurrentGold > 75 && !hasDel)
+        {
+            DeckViewUI.Instance.counter = 1;
+            DeckViewUI.Instance.deleteMode = true;
+            DeckViewUI.Instance.TogglePlayerDeckView();
+        }
+    }
+    public void ResetCardSuitOrNum()
+    {
+
+    }
+    public void Leave()
+    {
+        StartCoroutine(GameManager.Instance.EnterMapScene("ShopScene"));
     }
 }

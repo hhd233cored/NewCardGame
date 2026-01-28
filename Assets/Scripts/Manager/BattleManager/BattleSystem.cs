@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 using static UnityEngine.GraphicsBuffer;
 
 public class BattleSystem : Singleton<BattleSystem>
@@ -66,7 +67,7 @@ public class BattleSystem : Singleton<BattleSystem>
 
     public bool StrictCheckSuitOrNum(SuitStyle suit, int num)
     {
-        if (currentSuit == SuitStyle.Nul || currentNum == 0 || num == 1) return true;
+        if (currentSuit == SuitStyle.Nul || currentNum == 0) return true;
 
         if(currentSuit == suit)
         {
@@ -76,6 +77,35 @@ public class BattleSystem : Singleton<BattleSystem>
             }
         }
         return currentNum == num;
+    }
+
+    public bool StrictCheckSuitOrNum2(SuitStyle suit, int num,SuitStyle hoverCardSuit,int hoverCardNum)
+    {
+        if (hoverCardSuit == SuitStyle.Nul || hoverCardNum == 0) return true;
+
+        int dir = 0;
+
+        if (hoverCardSuit == currentSuit)
+        {
+            if (num - hoverCardNum < 0) dir = -1;//下降
+            if (num - hoverCardNum > 0) dir = 1;//上升
+            if (hoverCardNum == 13) dir = -1;
+            if (hoverCardNum == 1) dir = 1;
+            if (hoverCardNum == currentNum) dir = 0;
+        }
+        else
+        {
+            if (hoverCardNum == currentNum) dir = 0;//断连照样重置方向？
+        }
+
+        if (hoverCardSuit == suit)
+        {
+            if ((num - hoverCardNum) * dir >= 0)//检测惯性是否与方向相同，比如（5-4）*1>=0，(4-6)*-1.=0则代表相同
+            {
+                return Mathf.Abs(num - hoverCardNum) <= 1;//检查是否同点数或者相邻
+            }
+        }
+        return hoverCardNum == num;
     }
     public static string SuitToStr(SuitStyle suit)
     {
@@ -190,7 +220,7 @@ public class BattleSystem : Singleton<BattleSystem>
         currentNum = setGa.Num;
         currentSuit = setGa.Suit;
         UpdateSuitText(currentSuit, currentNum);
-        handView.ResetOutLine();
+        //handView.ResetOutLine();
         yield return null;
     }
    

@@ -23,11 +23,14 @@ public class DeckViewUI : Singleton<DeckViewUI>
     public bool deleteMode;//为true时点击卡牌会删牌
     public bool upgradeMode;//为true时点击卡牌会升级卡牌
 
+    public int counter;//计数器用于牌点击计数，比如删两张牌
+
     private void Start()
     {
         active = false;
         deleteMode = false;
         upgradeMode = false;
+        counter = 0;
     }
     public void TogglePlayerDeckView()
     {

@@ -13,9 +13,11 @@ public class Test : Singleton<Test>
     {
         PlayerSystem.Instance.Setup(playerData);
         PlayerView.SetActive(true);
+        /*
         EnemySystem.Instance.Setup(battleData.enemies);
         CardSystem.Instance.Setup(PlayerSystem.Instance.player.CurrentCards);
         DrawCardsGA drawCardsGA = new(5);
         ActionSystem.Instance.Perform(drawCardsGA);
+        */
     }
 }

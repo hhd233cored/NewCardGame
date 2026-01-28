@@ -87,18 +87,29 @@ public class GameManager : PersistentSingleton<GameManager>
         //此时场景加载完毕，实例已存在，可以安全初始化
         NewBattle(enemies);
     }
+    //进入商店
+    public IEnumerator EnterShopScene(string SceneName = "ShopScene", string mapSceneName = "MapScene")
+    {
+        //异步加载并等待完成
+        AsyncOperation op = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
+        yield return op;
+
+        //卸载地图
+        SceneManager.UnloadSceneAsync(mapSceneName);
+
+        PlayerView.gameObject.SetActive(false);
+    }
     //战斗结束返回地图界面
-    public IEnumerator EnterMapScene(string battleSceneName = "BattleScene", string mapSceneName = "MapScene")
+    public IEnumerator EnterMapScene(string SceneName = "BattleScene", string mapSceneName = "MapScene")
     {
         //异步加载并等待完成
         AsyncOperation op = SceneManager.LoadSceneAsync(mapSceneName, LoadSceneMode.Additive);
         yield return op;
 
         //卸载地图
-        SceneManager.UnloadSceneAsync(battleSceneName);
+        SceneManager.UnloadSceneAsync(SceneName);
 
         PlayerView.gameObject.SetActive(false);
-
     }
 
     //初始化新的战斗场景

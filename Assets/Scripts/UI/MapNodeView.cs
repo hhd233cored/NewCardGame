@@ -124,7 +124,8 @@ public class MapNodeView : MonoBehaviour
 
             case NodeType.Shop:
                 Debug.Log("Ω¯»Î…ÃµÍ...");
-                mapManager?.UnlockNextLayer();
+                //mapManager?.UnlockNextLayer();
+                StartCoroutine(GameManager.Instance.EnterShopScene());
                 break;
 
             case NodeType.Rest:

@@ -10,15 +10,20 @@ public class CardViewUI : MonoBehaviour
     [SerializeField] private TMP_Text suitNumText;
     [SerializeField] private Image cardImage;
     [SerializeField] private Image backgroundImage;
-    private Material _dynamicMaterial;
 
+    public int cost;
+    public GameObject priceText;
+
+    private Material _dynamicMaterial;
+    
     [Header("Card Data")]
     private Card card;
 
     public void Setup(Card c)
     {
         card = c;
-
+        cost = 0;
+        priceText = null;
         // 更新UI显示
         if (titleText != null) titleText.text = card.Title;
         if (descriptionText != null) descriptionText.text = card.Description;
@@ -35,14 +40,38 @@ public class CardViewUI : MonoBehaviour
     }
     public void ClickCard()
     {
-        if (DeckViewUI.Instance.deleteMode) DeletCard();
-        if (DeckViewUI.Instance.upgradeMode) UpgradeCard();
-        if (SelectCardView.Instance.isSelect) SelectCard();
+        if (DeckViewUI.Instance.deleteMode)
+        {
+            DeletCard();
+            return;
+        }
+        if (DeckViewUI.Instance.upgradeMode)
+        {
+            UpgradeCard();
+            return;
+        }
+        if (SelectCardView.Instance.isSelect)
+        {
+            SelectCard();
+            return;
+        }
+        if (ShopManager.Instance.isShop) 
+        {
+            GainCard(cost);
+        } 
     }
     public void DeletCard()
     {
         PlayerSystem.Instance.CurrentCards.Remove(card);
         DeckViewUI.Instance.Refresh(PlayerSystem.Instance.CurrentCards);
+        DeckViewUI.Instance.counter--;
+        if (DeckViewUI.Instance.counter <= 0)
+        {
+            if (ShopManager.Instance.isShop) PlayerSystem.Instance.player.ChangeGold(-75);
+            DeckViewUI.Instance.deleteMode = false;
+            DeckViewUI.Instance.TogglePlayerDeckView();
+            ShopManager.Instance.HasDeleteCard();
+        }
     }
     public void UpgradeCard()
     {
@@ -54,13 +83,24 @@ public class CardViewUI : MonoBehaviour
         {
             PlayerSystem.Instance.CurrentCards.Add(card);
             SelectCardView.Instance.cardUIs.Remove(this);
-            SelectCardView.Instance.TestFill();
-            SelectCardView.Instance.FinishSelect();
+            DeckViewUI.Instance.counter--;
+            if (DeckViewUI.Instance.counter <= 0)
+            {
+                SelectCardView.Instance.TestFill();
+                SelectCardView.Instance.FinishSelect();
+            }
         }
     }
-    public void GainCard()//获得牌、买牌调用
+    public void GainCard(int cost = 0)//获得牌、买牌调用
     {
-        PlayerSystem.Instance.CurrentCards.Add(card);
+        if (PlayerSystem.Instance.player.CurrentGold > cost)
+        {
+            PlayerSystem.Instance.CurrentCards.Add(card);
+            PlayerSystem.Instance.player.ChangeGold(-cost);
+            ShopManager.Instance.cardUIs.Remove(this);
+            Destroy(this.gameObject);
+            priceText.SetActive(false);
+        }
     }
     public Card GetCardData() => card;
 }
