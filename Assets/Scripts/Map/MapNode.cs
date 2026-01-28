@@ -19,7 +19,7 @@ public class MapNode
     public int x; //在当前层的索引（横向坐标）
     public int y; //层数（0-15）
     public NodeType nodeType;
-
+    public MapNode() { }
     //如果是战斗节点就挂载战斗场景data(?)
     public BattleData battleData;
 
@@ -27,13 +27,27 @@ public class MapNode
     [System.NonSerialized] public List<MapNode> parents = new List<MapNode>(); //上一层的连接点
     [System.NonSerialized] public List<MapNode> children = new List<MapNode>(); //下一层的连接点
 
+    public List<Vector2Int> childrenCoordinates = new List<Vector2Int>();
+
     //运行时对应的UI对象（生成地图时赋值，用于画线和交互）
-    public GameObject uiObject;
+    [System.NonSerialized] public GameObject uiObject;
+
 
     public MapNode(int x, int y)
     {
         this.x = x;
         this.y = y;
         this.nodeType = NodeType.None;
+    }
+}
+
+[System.Serializable]
+public class MapLayer
+{
+    public List<MapNode> nodes = new List<MapNode>();
+    public MapLayer() { }
+    public MapLayer(List<MapNode> nodes)
+    {
+        this.nodes = nodes;
     }
 }

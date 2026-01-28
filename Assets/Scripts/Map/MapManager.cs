@@ -20,6 +20,8 @@ public class MapManager : MonoBehaviour
     [SerializeField] private float paddingBottom = 400f; //底部留白
     [SerializeField] private float paddingTop = 200f;    //顶部留白
 
+    public List<List<MapNode>> RuntimeMapData;
+
     private void Start()
     {
         StartCoroutine(GenerateMapRoutine());
@@ -30,18 +32,24 @@ public class MapManager : MonoBehaviour
         //生成数据
         List<List<MapNode>> mapData;
 
-        if (GameManager.Instance.CurrentMapData != null)
+        if (GameManager.Instance.CurrentMapData != null && GameManager.Instance.CurrentMapData.Count > 0)
         {
-            //读取旧图
-            mapData = GameManager.Instance.CurrentMapData;
+            mapData = new List<List<MapNode>>();
+            foreach (var layer in GameManager.Instance.CurrentMapData)
+            {
+                mapData.Add(layer.nodes);
+            }
+
+            //重建连线
+            RestoreConnections(mapData);
         }
         else
         {
             //生成新图
             mapData = mapGenerator.GenerateMap();
-            //保存到GameManager，防止切场景丢失
             GameManager.Instance.SaveMapState(mapData);
         }
+        RuntimeMapData = mapData;
 
         mapContainer.anchorMin = new Vector2(0, 0);
         mapContainer.anchorMax = new Vector2(1, 0);
@@ -94,6 +102,18 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    public void SaveMap()
+    {
+        if (RuntimeMapData != null && RuntimeMapData.Count > 0)
+        {
+            GameManager.Instance.SaveMapState(RuntimeMapData);
+        }
+        else
+        {
+            Debug.LogWarning("[MapManager]试图保存，但RuntimeMapData为空！");
+        }
+    }
+
     ///<summary>
     ///供非战斗节点调用：当交互完成后，刷新地图状态以解锁下一层
     ///</summary>
@@ -114,7 +134,7 @@ public class MapManager : MonoBehaviour
         {
             foreach (var layer in GameManager.Instance.CurrentMapData)
             {
-                foreach (var node in layer)
+                foreach (var node in layer.nodes)
                 {
                     SetNodeInteractable(node, false);
                 }
@@ -126,7 +146,7 @@ public class MapManager : MonoBehaviour
         {
             if (GameManager.Instance.CurrentMapData != null && GameManager.Instance.CurrentMapData.Count > 0)
             {
-                foreach (var node in GameManager.Instance.CurrentMapData[0])
+                foreach (var node in GameManager.Instance.CurrentMapData[0].nodes)
                 {
                     SetNodeInteractable(node, true);
                 }
@@ -194,7 +214,48 @@ public class MapManager : MonoBehaviour
         var map = GameManager.Instance.CurrentMapData;
         if (map == null || y >= map.Count || y < 0) return null;
 
-        return map[y].Find(n => n.x == x);
+        return map[y].nodes.Find(n => n.x == x);
+    }
+
+    private void RestoreConnections(List<List<MapNode>> mapData)
+    {
+        foreach (var layer in mapData)
+        {
+            foreach (var node in layer)
+            {
+                //确保运行时列表已初始化
+                if (node.children == null) node.children = new List<MapNode>();
+
+                //遍历保存的坐标，找回对象
+                foreach (var coord in node.childrenCoordinates)
+                {
+                    var childNode = GetNodeByCoord(mapData, coord.x, coord.y);
+                    if (childNode != null)
+                    {
+                        // 重新建立引用
+                        if (!node.children.Contains(childNode))
+                        {
+                            node.children.Add(childNode);
+                        }
+                        // 顺便把反向引用(parents)也连上，虽然UI没用到，但逻辑可能需要
+                        if (childNode.parents == null) childNode.parents = new List<MapNode>();
+                        if (!childNode.parents.Contains(node))
+                        {
+                            childNode.parents.Add(node);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private MapNode GetNodeByCoord(List<List<MapNode>> mapData, int x, int y)
+    {
+        if (y >= 0 && y < mapData.Count)
+        {
+            return mapData[y].Find(n => n.x == x);
+        }
+        return null;
     }
 
     private void SetNodeInteractable(MapNode node, bool interactable)
