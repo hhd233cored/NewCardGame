@@ -54,7 +54,15 @@ public class HandView : MonoBehaviour
         if (hovered == card) hovered = null;
         StartCoroutine(UpdateLayout(hoverTween));
     }
-
+    public void ResetOutLine()
+    {
+        foreach(CardView cardView in cards)
+        {
+            //int setting = BattleSystem.Instance.HasSameSuitOrNum(cardView.CardSuit, cardView.CardNum) ? 1 : 0;
+            int setting = BattleSystem.Instance.StrictCheckSuitOrNum(cardView.CardSuit, cardView.CardNum) ? 1 : 0;
+            cardView.SetOutLine(setting);
+        }
+    }
     private IEnumerator UpdateLayout(float duration)
     {
         if (cards.Count == 0) yield break;
@@ -68,9 +76,12 @@ public class HandView : MonoBehaviour
         for (int i = 0; i < cards.Count; i++)
             SetCardSorting(cards[i], i);
 
+        ResetOutLine();
+
         for (int i = 0; i < cards.Count; i++)
         {
             cards[i].ResetDescription();
+            
 
             if (locked.Contains(cards[i]))
                 continue;

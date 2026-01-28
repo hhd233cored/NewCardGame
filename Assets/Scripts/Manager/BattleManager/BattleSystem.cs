@@ -11,9 +11,15 @@ public class BattleSystem : Singleton<BattleSystem>
     [SerializeField] private string suit;
     [SerializeField] private int num;
 
+    [SerializeField] private HandView handView;
+
 
     private SuitStyle currentSuit = SuitStyle.Nul;
     private int currentNum = 0;
+    private int currentDirection;
+    private int currentScore = 1;
+
+    public int direction => currentDirection;
     private void OnEnable()
     {
         ActionSystem.RegisterPerformer<DealDamageGA>(this, DealDamagePerformer);
@@ -31,12 +37,41 @@ public class BattleSystem : Singleton<BattleSystem>
     {
         string suitStr = SuitToStr(suit);
         string numStr = NumToStr(num);
-        suitNum.text = suitStr + numStr;
+        //新增方向
+        string dir="";
+        switch (currentDirection)
+        {
+            case -1:
+                dir = "↓";
+                break;
+            case 1:
+                dir = "↑";
+                break;
+            default:
+                dir = "";
+                break;
+        }
+        //end
+        suitNum.text = suitStr + numStr + dir;
     }
     public bool HasSameSuitOrNum(SuitStyle suit, int num)
     {
         if (currentSuit == SuitStyle.Nul || currentNum == 0 || num == 1) return true;
         return currentSuit == suit || currentNum == num;
+    }
+
+    public bool StrictCheckSuitOrNum(SuitStyle suit, int num)
+    {
+        if (currentSuit == SuitStyle.Nul || currentNum == 0 || num == 1) return true;
+
+        if(currentSuit == suit)
+        {
+            if ((num - currentNum) * direction >= 0)//检测惯性是否与方向相同，比如（5-4）*1>=0，(4-6)*-1.=0则代表相同
+            {
+                return Mathf.Abs(num - currentNum) <= 1;//检查是否同点数或者相邻
+            }
+        }
+        return currentNum == num;
     }
     public static string SuitToStr(SuitStyle suit)
     {
@@ -122,9 +157,36 @@ public class BattleSystem : Singleton<BattleSystem>
    
     private IEnumerator SetSuitAndNumPerformer(SetSuitAndNumGA setGa)
     {
-        if (setGa.Num != 1) currentNum = setGa.Num;
+        
+        
+        
+        if (setGa.Suit == currentSuit)
+        {
+            //新增设置方向
+            if (num - setGa.Num < 0) currentDirection = -1;//下降
+            if (num - setGa.Num > 0) currentDirection = 1;//上升
+            if (setGa.Num == 13) currentDirection = -1;
+            if (setGa.Num == 1) currentDirection = 1;
+            if (setGa.Num == currentNum) currentDirection = 0;
+
+            //新增设置分数
+            //同花色加分
+            if (currentScore < 4) currentScore++;
+        }
+        else
+        {
+            if (setGa.Num == currentNum) currentDirection = 0;//断连照样重置方向？
+            currentScore = 1;
+        }
+        //
+
+        //新增：A不再是万能牌
+        //if (setGa.Num != 1) currentNum = setGa.Num;
+
+        currentNum = setGa.Num;
         currentSuit = setGa.Suit;
         UpdateSuitText(currentSuit, currentNum);
+        handView.ResetOutLine();
         yield return null;
     }
    

@@ -15,6 +15,8 @@ MonoBehaviour:
   <Title>k__BackingField: 
   <Description>k__BackingField: Draw 2 card
   <Rarity>k__BackingField: 0
+  <Num>k__BackingField: 2
+  <Suit>k__BackingField: 4
   <Image>k__BackingField: {fileID: 21300000, guid: f95db9384a39c8e44b1322a9c7351a3b, type: 3}
   <CardType>k__BackingField: 1
   <ManualTargetEffects>k__BackingField:

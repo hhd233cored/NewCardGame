@@ -361,6 +361,7 @@ MonoBehaviour:
   suitNum: {fileID: 1014387519}
   suit: 
   num: 0
+  handView: {fileID: 1109227963}
 --- !u!1 &311628833
 GameObject:
   m_ObjectHideFlags: 0
@@ -1827,7 +1828,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2141192605}
         m_TargetAssemblyTypeName: MainController, Assembly-CSharp
         m_MethodName: EndTurn
         m_Mode: 1
@@ -2895,6 +2896,7 @@ MonoBehaviour:
   cardViewPrefab: {fileID: 5650580244069538341, guid: 8e2180a1be45678499d348f21ef07390, type: 3}
   playerData: {fileID: 11400000, guid: a321bcc82030d51489ea1e304d4ca390, type: 2}
   battleData: {fileID: 11400000, guid: 8b4e7d5f8593cef498e6093aeeb5ca43, type: 2}
+  strengthData: {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}
 --- !u!4 &2141192606
 Transform:
   m_ObjectHideFlags: 0

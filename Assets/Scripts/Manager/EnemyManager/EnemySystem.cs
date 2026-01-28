@@ -29,9 +29,11 @@ public class EnemySystem : Singleton<EnemySystem>
     }
     private IEnumerator EnemyTurnPerformer(EnemyTurnGA enemyTurnGA)
     {
-        //执行buff结算
+
+        //清空格挡与执行buff结算
         foreach (var enemy in Enemies)
         {
+            enemy.ClearBlock();
             for (int i = enemy.BuffList.Count - 1; i >= 0; i--)
             {
                 var buff = enemy.BuffList[i];

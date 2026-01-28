@@ -16,6 +16,7 @@ public class PlayerSystem : Singleton<PlayerSystem>
         foreach (var cardData in data.Deck)
         {
             Card card = new(cardData);
+            /*
             switch ((int)UnityEngine.Random.Range(1, 5))
             {
                 case 1:
@@ -35,6 +36,7 @@ public class PlayerSystem : Singleton<PlayerSystem>
                     break;
             }
             card.Num = UnityEngine.Random.Range(1, 14);
+            */
             CurrentCards.Add(card);
         }
     }

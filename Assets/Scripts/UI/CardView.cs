@@ -9,6 +9,7 @@ public class CardView : MonoBehaviour
     [SerializeField] private TMP_Text description;
     [SerializeField] private TMP_Text SuitAndNum;
     [SerializeField] private SpriteRenderer image;
+    [SerializeField] private SpriteRenderer backgroundImage;
     [SerializeField] private GameObject wrapper;
 
     [Header("Drag")]
@@ -34,6 +35,8 @@ public class CardView : MonoBehaviour
     public SuitStyle CardSuit => Suit;
     public int CardNum => Num;
 
+    private Material _dynamicMaterial;
+
     public void Setup(Card c)
     {
         card = c;
@@ -44,6 +47,18 @@ public class CardView : MonoBehaviour
 
         Suit = c.Suit;
         Num = c.Num;
+
+        if (_dynamicMaterial == null)
+        {
+            _dynamicMaterial = Instantiate(backgroundImage.material);
+            backgroundImage.material = _dynamicMaterial;
+            _dynamicMaterial.SetFloat("_ShowOutline", 0f);
+        }
+        Debug.Log(_dynamicMaterial);
+    }
+    public void SetOutLine(int num)
+    {
+        _dynamicMaterial.SetFloat("_ShowOutline", num);
     }
     public void ResetDescription()
     {

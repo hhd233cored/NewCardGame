@@ -9,6 +9,7 @@ public class Character : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private TMP_Text BlockText;
     [SerializeField] private GameObject BlockUI;
+    [SerializeField] private CharacterBuffDisplay buffDisplay;
     public int MaxHealth { get; private set; }
     public int CurrentHealth { get; private set; }
     public const int MaxBlock = 999;
@@ -48,6 +49,12 @@ public class Character : MonoBehaviour
         transform.DOShakePosition(0.2f, 0.5f);
         UpdateHealthText();
     }
+
+    public void ClearBlock()
+    {
+        CurrentBlock = 0;
+        UpdateBlockText();
+    }
     public void GainBlock(int blockAmount)
     {
         CurrentBlock += blockAmount;
@@ -67,7 +74,7 @@ public class Character : MonoBehaviour
         if (existing != null)
         {
             //重复则叠加层数
-            existing.AddStacks(1);
+            existing.AddStacks(buff.stacks);
         }
         else
         {
@@ -78,6 +85,8 @@ public class Character : MonoBehaviour
             instance.Initialize(this, buff.stacks, buff.data);
             BuffList.Add(instance);
         }
+
+        if (buffDisplay != null) buffDisplay.RefreshIcons();
     }
     public void RemoveBuff(Buff buff)
     {
@@ -85,6 +94,7 @@ public class Character : MonoBehaviour
         {
             buff.OnRemove(); // 执行取消订阅
             BuffList.Remove(buff);
+            if (buffDisplay != null) buffDisplay.RefreshIcons();
         }
     }
 }

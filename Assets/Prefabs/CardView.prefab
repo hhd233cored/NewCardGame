@@ -258,6 +258,7 @@ MonoBehaviour:
   description: {fileID: 8315315968302867316}
   SuitAndNum: {fileID: 5795034764571113741}
   image: {fileID: 2795896497770482641}
+  backgroundImage: {fileID: 5933780136036126663}
   wrapper: {fileID: 74661488021525672}
   dragLiftZ: 0
   playThresholdY: -0.5

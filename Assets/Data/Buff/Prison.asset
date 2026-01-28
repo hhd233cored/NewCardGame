@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dd78b0a4d68afe499cfcc9dc6fa8bc4, type: 3}
   m_Name: Prison
   m_EditorClassIdentifier: 
-  <Title>k__BackingField: prison
-  <Description>k__BackingField: prison
+  <Title>k__BackingField: Prison
+  <Description>k__BackingField: deal 1 damage per stack before round
   <Image>k__BackingField: {fileID: 21300000, guid: 5c377a56d40c6d54491e5a8370530f10, type: 3}
   <Type>k__BackingField: 1

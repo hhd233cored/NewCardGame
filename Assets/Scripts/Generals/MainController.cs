@@ -9,6 +9,7 @@ public class MainController:Singleton<MainController>
     [SerializeField] private CardView cardViewPrefab;
     [SerializeField] private PlayerData playerData;
     [SerializeField] private BattleData battleData;
+    [SerializeField] private BuffData strengthData;
     /// <summary>
     /// 初始化新战斗场景信息
     /// </summary>
@@ -47,7 +48,7 @@ public class MainController:Singleton<MainController>
     /// <summary>
     /// 结束回合
     /// </summary>
-    public static void EndTurn()
+    public void EndTurn()
     {
         //弃牌阶段
         //DiscardCardsGA discardCardsGA = new(1, true);
@@ -55,7 +56,7 @@ public class MainController:Singleton<MainController>
 
         //重置“上一张牌”的花色点数
         SetSuitAndNumGA setSuitAndNumGA = new(SuitStyle.Nul, 0);
-        ActionSystem.Instance.AddReaction(setSuitAndNumGA);
+        ActionSystem.Instance.Perform(setSuitAndNumGA);
 
         //进入敌人回合
         EnemyTurnGA enemyTurnGA = new();
@@ -75,7 +76,7 @@ public class MainController:Singleton<MainController>
         int damage = basicDamage;
 
         //力量加成，1点力量+2点伤害
-        Buff power = source.BuffList.Find(buff => buff.data.Title == "Power");
+        Buff power = source.BuffList.Find(buff => buff.data == strengthData);
         if (power != null) damage += power.stacks * 2;
 
         return damage;

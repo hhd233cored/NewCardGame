@@ -26,6 +26,8 @@ public class Card
     public Card(CardData cardData)
     {
         data = cardData;
+        Suit = data.Suit;
+        Num = data.Num;
         Description = GetDynamicDescription(false);
     }
 

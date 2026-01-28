@@ -8,6 +8,7 @@ using static UnityEditor.FilePathAttribute;
 public class SelectCardView : Singleton<SelectCardView>
 {
     [SerializeField] private List<Transform> slots;
+    [SerializeField] private GameObject background;
     [SerializeField] private GameObject skipButton;
     public List<CardViewUI> cardUIs;
     [SerializeField] private CardViewUI perfab;
@@ -17,6 +18,7 @@ public class SelectCardView : Singleton<SelectCardView>
     {
         isSelect = false;
         skipButton.SetActive(false);
+        background.SetActive(false);
     }
     public void TestFill()
     {
@@ -26,6 +28,7 @@ public class SelectCardView : Singleton<SelectCardView>
             slot.gameObject.SetActive(isSelect);
         }
         skipButton.SetActive(isSelect);
+        background.SetActive(isSelect);
         if (isSelect) SetCardToSlots(CardDataList);
     }
     public void SetCardToSlots(List<CardData> cards)

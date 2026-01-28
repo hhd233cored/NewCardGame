@@ -122,7 +122,9 @@ public class CardSystem : Singleton<CardSystem>
         if (!handViews.Contains(cv)) yield break;
 
         // TODO：这里可以加费用检查、目标选择等
-        bool takeEffect = BattleSystem.Instance.HasSameSuitOrNum(ga.CardView.CardSuit, ga.CardView.CardNum);//如果花色点数接不上，仍然能打出，但不触发效果
+        //bool takeEffect = BattleSystem.Instance.HasSameSuitOrNum(ga.CardView.CardSuit, ga.CardView.CardNum);//如果花色点数接不上，仍然能打出，但不触发效果
+
+        bool takeEffect = BattleSystem.Instance.StrictCheckSuitOrNum(ga.CardView.CardSuit, ga.CardView.CardNum);//如果花色点数接不上，仍然能打出，但不触发效果
 
         //改变当前花色和点数
         SetSuitAndNumGA setSuitAndNumGA = new(ga.CardView.CardSuit, ga.CardView.CardNum);
@@ -288,8 +290,13 @@ public class CardSystem : Singleton<CardSystem>
     {
         if (EnemySystem.Instance.Enemies.Count == 0) return;
 
-        //执行Buff
+
         Player player = PlayerSystem.Instance.player;
+
+        //清空格挡
+        player.ClearBlock();
+
+        //执行Buff
         for (int i = player.BuffList.Count - 1; i >= 0; i--)
         {
             var buff = player.BuffList[i];

@@ -9,6 +9,8 @@ public class CardData : ScriptableObject
     [field: SerializeField] public string Title { get; private set; }
     [field: SerializeField] public string Description { get; private set; }
     [field: SerializeField] public int Rarity { get; private set; }
+    [field: SerializeField] public int Num { get; private set; }//新增：数字
+    [field: SerializeField] public SuitStyle Suit { get; private set; }//新增：花色
     [field: SerializeField] public Sprite Image { get; private set; }
     [field: SerializeField] public CardType CardType { get; private set; }
     [field: SerializeReference, SR] public Effect ManualTargetEffects { get; private set; } = null;
