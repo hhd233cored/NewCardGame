@@ -86,7 +86,7 @@ public class PoisonBuff : Buff
     }
 }
 
-public class PowerBuff : Buff
+public class StrengthBuff : Buff
 {
     public override void OnRemove()
     {

@@ -7,7 +7,7 @@ public abstract class Effect
 {
     public abstract GameAction GetGameAction(List<Character> targets, Character source);
 }
-public class DealDamegeEffect : Effect
+public class DealDamegeEffect : Effect//玩家为来源，关系到动画，所以分开来了
 {
     [SerializeField] private int damgeAmount;
     public int damage => damgeAmount;
@@ -18,9 +18,10 @@ public class DealDamegeEffect : Effect
     }
 }
 
-public class AttackPlayerEffect : Effect
+public class AttackPlayerEffect : Effect//敌人为来源
 {
     [SerializeField] private int damgeAmount;
+    public int damage => damgeAmount;
     public override GameAction GetGameAction(List<Character> targets, Character source)
     {
         AttackPlayerGA attackPlayerGA = new(source, damgeAmount);
@@ -37,6 +38,18 @@ public class DrawCardsEffect : Effect
         return drawCardsGA;
     }
 }
+
+public class DiscardCardsEffect : Effect
+{
+    [SerializeField] private int discardAmount;
+    [SerializeField] private bool isChoose;
+    public override GameAction GetGameAction(List<Character> targets, Character source)
+    {
+        DiscardCardsGA discardCardsGA = new(discardAmount, isChoose);
+        return discardCardsGA;
+    }
+}
+
 
 public class GainBlockEffect : Effect
 {

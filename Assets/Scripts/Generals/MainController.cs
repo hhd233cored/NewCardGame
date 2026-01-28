@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Unity.VisualScripting.Member;
+using static UnityEngine.GraphicsBuffer;
 
 public class MainController:Singleton<MainController>
 {
@@ -57,6 +59,7 @@ public class MainController:Singleton<MainController>
         //重置“上一张牌”的花色点数
         SetSuitAndNumGA setSuitAndNumGA = new(SuitStyle.Nul, 0);
         ActionSystem.Instance.Perform(setSuitAndNumGA);
+        BattleSystem.Instance.ResetDir();
 
         //进入敌人回合
         EnemyTurnGA enemyTurnGA = new();
@@ -73,12 +76,74 @@ public class MainController:Singleton<MainController>
 
     public int TotalDamage(int basicDamage, List<Character> targets, Character source)
     {
+
         int damage = basicDamage;
 
         //力量加成，1点力量+2点伤害
         Buff power = source.BuffList.Find(buff => buff.data == strengthData);
         if (power != null) damage += power.stacks * 2;
 
+        //Debug.Log(source.name + "-basicDamage:" + basicDamage + "-power:" + power?.stacks + "-damage:" + damage);
+
         return damage;
+    }
+
+    /// <summary>
+    /// 获得防御
+    /// </summary>
+    public static GameAction Block(int amount, List<Character> targets)
+    {
+        GainBlockGA gainBlockGA = new(amount, targets);
+        return gainBlockGA;
+    }
+    /// <summary>
+    /// 回血
+    /// </summary>
+    public static GameAction Recover(int amount, List<Character> targets)
+    {
+        RecoverGA recoverGA = new(amount, targets);
+        return recoverGA;
+    }
+    /// <summary>
+    /// 获得buff
+    /// </summary>
+    public static GameAction AddBuff(List<Character> targets, Character source, Buff buff)
+    {
+        GainBuffGA gainBuffGA = new(targets, source, buff);
+        return gainBuffGA;
+    }
+    /// <summary>
+    /// 玩家对目标造成伤害，因为会影响动画所以和敌人分开
+    /// </summary>
+    public static GameAction PlayerDealDamage(int amount, List<Character> targets)
+    {
+        DealDamageGA dealDamageGA = new(amount, targets, PlayerSystem.Instance.player);
+        return dealDamageGA;
+    }
+    /// <summary>
+    /// 敌人对玩家造成伤害
+    /// </summary>
+    public static GameAction EnemyDealDamage(int amount,Character source)
+    {
+        AttackPlayerGA attackPlayerGA = new(source, amount);
+        return attackPlayerGA;
+    }
+    /// <summary>
+    /// 摸牌
+    /// </summary>
+    public static GameAction Draw(int amount)
+    {
+        DrawCardsGA drawCardsGA = new(amount);
+        return drawCardsGA;
+    }
+    /// <summary>
+    /// 弃牌，不足则会全弃
+    /// </summary>
+    /// <param name="isChoose">true为玩家选择弃置若干张牌，false为随机弃置。</param>
+    /// <returns></returns>
+    public static GameAction Discard(int amount,bool isChoose)
+    {
+        DiscardCardsGA discardCardsGA = new(amount, isChoose);
+        return discardCardsGA;
     }
 }

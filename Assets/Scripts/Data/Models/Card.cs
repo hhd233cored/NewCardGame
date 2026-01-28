@@ -19,7 +19,7 @@ public class Card
     public Sprite Image => data.Image;
     public SuitStyle Suit = SuitStyle.Nul;
     public int Num = 0;
-    public Effect ManualTargetEffects => data.ManualTargetEffects;
+    public List<Effect> ManualTargetEffects => data.ManualTargetEffects;
     public List<AutoTargetEffect> OtherEffects => data.OtherEffects;
     [SerializeField] private CardData data;
     //[field: SerializeReference, SR] Power power = null;//能力牌的能力
@@ -35,8 +35,11 @@ public class Card
     {
         string desc = data.Description; // 获取原始模板
 
-        desc = ResetDamageDes(ManualTargetEffects, desc);
-        if (desc != data.Description) return desc;
+        foreach (Effect effect in ManualTargetEffects)
+        {
+            desc = ResetDamageDes(effect, desc);
+            if (desc != data.Description) return desc;
+        }
 
         foreach (var ATEffect in OtherEffects)
         {

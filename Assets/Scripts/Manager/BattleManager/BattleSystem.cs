@@ -54,6 +54,10 @@ public class BattleSystem : Singleton<BattleSystem>
         //end
         suitNum.text = suitStr + numStr + dir;
     }
+    public void ResetDir()
+    {
+        currentDirection = 0;
+    }
     public bool HasSameSuitOrNum(SuitStyle suit, int num)
     {
         if (currentSuit == SuitStyle.Nul || currentNum == 0 || num == 1) return true;
@@ -213,10 +217,7 @@ public class BattleSystem : Singleton<BattleSystem>
         {
             if (target == null) continue;
 
-            // 这里需要调用角色身上的 Buff 管理逻辑
             target.AddBuff(gainBuffGA.Buff);
-
-            Debug.Log($"给 {target.name} 添加了 {gainBuffGA.Buff.GetType().Name}");
         }
         yield return null;
     }

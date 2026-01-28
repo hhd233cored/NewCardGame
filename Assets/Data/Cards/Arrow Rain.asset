@@ -19,15 +19,12 @@ MonoBehaviour:
   <Suit>k__BackingField: 4
   <Image>k__BackingField: {fileID: 21300000, guid: 285c4d8040b107b40995ac71df51eafb, type: 3}
   <CardType>k__BackingField: 0
-  <ManualTargetEffects>k__BackingField:
-    rid: -2
+  <ManualTargetEffects>k__BackingField: []
   <OtherEffects>k__BackingField:
   - rid: 7198748191488999429
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
     - rid: 7198748191488999429
       type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
       data:

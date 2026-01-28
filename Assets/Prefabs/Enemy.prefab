@@ -370,7 +370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 5266979687231847526}
   iconPrefab: {fileID: 230310233939854258, guid: 46645cf3062763948b825d99208266e1, type: 3}
-  spacing: 0.4
+  spacing: 0.6
 --- !u!1 &2772433801029511174
 GameObject:
   m_ObjectHideFlags: 0

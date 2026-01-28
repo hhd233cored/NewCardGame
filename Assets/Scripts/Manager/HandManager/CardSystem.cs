@@ -101,7 +101,7 @@ public class CardSystem : Singleton<CardSystem>
         while (chosen.Count < needChooseAmount)
             yield return null;
 
-        // 你也可以加一个“确认按钮”，那就改成等 ConfirmPressed
+        // 也可以加一个“确认按钮”，那就改成等 ConfirmPressed
         // 这里简单：点够就自动弃
 
         // 把选择结果拷贝出来（避免弃牌时修改集合）
@@ -134,9 +134,9 @@ public class CardSystem : Singleton<CardSystem>
         {
             //执行效果
             Debug.Log("Take Effect");
-            if (ga.CardView.card.ManualTargetEffects != null)
+            foreach(var effect in ga.CardView.card.ManualTargetEffects)
             {
-                PerformEffectGA performEffectGA = new(ga.CardView.card.ManualTargetEffects, new() { ga.Target },PlayerSystem.Instance.player);
+                PerformEffectGA performEffectGA = new(effect, new() { ga.Target }, PlayerSystem.Instance.player);
                 ActionSystem.Instance.AddReaction(performEffectGA);
             }
             foreach (var effectWrapper in ga.CardView.card.OtherEffects)
@@ -306,8 +306,8 @@ public class CardSystem : Singleton<CardSystem>
             }
         }
 
-        //摸牌阶段
-        DrawCardsGA drawCardsGA = new(5);
+        //摸牌阶段，摸三张
+        DrawCardsGA drawCardsGA = new(3);
         ActionSystem.Instance.AddReaction(drawCardsGA);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 public class Character : MonoBehaviour
 {
     [SerializeField] private TMP_Text healthText;
@@ -87,6 +88,10 @@ public class Character : MonoBehaviour
         }
 
         if (buffDisplay != null) buffDisplay.RefreshIcons();
+        if(this is Enemy enemy)
+        {
+            enemy.UpdateIntentionText();
+        }
     }
     public void RemoveBuff(Buff buff)
     {
