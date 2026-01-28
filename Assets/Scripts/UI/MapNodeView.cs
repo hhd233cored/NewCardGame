@@ -104,31 +104,37 @@ public class MapNodeView : MonoBehaviour
         switch (nodeData.nodeType)
         {
             case NodeType.Monster:
+                if (mapManager != null) mapManager.SaveMap();
                 // 使用 StartCoroutine 启动
                 StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battleData.enemies));
                 break;
 
             case NodeType.Elite:
+                if (mapManager != null) mapManager.SaveMap();
                 // 使用 StartCoroutine 启动
                 StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battleData.enemies));
                 break;
 
             case NodeType.Boss:
+                if (mapManager != null) mapManager.SaveMap();
                 // 使用 StartCoroutine 启动
                 StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battleData.enemies));
                 break;
 
             case NodeType.Event:
+                if (mapManager != null) mapManager.SaveMap();
                 HandleEventRoom(mapManager);
                 break;
 
             case NodeType.Shop:
+                if (mapManager != null) mapManager.SaveMap();
                 Debug.Log("进入商店...");
                 //mapManager?.UnlockNextLayer();
                 StartCoroutine(GameManager.Instance.EnterShopScene());
                 break;
 
             case NodeType.Rest:
+                if (mapManager != null) mapManager.SaveMap();
                 Debug.Log("进入安全屋...");
                 // 简单模拟回血
                 PlayerSystem.Instance.player.Recover(30);
@@ -136,6 +142,7 @@ public class MapNodeView : MonoBehaviour
                 break;
 
             case NodeType.Treasure:
+                if (mapManager != null) mapManager.SaveMap();
                 Debug.Log("打开宝箱...");
                 mapManager?.UnlockNextLayer();
                 break;
@@ -153,8 +160,30 @@ public class MapNodeView : MonoBehaviour
         }
         else
         {
-            Debug.Log("事件结果：平安无事（或获得奖励）");  
-            mapManager?.UnlockNextLayer();
+            Debug.Log("事件节点：进入事件剧情面板");
+
+            //获取事件UI单例
+            var eventUI = EventRoomUI.Instance;
+            if (eventUI == null)
+            {
+                Debug.LogError("场景中找不到 EventRoomUI！无法显示事件。直接跳过。");
+                mapManager?.UnlockNextLayer();
+                return;
+            }
+            //获取一个随机事件数据
+            EventData data = eventUI.GetRandomEvent();
+            if (data == null)
+            {
+                Debug.LogWarning("EventRoomUI里没有配置RandomEvents！");
+                mapManager?.UnlockNextLayer();
+                return;
+            }
+            //显示面板，并传入解锁回调
+            eventUI.ShowEvent(data, () =>
+            {
+                //当事件没有进入战斗时，执行这里的代码
+                mapManager?.UnlockNextLayer();
+            });
         }
     }
 

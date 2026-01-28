@@ -18,8 +18,8 @@ public class GameManager : PersistentSingleton<GameManager>
     [SerializeField] private float baseEventCombatChance = 0.1f; //初始10%
     [SerializeField] private float chanceIncrement = 0.15f;      //每次非战斗增加15%
     private float currentEventCombatChance;
-
-    public List<List<MapNode>> CurrentMapData { get; private set; } //保存整张地图结构
+    [HideInInspector]
+    public List<MapLayer> CurrentMapData = new List<MapLayer>(); //保存整张地图结构
     public MapNode CurrentNode { get; set; } //记录玩家当前站在哪个点上
 
     protected override void Awake()
@@ -40,7 +40,14 @@ public class GameManager : PersistentSingleton<GameManager>
         PlayerSystem.Instance.Setup(playerData);
         PlayerView.SetActive(false);
         //生成地图
-        CurrentMapData = null;
+        if (CurrentMapData == null)
+        {
+            CurrentMapData = new List<MapLayer>();
+        }
+        else
+        {
+            CurrentMapData.Clear();
+        }
         CurrentNode = null;
         currentEventCombatChance = baseEventCombatChance;
     }
@@ -133,7 +140,23 @@ public class GameManager : PersistentSingleton<GameManager>
     //提供给MapManager保存数据用
     public void SaveMapState(List<List<MapNode>> map)
     {
-        CurrentMapData = map;
+        if (CurrentMapData == null) CurrentMapData = new List<MapLayer>();
+        CurrentMapData.Clear();
+
+        foreach (var layerList in map)
+        {
+            foreach (var node in layerList)
+            {
+                node.childrenCoordinates.Clear();
+                foreach (var child in node.children)
+                {
+                    node.childrenCoordinates.Add(new Vector2Int(child.x, child.y));
+                }
+            }
+            //包装进MapLayer
+            CurrentMapData.Add(new MapLayer(layerList));
+        }
+        Debug.Log($"[GameManager] Map Saved! Layers count: {CurrentMapData.Count}");
     }
 }
 

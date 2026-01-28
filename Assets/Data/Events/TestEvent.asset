@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00a3d5e081ea8d24590c734566b94a7c, type: 3}
+  m_Name: TestEvent
+  m_EditorClassIdentifier: 
+  Title: "\u6D4B\u8BD5"
+  Content: "\u8700\u9053\u8270\u9669 \u7CAE\u8349\u5982\u4F55\u8FD0\u9001 \u5317\u4F10\u7A7A\u8017\u56FD\u529B
+    \u4E0D\u5982\u6548\u4EFF\u4E1C\u5434 \u4E94\u864E\u4EC5\u5269\u4E00\u4EBA \u8C01\u6562\u5F53\u5317\u4F10\u5148\u950B
+    \u6709\u4F55\u4E0D\u6562 \u65E2\u627F\u5148\u5E1D\u9057\u5FD7 \u600E\u80FD\u56F0\u5B88\u4E0D\u524D
+    \u55EF\u55EF\u55EF~\u54C8\uFF01\uFF01 \u6211\uFF01\uFF01 \u9B4F\u5EF6 \u53EA\u8FDB\u4E0D\u9000\uFF01\uFF01\uFF01
+    \u82E5\u9B4F\u5BC7\u5C06\u5341\u4E07\u4E4B\u4F17\u5EF6\u5F53\u4E3A\u4E3B\u516C\u5C3D\u6B7C
+    \u7EB5\u66F9\u8D3C\u4E3E\u5929\u4E0B\u8FDB\u72AF \u5EF6\u4EA6\u53EF\u52E0\u529B\u62D2\u9000\u4E3A\u4E3B\u7834\u654C
+    \u5982\u9C7C\u996E\u6C34\u9B4F\u6587\u957F\u5728\u6B64 \u5C14\u8F88\u4F55\u6562\u4E43\u5C14\uFF01
+    \u4E3B\u516C\u6709\u5EF6\u52A9\u529B\uFF0C\u4F55\u5FE7\u6C49\u5BA4\u96BE\u5174\uFF1F\u6B64\u8EAB\u640F\u6740\u4E0D\u61C8\uFF0C\u53EA\u4E3A\u6210\u4E3B\u516C\u4E4B\u4E1A
+    \u66F9\u8D3C\u5434\u72AC\uFF0C\u6211\u6709\u4F55\u60E7\u54C9\uFF1F \u6211\u5C1A\u672A\u5168\u529B\u4E00\u640F\uFF0C
+    \u53C8\u8BD5\u95EE\u8C01\u80FD\u963B\u6321\uFF1F \u4E1E\u76F8\u65E0\u9700\u591A\u8651
+    \uFF0C\u6211\u5B9A\u80FD\u8F7B\u8EAB\u7ACB\u529F"
+  Image: {fileID: 21300000, guid: 8b7b39cd0d87c864e923e28158f1a621, type: 3}
+  Options:
+  - Description: "\u5C31\u6B64\u79BB\u5F00\uFF0C\u6CA1\u6709\u4EBA\u4F1A\u53D7\u4F24\uFF08\u79BB\u5F00\uFF09"
+    Type: 0
+    IntValue: 0
+    BattleData: {fileID: 0}
+    CardReward: {fileID: 0}
+  - Description: "\u5426\u5219\uFF0C\u4F60\u4EEC\u90FD\u4F1A\u6B7B\uFF08\u8FDB\u5165\u6218\u6597\uFF09"
+    Type: 4
+    IntValue: 0
+    BattleData: {fileID: 11400000, guid: 8b4e7d5f8593cef498e6093aeeb5ca43, type: 2}
+    CardReward: {fileID: 0}
