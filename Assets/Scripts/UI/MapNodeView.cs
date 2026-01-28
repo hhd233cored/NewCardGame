@@ -162,7 +162,7 @@ public class MapNodeView : MonoBehaviour
             Debug.Log("事件节点：进入事件剧情面板");
 
             //获取事件UI单例
-            var eventUI = FindObjectOfType<EventRoomUI>();
+            var eventUI = EventRoomUI.Instance;
             if (eventUI == null)
             {
                 Debug.LogError("场景中找不到 EventRoomUI！无法显示事件。直接跳过。");
