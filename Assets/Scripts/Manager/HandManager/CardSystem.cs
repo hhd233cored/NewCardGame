@@ -14,11 +14,13 @@ public class CardSystem : Singleton<CardSystem>
     [SerializeField] private HandView handView;
     [SerializeField] private Transform drawPilePoint;
     [SerializeField] private Transform discardPilePoint;
+    [SerializeField] private Transform exhaustPilePoint;
 
 
     [field: SerializeField] private readonly List<Card> drawPile = new();
     [field: SerializeField] private readonly List<Card> discardPile = new();
     [field: SerializeField] private readonly List<Card> hand = new();
+    [field: SerializeField] private readonly List<Card> exhaustPile= new();//消耗牌堆
     [SerializeField] private List<Card> UseCardsHistory = new();
 
     // 关键：在 CardSystem 里维护手牌视图
@@ -34,11 +36,13 @@ public class CardSystem : Singleton<CardSystem>
 
     public List<Card> DrawPile => drawPile;
     public List<Card> DisCardPile => discardPile;
+    public List<Card> ExhaustPile => exhaustPile;
     private void OnEnable()
     {
         ActionSystem.RegisterPerformer<DrawCardsGA>(this, DrawCardsPerformer);
         ActionSystem.RegisterPerformer<DiscardCardsGA>(this, DiscardCardsPerformer);
         ActionSystem.RegisterPerformer<PlayCardGA>(this, PlayCardPerformer);
+        ActionSystem.RegisterPerformer<ExhaustCardsGA>(this, ExhaustCardPerformer);
         ActionSystem.SubscribePre<EnemyTurnGA>(EnemyTurnPreReaction);
         ActionSystem.SubscribePost<EnemyTurnGA>(EnemyTurnPostReaction);
     }
@@ -133,7 +137,7 @@ public class CardSystem : Singleton<CardSystem>
         if (takeEffect)
         {
             //执行效果
-            Debug.Log("Take Effect");
+            //Debug.Log("Take Effect");
             foreach(var effect in ga.CardView.card.ManualTargetEffects)
             {
                 PerformEffectGA performEffectGA = new(effect, new() { ga.Target }, PlayerSystem.Instance.player);
@@ -149,8 +153,20 @@ public class CardSystem : Singleton<CardSystem>
 
         UseCardsHistory.Add(cv.card);
 
-        yield return DiscardOne(cv);
+        if (cv.card.data.Exhaust && takeEffect)
+        {
+            ExhaustCardsGA exhaustCardsGA = new(cv);
+            ActionSystem.Instance.AddReaction(exhaustCardsGA);
+        }
+        else if (cv.card.data.CardType == CardType.Power && takeEffect) yield return DestroyPowerCard(cv);
+        else yield return DiscardOne(cv);
     }
+
+    private IEnumerator ExhaustCardPerformer(ExhaustCardsGA exhaustCardsGA)
+    {
+        yield return StartCoroutine(ExhaustOne(exhaustCardsGA.card));
+    }
+
     public bool TryPlayCardFromDrag(CardView cv)
     {
         if (cv == null) return false;
@@ -215,7 +231,78 @@ public class CardSystem : Singleton<CardSystem>
             // 这里可以做个“选中”的视觉（抬起一点/描边）
         }
     }
+    private IEnumerator DestroyPowerCard(CardView cv)
+    {
+        if (cv == null) yield break;
 
+        Card card = cv.card;
+
+        //1.数据层：hand -> ExhaustPile
+        if (card != null)
+        {
+            hand.Remove(card);
+        }
+
+        //2.视图层：从手牌视图列表移除
+        handViews.Remove(cv);
+
+        var tr = cv.transform;
+
+        // handView.LockCard(cv);
+
+        tr.DOKill();
+        // 让手牌重排
+        yield return handView.RemoveCard(cv, 0.12f);
+
+        // handView.UnlockCard(cv);
+        handView.UnlockCard(cv);
+        Destroy(cv.gameObject);
+    }
+    //消耗一张牌
+    private IEnumerator ExhaustOne(CardView cv)
+    {
+        //if (card.data.CardType != CardType.Power && !card.data.Exhaust)
+        if (cv == null) yield break;
+
+        Card card = cv.card;
+
+        //1.数据层：hand -> ExhaustPile
+        if (card != null)
+        {
+            hand.Remove(card);
+            exhaustPile.Add(card);
+
+        }
+
+        //2.视图层：从手牌视图列表移除
+        handViews.Remove(cv);
+
+        var tr = cv.transform;
+
+        // handView.LockCard(cv);
+
+        tr.DOKill();
+
+        float moveT = 0.25f;
+        float shrinkT = 0.18f;
+        float endScale = 0.1f;
+
+        Vector3 startScale = tr.localScale;
+
+        DG.Tweening.Sequence seq = DOTween.Sequence();
+        seq.Join(tr.DOMove(exhaustPilePoint.position, moveT).SetEase(Ease.InCubic));
+        seq.Join(tr.DORotateQuaternion(exhaustPilePoint.rotation, moveT).SetEase(Ease.InCubic));
+        seq.Insert(moveT - shrinkT, tr.DOScale(startScale * endScale, shrinkT).SetEase(Ease.InBack));
+
+        yield return seq.WaitForCompletion();
+
+        // 让手牌重排
+        yield return handView.RemoveCard(cv, 0.12f);
+
+        // handView.UnlockCard(cv);
+        handView.UnlockCard(cv);
+        Destroy(cv.gameObject);
+    }
     private IEnumerator DiscardOne(CardView cv)
     {
         if (cv == null) yield break;
@@ -227,6 +314,7 @@ public class CardSystem : Singleton<CardSystem>
         {
             hand.Remove(card);
             discardPile.Add(card);
+
         }
 
         //2.视图层：从手牌视图列表移除
@@ -284,7 +372,7 @@ public class CardSystem : Singleton<CardSystem>
     }
     private void EnemyTurnPreReaction(EnemyTurnGA enemyTurnGA)
     {
-      
+        handView.ExhaustAllEthereal();
     }
     private void EnemyTurnPostReaction(EnemyTurnGA enemyTurnGA)
     {

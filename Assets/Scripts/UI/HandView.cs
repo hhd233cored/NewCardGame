@@ -47,6 +47,17 @@ public class HandView : MonoBehaviour
             cardView.ResetDescription();
         }
     }
+    public void ExhaustAllEthereal()
+    {
+        foreach (var card in cards)
+        {
+            if (card.card.data.Ethereal)
+            {
+                ExhaustCardsGA exhaustCardsGA = new(card);
+                ActionSystem.Instance.AddReaction(exhaustCardsGA);
+            }
+        }
+    }
     private CardView GetCardView(Card card)
     {
         return cards.Where(cardView=>cardView.card == card).FirstOrDefault();

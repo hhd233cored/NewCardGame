@@ -10,40 +10,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 579e8ce307d6d324c8aa1d0a8be361f2, type: 3}
-  m_Name: GainPower
+  m_Name: EmoForm
   m_EditorClassIdentifier: 
-  <Title>k__BackingField: "\u83B7\u5F97\u529B\u91CF"
-  <Description>k__BackingField: "\u83B7\u5F972\u70B9\u529B\u91CF"
+  <Title>k__BackingField: "Emo \u5F62\u6001"
+  <Description>k__BackingField: "\u83B7\u5F975\u70B9\u4EEA\u5F0F"
   <Rarity>k__BackingField: 0
-  <Num>k__BackingField: 3
-  <Suit>k__BackingField: 3
-  <Image>k__BackingField: {fileID: 21300000, guid: 5c377a56d40c6d54491e5a8370530f10, type: 3}
-  <CardType>k__BackingField: 1
+  <Num>k__BackingField: 1
+  <Suit>k__BackingField: 4
+  <Image>k__BackingField: {fileID: 21300000, guid: f62d97e2c58d8e44c8e1685559f5ad42, type: 3}
+  <CardType>k__BackingField: 2
   <Exhaust>k__BackingField: 0
   <Ethereal>k__BackingField: 0
   <ManualTargetEffects>k__BackingField: []
   <OtherEffects>k__BackingField:
-  - rid: 7198748441902579722
+  - rid: 7198748482226094080
   references:
     version: 2
     RefIds:
-    - rid: 7198748441902579722
+    - rid: 7198748482226094080
       type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
       data:
         <TargetMode>k__BackingField:
-          rid: 7198748441902579723
+          rid: 7198748482226094081
         <Effect>k__BackingField:
-          rid: 7198748441902579724
-    - rid: 7198748441902579723
+          rid: 7198748482226094082
+    - rid: 7198748482226094081
       type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 7198748441902579724
+    - rid: 7198748482226094082
       type: {class: GainBuffEffect, ns: , asm: Assembly-CSharp}
       data:
         buff:
-          rid: 7198748476499820545
-    - rid: 7198748476499820545
-      type: {class: StrengthBuff, ns: , asm: Assembly-CSharp}
+          rid: 7198748482226094083
+    - rid: 7198748482226094083
+      type: {class: RitualBuff, ns: , asm: Assembly-CSharp}
       data:
-        stacks: 2
-        data: {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}
+        stacks: 5
+        data: {fileID: 11400000, guid: e644dce4d9231364fbdc554f6af68d06, type: 2}
+        strengthBuffData: {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}

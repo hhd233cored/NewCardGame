@@ -83,7 +83,7 @@ public class Character : MonoBehaviour
             Buff instance = System.Activator.CreateInstance(buff.GetType()) as Buff;
 
             // 传入当前角色(this)和配置数据(buff.data)
-            instance.Initialize(this, buff.stacks, buff.data);
+            instance.Initialize(this, buff.stacks, buff.data, buff.AddBuffData);
             BuffList.Add(instance);
         }
 

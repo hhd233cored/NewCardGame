@@ -46,7 +46,14 @@ public class DrawCardsGA : GameAction
         Amount = amount;
     }
 }
-
+public class ExhaustCardsGA : GameAction
+{
+    public CardView card;
+    public ExhaustCardsGA(CardView cardView)
+    {
+        card = cardView;
+    }
+}
 public class EnemyTurnGA : GameAction
 {
 

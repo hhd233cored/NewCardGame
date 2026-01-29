@@ -8,4 +8,11 @@ public class BuffData : ScriptableObject
     [field: SerializeField] public string Description { get; private set; }
     [field: SerializeField] public Sprite Image { get; private set; }
     [field: SerializeField] public BuffType Type { get; private set; }
+    public void InInitialize(BuffData data)
+    {
+        Title = data.Title;
+        Description = data.Description;
+        Image = data.Image;
+        Type = data.Type;
+    }
 }

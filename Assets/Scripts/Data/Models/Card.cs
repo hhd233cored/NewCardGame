@@ -14,14 +14,14 @@ public enum CardType
 [System.Serializable]
 public class Card
 {
-    public string Title => data.name;
+    public string Title => data.Title;
     public string Description;
     public Sprite Image => data.Image;
     public SuitStyle Suit = SuitStyle.Nul;
     public int Num = 0;
     public List<Effect> ManualTargetEffects => data.ManualTargetEffects;
     public List<AutoTargetEffect> OtherEffects => data.OtherEffects;
-    [SerializeField] private CardData data;
+    public CardData data { get; private set; }
     //[field: SerializeReference, SR] Power power = null;//能力牌的能力
     public Card(CardData cardData)
     {

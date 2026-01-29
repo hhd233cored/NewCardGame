@@ -74,6 +74,10 @@ public class MainController:Singleton<MainController>
     {
         DeckViewUI.Instance.ToggleDeckView(CardSystem.Instance.DisCardPile);
     }
+    public void ToggleExhaustPileView()
+    {
+        DeckViewUI.Instance.ToggleDeckView(CardSystem.Instance.ExhaustPile);
+    }
 
     public int TotalDamage(int basicDamage, List<Character> targets, Character source)
     {

@@ -10,12 +10,14 @@ public abstract class Buff
     protected List<Character> owner2 => new List<Character>() { owner };
     public int stacks;//层数
     public BuffData data;//ScriptableObject
+    public List<BuffData> AddBuffData;//SO，用于Buff中添加Buff
 
-    public virtual void Initialize(Character target, int initialStacks, BuffData buffData)
+    public virtual void Initialize(Character target, int initialStacks, BuffData buffData, List<BuffData> add)
     {
         owner = target;
         stacks = initialStacks;
         data = buffData;
+        AddBuffData = add;
         OnApply();
     }
 
@@ -153,20 +155,20 @@ public class VulnerableBuff : Buff//易伤，受到伤害增加50%
 
 public class RitualBuff : Buff//仪式，每回合增加等同于层数的力量
 {
-    public BuffData strengthBuffData;
     protected override void OnApply()
     {
 
     }
-
+    
     public override bool OnTick()
     {
-        Debug.Log("咔咔");
-        StrengthBuff strengthBuff = new StrengthBuff();
-        strengthBuff.stacks = this.stacks;
-        strengthBuff.data = strengthBuffData;
-        ActionSystem.Instance.AddReaction(MainController.AddBuff(owner2, owner, strengthBuff));
-
+        if (AddBuffData.Count > 0)
+        {
+            StrengthBuff strengthBuff = new();
+            strengthBuff.stacks = this.stacks;
+            strengthBuff.data = AddBuffData[0];
+            ActionSystem.Instance.AddReaction(MainController.AddBuff(owner2, owner, strengthBuff));
+        }
         return stacks > 0;
     }
 
