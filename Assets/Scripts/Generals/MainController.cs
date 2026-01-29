@@ -12,6 +12,7 @@ public class MainController:Singleton<MainController>
     [SerializeField] private PlayerData playerData;
     [SerializeField] private BattleData battleData;
     [SerializeField] private BuffData strengthData;
+    [SerializeField] private BuffData dexterityData;
     /// <summary>
     /// 初始化新战斗场景信息
     /// </summary>
@@ -84,8 +85,20 @@ public class MainController:Singleton<MainController>
         if (power != null) damage += power.stacks * 2;
 
         //Debug.Log(source.name + "-basicDamage:" + basicDamage + "-power:" + power?.stacks + "-damage:" + damage);
+        if (damage <= 0) damage = 1;
 
         return damage;
+    }
+
+    public int TotalBlock(int basicBlock, List<Character> targets, Character source)
+    {
+        int block = basicBlock;
+        Buff Dex = source.BuffList.Find(buff => buff.data == dexterityData);
+        if (Dex != null) block += Dex.stacks * 2;
+
+        if(block <= 0) block = 1;
+
+        return block;
     }
 
     /// <summary>

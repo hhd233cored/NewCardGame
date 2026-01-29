@@ -21,6 +21,7 @@ MonoBehaviour:
   <CardType>k__BackingField: 0
   <ManualTargetEffects>k__BackingField:
   - rid: 7198748458710728727
+  - rid: 7198748476499820550
   <OtherEffects>k__BackingField: []
   references:
     version: 2
@@ -29,3 +30,14 @@ MonoBehaviour:
       type: {class: DealDamegeEffect, ns: , asm: Assembly-CSharp}
       data:
         damgeAmount: 20
+    - rid: 7198748476499820550
+      type: {class: GainBuffEffect, ns: , asm: Assembly-CSharp}
+      data:
+        buff:
+          rid: 7198748476499820551
+    - rid: 7198748476499820551
+      type: {class: VulnerableBuff, ns: , asm: Assembly-CSharp}
+      data:
+        stacks: 2
+        data: {fileID: 11400000, guid: e1bdc9df735cc1f448e0c5b009abb89b, type: 2}
+        type: 1

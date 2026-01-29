@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+using static Unity.Collections.AllocatorManager;
+using static Unity.VisualScripting.Member;
 using static UnityEngine.GraphicsBuffer;
 
 public class BattleSystem : Singleton<BattleSystem>
@@ -13,6 +15,10 @@ public class BattleSystem : Singleton<BattleSystem>
     [SerializeField] private int num;
 
     [SerializeField] private HandView handView;
+
+    [SerializeField] private BuffData WeakData;
+    [SerializeField] private BuffData vulnerableData;
+
 
 
     private SuitStyle currentSuit = SuitStyle.Nul;
@@ -163,9 +169,22 @@ public class BattleSystem : Singleton<BattleSystem>
 
     private IEnumerator DealDamagePerformer(DealDamageGA dealDamageGA)
     {
+        var user = dealDamageGA.Source;
         foreach(var target in dealDamageGA.Targets)
         {
-            target.Damage(MainController.Instance.TotalDamage(dealDamageGA.Amount, dealDamageGA.Targets, dealDamageGA.Source));
+            int damage = MainController.Instance.TotalDamage(dealDamageGA.Amount, dealDamageGA.Targets, dealDamageGA.Source);
+
+            //易伤检测
+            Buff Vul = target.BuffList.Find(buff => buff.data == vulnerableData);
+            if (Vul != null) damage = (int)(damage * 1.5);
+
+            //虚弱检测
+            Buff weak = user.BuffList.Find(buff => buff.data == WeakData);
+            if (weak != null) damage = (int)(damage * 0.75);
+
+            if (damage <= 0) damage = 1;
+
+            target.Damage(damage);
             Instantiate(damageVFX, target.transform.position, Quaternion.identity,this.transform);
             yield return new WaitForSeconds(0.15f);
             if (target.CurrentHealth <= 0)
@@ -248,6 +267,11 @@ public class BattleSystem : Singleton<BattleSystem>
             if (target == null) continue;
 
             target.AddBuff(gainBuffGA.Buff);
+
+            if(target is Player player)
+            {
+                handView.ResetCardsDescription();//动态调整卡牌描述
+            }
         }
         yield return null;
     }

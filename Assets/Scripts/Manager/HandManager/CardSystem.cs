@@ -290,6 +290,10 @@ public class CardSystem : Singleton<CardSystem>
     {
         if (EnemySystem.Instance.Enemies.Count == 0) return;
 
+        foreach(var enemy in EnemySystem.Instance.Enemies)
+        {
+            enemy.UpdateIntentionText();
+        }
 
         Player player = PlayerSystem.Instance.player;
 

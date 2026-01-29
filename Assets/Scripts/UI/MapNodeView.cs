@@ -130,7 +130,7 @@ public class MapNodeView : MonoBehaviour
                 if (mapManager != null) mapManager.SaveMap();
                 Debug.Log("Ω¯»Î…ÃµÍ...");
                 //mapManager?.UnlockNextLayer();
-                StartCoroutine(GameManager.Instance.EnterShopScene());
+                ShopManager.Instance.EnterShop();
                 break;
 
             case NodeType.Rest:

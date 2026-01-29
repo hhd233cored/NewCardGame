@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Defend
   m_EditorClassIdentifier: 
   <Title>k__BackingField: 
-  <Description>k__BackingField: gain 5 block
+  <Description>k__BackingField: "gain {B} block\uFF0Cgain 2 platedArmor"
   <Rarity>k__BackingField: 0
   <Num>k__BackingField: 2
   <Suit>k__BackingField: 4
@@ -22,6 +22,7 @@ MonoBehaviour:
   <ManualTargetEffects>k__BackingField: []
   <OtherEffects>k__BackingField:
   - rid: 7198748396653641730
+  - rid: 7198748476499820563
   references:
     version: 2
     RefIds:
@@ -39,3 +40,23 @@ MonoBehaviour:
     - rid: 7198748438434414604
       type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
       data: 
+    - rid: 7198748476499820563
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 7198748476499820564
+        <Effect>k__BackingField:
+          rid: 7198748476499820565
+    - rid: 7198748476499820564
+      type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 7198748476499820565
+      type: {class: GainBuffEffect, ns: , asm: Assembly-CSharp}
+      data:
+        buff:
+          rid: 7198748476499820567
+    - rid: 7198748476499820567
+      type: {class: PlatedArmorBuff, ns: , asm: Assembly-CSharp}
+      data:
+        stacks: 2
+        data: {fileID: 11400000, guid: a9ec160bed1b48042b9bc088d940ea45, type: 2}

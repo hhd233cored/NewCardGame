@@ -7,22 +7,31 @@ public class ShopManager : Singleton<ShopManager>
 {
     [SerializeField] private List<Transform> slots;
     public List<CardData> CardDataList;
-    public List<TMP_Text> costList;
     public List<CardViewUI> cardUIs;
     public TMP_Text deleteCardUITitle;
 
     [SerializeField] private CardViewUI perfab;
+    [SerializeField] private GameObject shop;
 
     public bool hasDel;
-
     public bool isShop;
     private void Start()
     {
-        hasDel = false;
-        isShop = true;
-        SetCardToSlots(CardDataList);
+        isShop = false;
+        shop.SetActive(false);
+
     }
-    
+    public void EnterShop()
+    {
+        isShop = true;
+        shop.SetActive(isShop);
+        if (isShop)
+        {
+            hasDel = false;
+            SetCardToSlots(CardDataList);
+        }
+        deleteCardUITitle.text = "Delete Card";
+    }
     public void SetCardToSlots(List<CardData> cards)
     {
         // 先清理旧的 UI（防止多次点击 TestFill 导致卡牌重叠）
@@ -44,7 +53,7 @@ public class ShopManager : Singleton<ShopManager>
             Transform slot = slots[i];
             int cost = Random.Range(45, 56);
             if (sale == i) cost /= 2;
-            TMP_Text price = slot.GetComponentInChildren<TextMeshProUGUI>();
+            TMP_Text price = slot?.GetComponentInChildren<TextMeshProUGUI>();
             if (sale == i) price.text = "Sale: " + cost.ToString();
             price.gameObject.SetActive(true);
             Card card = new(cardData);
@@ -108,6 +117,14 @@ public class ShopManager : Singleton<ShopManager>
     }
     public void Leave()
     {
-        StartCoroutine(GameManager.Instance.EnterMapScene("ShopScene"));
+        isShop = false;
+        foreach (var oldUI in cardUIs)
+        {
+            if (oldUI != null) Destroy(oldUI.gameObject);
+        }
+        cardUIs.Clear();
+        shop.SetActive(isShop);
+        var mapManager = FindObjectOfType<MapManager>();
+        mapManager?.UnlockNextLayer();
     }
 }

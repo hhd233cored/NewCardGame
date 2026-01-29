@@ -49,7 +49,7 @@ public class EnemySystem : Singleton<EnemySystem>
             enemy.currentState++;
             if (enemy.currentState > enemy.IntentionStates.Count - 1) enemy.currentState = 0;
             
-            enemy.UpdateIntentionText();
+            //enemy.UpdateIntentionText();
         }
        yield return null;
     }

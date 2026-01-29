@@ -18,6 +18,7 @@ public class HandView : MonoBehaviour
     [SerializeField] private float hoverTween = 0.12f;
 
     private readonly List<CardView> cards = new();
+    public List<CardView> HandCards => cards;
     private CardView hovered;
     private readonly HashSet<CardView> locked = new();
     public void LockCard(CardView cv) { if (cv != null) locked.Add(cv); }
@@ -38,6 +39,13 @@ public class HandView : MonoBehaviour
         if (hovered == cardView) hovered = null;
 
         yield return UpdateLayout(duration);
+    }
+    public void ResetCardsDescription()
+    {
+        foreach (CardView cardView in cards)
+        {
+            cardView.ResetDescription();
+        }
     }
     private CardView GetCardView(Card card)
     {

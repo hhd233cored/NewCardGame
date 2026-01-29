@@ -13,7 +13,7 @@ public class DealDamegeEffect : Effect//玩家为来源，关系到动画，所以分开来了
     public int damage => damgeAmount;
     public override GameAction GetGameAction(List<Character> targets, Character source)
     {
-        DealDamageGA dealDamageGA = new(damgeAmount, targets, PlayerSystem.Instance.player);
+        DealDamageGA dealDamageGA = new(damgeAmount, targets, source);
         return dealDamageGA;
     }
 }
@@ -54,6 +54,7 @@ public class DiscardCardsEffect : Effect
 public class GainBlockEffect : Effect
 {
     [SerializeField] private int amount;
+    public int block => amount;
     public override GameAction GetGameAction(List<Character> targets, Character source)
     {
         GainBlockGA gainBlockGA = new(amount, targets);

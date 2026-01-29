@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GainPower
   m_EditorClassIdentifier: 
   <Title>k__BackingField: GainPower
-  <Description>k__BackingField: Gain 2 power
+  <Description>k__BackingField: Gain 2 strength and Ritual
   <Rarity>k__BackingField: 0
   <Num>k__BackingField: 3
   <Suit>k__BackingField: 3
@@ -22,6 +22,7 @@ MonoBehaviour:
   <ManualTargetEffects>k__BackingField: []
   <OtherEffects>k__BackingField:
   - rid: 7198748441902579722
+  - rid: 7198748476499820546
   references:
     version: 2
     RefIds:
@@ -39,10 +40,30 @@ MonoBehaviour:
       type: {class: GainBuffEffect, ns: , asm: Assembly-CSharp}
       data:
         buff:
-          rid: 7198748459336466442
-    - rid: 7198748459336466442
+          rid: 7198748476499820545
+    - rid: 7198748476499820545
       type: {class: StrengthBuff, ns: , asm: Assembly-CSharp}
       data:
         stacks: 2
         data: {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}
-        type: 0
+    - rid: 7198748476499820546
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 7198748476499820547
+        <Effect>k__BackingField:
+          rid: 7198748476499820548
+    - rid: 7198748476499820547
+      type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 7198748476499820548
+      type: {class: GainBuffEffect, ns: , asm: Assembly-CSharp}
+      data:
+        buff:
+          rid: 7198748476499820561
+    - rid: 7198748476499820561
+      type: {class: RitualBuff, ns: , asm: Assembly-CSharp}
+      data:
+        stacks: 2
+        data: {fileID: 11400000, guid: e644dce4d9231364fbdc554f6af68d06, type: 2}
+        strengthBuffData: {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}

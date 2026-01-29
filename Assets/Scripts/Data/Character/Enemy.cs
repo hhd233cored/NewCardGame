@@ -34,6 +34,12 @@ public class Enemy : Character
                     attackDamange = MainController.Instance.TotalDamage(attackDamange, new List<Character>() { PlayerSystem.Instance.player }, this);
 
                 }
+
+                if (ate.Effect is DealDamegeEffect effect2)
+                {
+                    attackDamange = effect2.damage;
+                    attackDamange = MainController.Instance.TotalDamage(attackDamange, new List<Character>() { PlayerSystem.Instance.player }, this);
+                }
             }
         }
         

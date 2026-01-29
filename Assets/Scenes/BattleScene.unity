@@ -362,6 +362,8 @@ MonoBehaviour:
   suit: 
   num: 0
   handView: {fileID: 1109227963}
+  WeakData: {fileID: 11400000, guid: 1d7de648100c3af4080da9fb60cf7e54, type: 2}
+  vulnerableData: {fileID: 11400000, guid: e1bdc9df735cc1f448e0c5b009abb89b, type: 2}
 --- !u!1 &311628833
 GameObject:
   m_ObjectHideFlags: 0
@@ -2897,6 +2899,7 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: a321bcc82030d51489ea1e304d4ca390, type: 2}
   battleData: {fileID: 11400000, guid: 8b4e7d5f8593cef498e6093aeeb5ca43, type: 2}
   strengthData: {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}
+  dexterityData: {fileID: 11400000, guid: ebcd7fb7fbb50234a9649bc1bfd22061, type: 2}
 --- !u!4 &2141192606
 Transform:
   m_ObjectHideFlags: 0

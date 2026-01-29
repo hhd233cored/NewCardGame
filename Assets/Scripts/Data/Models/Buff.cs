@@ -1,3 +1,4 @@
+using SerializeReferenceEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +7,12 @@ public enum BuffType { positive, negative }
 public abstract class Buff
 {
     protected Character owner;//拥有者
+    protected List<Character> owner2 => new List<Character>() { owner };
     public int stacks;//层数
     public BuffData data;//ScriptableObject
-    public BuffType type;
 
     public virtual void Initialize(Character target, int initialStacks, BuffData buffData)
     {
-        type = buffData.Type;
         owner = target;
         stacks = initialStacks;
         data = buffData;
@@ -51,7 +51,7 @@ public class ThornsEffect : Buff
             {
                 Debug.Log($"{owner.name} 触发了反伤！");
                 //向当前动作链追加一个反伤动作
-                ActionSystem.Instance.AddReaction(new DealDamageGA(5, new List<Character>() { target }, owner));
+                ActionSystem.Instance.AddReaction(new DealDamageGA(5, new List<Character>() { dealDamageGA.Source }, owner));
             }
         }
     }
@@ -98,3 +98,101 @@ public class StrengthBuff : Buff
         Debug.Log($"{owner.name} 获得力量！");
     }
 }
+
+public class DexterityBuff : Buff//敏捷
+{
+    public override void OnRemove()
+    {
+
+    }
+
+    protected override void OnApply()
+    {
+        Debug.Log($"{owner.name} 敏捷！");
+    }
+}
+
+public class WeakBuff : Buff//虚弱，造成伤害减少25%
+{
+    protected override void OnApply()
+    {
+
+    }
+
+    public override bool OnTick()
+    {
+        // 每回合层数减一
+        stacks--;
+        return stacks > 0;
+    }
+
+    public override void OnRemove()
+    {
+
+    }
+}
+public class VulnerableBuff : Buff//易伤，受到伤害增加50%
+{
+    protected override void OnApply()
+    {
+
+    }
+
+    public override bool OnTick()
+    {
+        // 每回合层数减一
+        stacks--;
+        return stacks > 0;
+    }
+
+    public override void OnRemove()
+    {
+
+    }
+}
+
+public class RitualBuff : Buff//仪式，每回合增加等同于层数的力量
+{
+    public BuffData strengthBuffData;
+    protected override void OnApply()
+    {
+
+    }
+
+    public override bool OnTick()
+    {
+        Debug.Log("咔咔");
+        StrengthBuff strengthBuff = new StrengthBuff();
+        strengthBuff.stacks = this.stacks;
+        strengthBuff.data = strengthBuffData;
+        ActionSystem.Instance.AddReaction(MainController.AddBuff(owner2, owner, strengthBuff));
+
+        return stacks > 0;
+    }
+
+    public override void OnRemove()
+    {
+
+    }
+}
+
+public class PlatedArmorBuff : Buff//金属化，每回合增加等同于层数的格挡
+{
+    protected override void OnApply()
+    {
+
+    }
+
+    public override bool OnTick()
+    {
+        ActionSystem.Instance.AddReaction(MainController.Block(stacks, owner2));
+
+        return stacks > 0;
+    }
+
+    public override void OnRemove()
+    {
+
+    }
+}
+

@@ -47,18 +47,18 @@ MonoBehaviour:
         <TargetMode>k__BackingField:
           rid: 7198748459336466433
         <Effect>k__BackingField:
-          rid: 7198748459336466465
+          rid: 7198748476499820560
     - rid: 7198748459336466433
       type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
       data: 
     - rid: 7198748459336466435
       type: {class: SelfTM, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 7198748459336466465
-      type: {class: AttackPlayerEffect, ns: , asm: Assembly-CSharp}
-      data:
-        damgeAmount: 7
     - rid: 7198748459336466466
       type: {class: GainBlockEffect, ns: , asm: Assembly-CSharp}
       data:
         amount: 7
+    - rid: 7198748476499820560
+      type: {class: AttackPlayerEffect, ns: , asm: Assembly-CSharp}
+      data:
+        damgeAmount: 7

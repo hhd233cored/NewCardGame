@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Poison
   m_EditorClassIdentifier: 
   <Title>k__BackingField: Poison
-  <Description>k__BackingField: Give all  5 poison,1 strength
+  <Description>k__BackingField: Give all  7 poison,1 strength
   <Rarity>k__BackingField: 0
   <Num>k__BackingField: 3
   <Suit>k__BackingField: 4
@@ -59,7 +59,7 @@ MonoBehaviour:
     - rid: 7198748459336466441
       type: {class: PoisonBuff, ns: , asm: Assembly-CSharp}
       data:
-        stacks: 3
+        stacks: 7
         data: {fileID: 11400000, guid: 8b10a5b606c651f4d8ab10d5dc3acd79, type: 2}
         type: 1
     - rid: 7198748459336466443
