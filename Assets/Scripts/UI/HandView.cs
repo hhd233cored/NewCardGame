@@ -28,6 +28,9 @@ public class HandView : MonoBehaviour
     {
         cards.Add(cardView);
         cardView.SetOwnerHand(this);
+
+        ResetOutLine2();
+
         yield return UpdateLayout(0.15f);
     }
 
@@ -75,7 +78,7 @@ public class HandView : MonoBehaviour
     {
         if (hovered == card) hovered = null;
 
-        UnlightOutLine();
+        ResetOutLine2();
 
         StartCoroutine(UpdateLayout(hoverTween));
     }
@@ -86,6 +89,7 @@ public class HandView : MonoBehaviour
             cardView.SetOutLine(0);
         }
     }
+    //选中牌时点亮
     public void ResetOutLine(CardView cv)
     {
         foreach(CardView cardView in cards)
@@ -94,6 +98,16 @@ public class HandView : MonoBehaviour
             //int setting = BattleSystem.Instance.HasSameSuitOrNum(cardView.CardSuit, cardView.CardNum) ? 1 : 0;
             //int setting = BattleSystem.Instance.StrictCheckSuitOrNum(cardView.CardSuit, cardView.CardNum) ? 1 : 0;
             int setting = BattleSystem.Instance.StrictCheckSuitOrNum2(cardView.CardSuit, cardView.CardNum, cv.card.Suit, cv.card.Num) ? 1 : 0;
+            cardView.SetOutLine(setting);
+        }
+    }
+    //空闲时点亮
+    public void ResetOutLine2()
+    {
+        foreach (CardView cardView in cards)
+        {
+            //int setting = BattleSystem.Instance.HasSameSuitOrNum(cardView.CardSuit, cardView.CardNum) ? 1 : 0;
+            int setting = BattleSystem.Instance.StrictCheckSuitOrNum(cardView.CardSuit, cardView.CardNum) ? 1 : 0;
             cardView.SetOutLine(setting);
         }
     }

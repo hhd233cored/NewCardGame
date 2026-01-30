@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Strength
   m_EditorClassIdentifier: 
   <Title>k__BackingField: "Strength(\u529B\u91CF)"
-  <Description>k__BackingField: "\u6BCF1\u70B9\u529B\u91CF\u589E\u52A02\u70B9\u4F24\u5BB3"
+  <Description>k__BackingField: "\u6BCF1\u70B9\u529B\u91CF\u589E\u52A01\u70B9\u4F24\u5BB3"
   <Image>k__BackingField: {fileID: 21300000, guid: 5c377a56d40c6d54491e5a8370530f10, type: 3}
   <Type>k__BackingField: 0

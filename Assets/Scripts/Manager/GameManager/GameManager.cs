@@ -8,6 +8,9 @@ public class GameManager : PersistentSingleton<GameManager>
     //public PlayerData CurrentPlayerData { get; private set; }
     public BattleType NextBattleType { get; private set; }
 
+    [SerializeField] private List<CardData> CardDataLibrary;
+    public List<CardData> CardDataList => CardDataLibrary;
+
     [SerializeField] private PlayerData playerData;
     [SerializeField] private Enemy enemyPrefab;
     [SerializeField] private CardView cardViewPrefab;

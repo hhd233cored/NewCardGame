@@ -6,7 +6,7 @@ using UnityEngine;
 public class ShopManager : Singleton<ShopManager>
 {
     [SerializeField] private List<Transform> slots;
-    public List<CardData> CardDataList;
+    [SerializeField] private List<CardData> CardDataList=>GameManager.Instance.CardDataList;
     public List<CardViewUI> cardUIs;
     public TMP_Text deleteCardUITitle;
 

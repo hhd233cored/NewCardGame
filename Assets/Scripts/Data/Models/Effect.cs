@@ -80,4 +80,15 @@ public class GainBuffEffect : Effect
         return gainBuffGA;
     }
 }
+public class GainCardEffect : Effect
+{
+    [SerializeField] private PileType pile;
+    [SerializeField] private List<int> amounts;
+    [SerializeField] private List<CardData> cardDatas;
 
+    public override GameAction GetGameAction(List<Character> targets, Character source)
+    {
+        GainCardGA gainCardGA = new(pile, cardDatas, amounts);
+        return gainCardGA;
+    }
+}

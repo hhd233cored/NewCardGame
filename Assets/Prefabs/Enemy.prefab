@@ -443,7 +443,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 38e82ae1eccd6064f8658eeac420bf85, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -681,6 +681,7 @@ MonoBehaviour:
   type: 0
   IntentionStates: []
   currentState: 0
+  EnemyIntentionRestartpoint: 0
   references:
     version: 2
     RefIds: []

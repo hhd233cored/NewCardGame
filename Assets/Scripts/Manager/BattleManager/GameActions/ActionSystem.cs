@@ -27,7 +27,14 @@ public class ActionSystem : Singleton<ActionSystem>
     [Header("Safety")]
     [SerializeField] private int maxChainActions = 200;//防无限连锁
     [SerializeField] private int maxDepth = 30;//防过深递归链
-
+    private void OnDestroy()
+    {
+        // 如果这个单例被销毁了，清空所有静态订阅，防止影响下个场景
+        preSubs.Clear();
+        postSubs.Clear();
+        // 如果 performers 也是静态的，也要清空
+        // performers.Clear(); 
+    }
     /// <summary>
     /// 入口：执行一个 action。若系统忙，则排队。
     /// 排队
@@ -337,11 +344,16 @@ public class ActionSystem : Singleton<ActionSystem>
     {
         // 确保不会重复触发
         this.enabled = false;
+
         //战斗结束后清空buff
         PlayerSystem.Instance.player.BuffList.Clear();
+        BattleSystem.Instance.ResetDir();
+
         int gainGold = UnityEngine.Random.Range(10, 20);
-        Debug.Log("Gain Gold: " + gainGold);
         PlayerSystem.Instance.player.ChangeGold(gainGold);
+
+
+
         SelectCardView.Instance.TestFill(gainGold);
     }
 }

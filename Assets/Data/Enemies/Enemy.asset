@@ -13,52 +13,62 @@ MonoBehaviour:
   m_Name: Enemy
   m_EditorClassIdentifier: 
   <Image>k__BackingField: {fileID: 21300000, guid: 38e82ae1eccd6064f8658eeac420bf85, type: 3}
-  <Health>k__BackingField: 1
+  <Health>k__BackingField: 50
   <AttackPower>k__BackingField: 0
   <Type>k__BackingField: 0
+  <IntentionStart>k__BackingField: 0
+  <IntentionRestart>k__BackingField: 1
   <Intentions>k__BackingField:
-  - rid: 7198748441902579712
+  - rid: 7198748500880261144
   - rid: 7198748441902579718
   references:
     version: 2
     RefIds:
-    - rid: 7198748441902579712
-      type: {class: Intention, ns: , asm: Assembly-CSharp}
-      data:
-        type: 0
-        <ATEffects>k__BackingField:
-        - rid: 7198748459336466432
     - rid: 7198748441902579718
       type: {class: Intention, ns: , asm: Assembly-CSharp}
       data:
-        type: 1
+        type: 0
         <ATEffects>k__BackingField:
         - rid: 7198748441902579719
     - rid: 7198748441902579719
       type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
       data:
         <TargetMode>k__BackingField:
-          rid: 7198748459336466435
+          rid: 7198748500880261143
         <Effect>k__BackingField:
-          rid: 7198748459336466466
-    - rid: 7198748459336466432
+          rid: 7198748500880261142
+    - rid: 7198748500880261142
+      type: {class: AttackPlayerEffect, ns: , asm: Assembly-CSharp}
+      data:
+        damgeAmount: 2
+    - rid: 7198748500880261143
+      type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 7198748500880261144
+      type: {class: Intention, ns: , asm: Assembly-CSharp}
+      data:
+        type: 2
+        <ATEffects>k__BackingField:
+        - rid: 7198748500880261145
+    - rid: 7198748500880261145
       type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
       data:
         <TargetMode>k__BackingField:
-          rid: 7198748459336466433
+          rid: 7198748500880261146
         <Effect>k__BackingField:
-          rid: 7198748476499820560
-    - rid: 7198748459336466433
-      type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
-      data: 
-    - rid: 7198748459336466435
+          rid: 7198748500880261147
+    - rid: 7198748500880261146
       type: {class: SelfTM, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 7198748459336466466
-      type: {class: GainBlockEffect, ns: , asm: Assembly-CSharp}
+    - rid: 7198748500880261147
+      type: {class: GainBuffEffect, ns: , asm: Assembly-CSharp}
       data:
-        amount: 7
-    - rid: 7198748476499820560
-      type: {class: AttackPlayerEffect, ns: , asm: Assembly-CSharp}
+        buff:
+          rid: 7198748500880261148
+    - rid: 7198748500880261148
+      type: {class: RitualBuff, ns: , asm: Assembly-CSharp}
       data:
-        damgeAmount: 7
+        stacks: 5
+        data: {fileID: 11400000, guid: e644dce4d9231364fbdc554f6af68d06, type: 2}
+        AddBuffData:
+        - {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}

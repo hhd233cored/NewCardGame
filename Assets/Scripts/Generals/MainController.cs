@@ -57,10 +57,14 @@ public class MainController:Singleton<MainController>
         //DiscardCardsGA discardCardsGA = new(1, true);
         //ActionSystem.Instance.AddReaction(discardCardsGA);
 
+
+
         //重置“上一张牌”的花色点数
+        BattleSystem.Instance.ResetDir();
+
         SetSuitAndNumGA setSuitAndNumGA = new(SuitStyle.Nul, 0);
         ActionSystem.Instance.Perform(setSuitAndNumGA);
-        BattleSystem.Instance.ResetDir();
+       
 
         //进入敌人回合
         EnemyTurnGA enemyTurnGA = new();
@@ -84,9 +88,11 @@ public class MainController:Singleton<MainController>
 
         int damage = basicDamage;
 
-        //力量加成，1点力量+2点伤害
+        //力量加成，1点力量+1点伤害
         Buff power = source.BuffList.Find(buff => buff.data == strengthData);
-        if (power != null) damage += power.stacks * 2;
+        if (power != null) damage += power.stacks * 1;
+
+        if (source == PlayerSystem.Instance.player) damage *= BattleSystem.Instance.score;
 
         //Debug.Log(source.name + "-basicDamage:" + basicDamage + "-power:" + power?.stacks + "-damage:" + damage);
         if (damage <= 0) damage = 1;
@@ -98,9 +104,13 @@ public class MainController:Singleton<MainController>
     {
         int block = basicBlock;
         Buff Dex = source.BuffList.Find(buff => buff.data == dexterityData);
-        if (Dex != null) block += Dex.stacks * 2;
+        if (Dex != null) block += Dex.stacks * 1;
 
-        if(block <= 0) block = 1;
+        if (source == PlayerSystem.Instance.player) block *= BattleSystem.Instance.score;
+
+        if (block <= 0) block = 1;
+
+
 
         return block;
     }

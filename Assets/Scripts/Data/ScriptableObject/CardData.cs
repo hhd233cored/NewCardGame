@@ -15,6 +15,7 @@ public class CardData : ScriptableObject
     [field: SerializeField] public CardType CardType { get; private set; }
     [field: SerializeField] public bool Exhaust { get; private set; }//消耗
     [field: SerializeField] public bool Ethereal { get; private set; }//虚无
+    [field: SerializeField] public bool CantPlay { get; private set; }//不能打出
     [field: SerializeReference, SR] public List<Effect> ManualTargetEffects { get; private set; } = null;
     [field: SerializeReference, SR] public List<AutoTargetEffect> OtherEffects { get; private set; } = null;
 }

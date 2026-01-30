@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EmoForm
   m_EditorClassIdentifier: 
   <Title>k__BackingField: "Emo \u5F62\u6001"
-  <Description>k__BackingField: "\u83B7\u5F975\u70B9\u4EEA\u5F0F"
+  <Description>k__BackingField: "\u83B7\u5F973\u5C42\u4EEA\u5F0F"
   <Rarity>k__BackingField: 0
   <Num>k__BackingField: 1
   <Suit>k__BackingField: 4
@@ -21,6 +21,7 @@ MonoBehaviour:
   <CardType>k__BackingField: 2
   <Exhaust>k__BackingField: 0
   <Ethereal>k__BackingField: 0
+  <CantPlay>k__BackingField: 0
   <ManualTargetEffects>k__BackingField: []
   <OtherEffects>k__BackingField:
   - rid: 7198748482226094080
@@ -45,6 +46,7 @@ MonoBehaviour:
     - rid: 7198748482226094083
       type: {class: RitualBuff, ns: , asm: Assembly-CSharp}
       data:
-        stacks: 5
+        stacks: 3
         data: {fileID: 11400000, guid: e644dce4d9231364fbdc554f6af68d06, type: 2}
-        strengthBuffData: {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}
+        AddBuffData:
+        - {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}

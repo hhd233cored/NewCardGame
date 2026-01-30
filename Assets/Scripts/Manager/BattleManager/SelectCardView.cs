@@ -14,7 +14,7 @@ public class SelectCardView : Singleton<SelectCardView>
     [SerializeField] private TMP_Text gainGold;
     public List<CardViewUI> cardUIs;
     [SerializeField] private CardViewUI perfab;
-    public List<CardData> CardDataList;
+    public List<CardData> CardDataList=>GameManager.Instance.CardDataList;
     public bool isSelect;
     private void Start()
     {
@@ -49,13 +49,15 @@ public class SelectCardView : Singleton<SelectCardView>
         }
         cardUIs.Clear();
 
-        int i = 0;
-        foreach (var cardData in cards)
+
+        for (int i = 0; i < slots.Count; i++)
         {
             // 防止数据多于格子时报错
             if (i >= slots.Count) break;
+            int rand = Random.Range(0, CardDataList.Count);
+            CardData cardData = CardDataList[rand];
 
-            Transform slot = slots[i++];
+            Transform slot = slots[i];
             Card card = new(cardData);
             /*
             switch ((int)UnityEngine.Random.Range(1, 5))
@@ -95,6 +97,7 @@ public class SelectCardView : Singleton<SelectCardView>
             cardViewUI.Setup(card);
             cardUIs.Add(cardViewUI);
         }
+        // 1. 实例化时直接指定父物体，这是最高效且不容易出错的做法
     }
     public void SkipSelect()
     {

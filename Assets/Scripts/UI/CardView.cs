@@ -160,10 +160,18 @@ public class CardView : MonoBehaviour
     {
         if (isInDeckView) return;
         if (!isDragging) return;
+        
 
         isDragging = false;
 
         Interactions.Instance.PlayerIsDragging = false;
+
+        if (card.data.CantPlay)
+        {
+            SnapBack();
+            return;
+        }
+
         if (card.ManualTargetEffects.Count > 0 && BattleSystem.Instance.HasSameSuitOrNum(CardSuit, CardNum)) 
         {
             Enemy target = ManualTargetSystem.Instance.EndTargeting(GetMouseWorldOnZ(0f));

@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.GraphicsBuffer;
-
+public enum PileType { DrawPile, DiscardPile, Hand }
 public class CardSystem : Singleton<CardSystem>
 {
     [Header("组件")]
@@ -15,6 +15,7 @@ public class CardSystem : Singleton<CardSystem>
     [SerializeField] private Transform drawPilePoint;
     [SerializeField] private Transform discardPilePoint;
     [SerializeField] private Transform exhaustPilePoint;
+    [SerializeField] private CardView cardViewPrefab;
 
 
     [field: SerializeField] private readonly List<Card> drawPile = new();
@@ -43,12 +44,15 @@ public class CardSystem : Singleton<CardSystem>
         ActionSystem.RegisterPerformer<DiscardCardsGA>(this, DiscardCardsPerformer);
         ActionSystem.RegisterPerformer<PlayCardGA>(this, PlayCardPerformer);
         ActionSystem.RegisterPerformer<ExhaustCardsGA>(this, ExhaustCardPerformer);
+        ActionSystem.RegisterPerformer<GainCardGA>(this, GainCardPerformer);
         ActionSystem.SubscribePre<EnemyTurnGA>(EnemyTurnPreReaction);
         ActionSystem.SubscribePost<EnemyTurnGA>(EnemyTurnPostReaction);
     }
 
     private void OnDisable()
     {
+        ActionSystem.UnsubscribePre<EnemyTurnGA>(EnemyTurnPreReaction);
+        ActionSystem.UnsubscribePost<EnemyTurnGA>(EnemyTurnPostReaction);
         ActionSystem.UnregisterPerformersByOwner(this);
         ExitDiscardChooseMode(); // 防止卸载时还挂着事件
     }
@@ -58,6 +62,11 @@ public class CardSystem : Singleton<CardSystem>
         {
             drawPile.Add(card);
         }
+    }
+    public void Unsub()
+    {
+        ActionSystem.UnsubscribePre<EnemyTurnGA>(EnemyTurnPreReaction);
+        ActionSystem.UnsubscribePost<EnemyTurnGA>(EnemyTurnPostReaction);
     }
     private IEnumerator DrawCardsPerformer(DrawCardsGA drawCardsGA)
     {
@@ -130,10 +139,9 @@ public class CardSystem : Singleton<CardSystem>
 
         bool takeEffect = BattleSystem.Instance.StrictCheckSuitOrNum(ga.CardView.CardSuit, ga.CardView.CardNum);//如果花色点数接不上，仍然能打出，但不触发效果
 
-        //改变当前花色和点数
-        SetSuitAndNumGA setSuitAndNumGA = new(ga.CardView.CardSuit, ga.CardView.CardNum);
-        ActionSystem.Instance.AddReaction(setSuitAndNumGA);
+       
 
+        //takeEffect = true;//假设必然会执行效果
         if (takeEffect)
         {
             //执行效果
@@ -153,6 +161,10 @@ public class CardSystem : Singleton<CardSystem>
 
         UseCardsHistory.Add(cv.card);
 
+        //改变当前花色和点数
+        SetSuitAndNumGA setSuitAndNumGA = new(ga.CardView.CardSuit, ga.CardView.CardNum);
+        ActionSystem.Instance.AddReaction(setSuitAndNumGA);
+
         if (cv.card.data.Exhaust && takeEffect)
         {
             ExhaustCardsGA exhaustCardsGA = new(cv);
@@ -160,6 +172,121 @@ public class CardSystem : Singleton<CardSystem>
         }
         else if (cv.card.data.CardType == CardType.Power && takeEffect) yield return DestroyPowerCard(cv);
         else yield return DiscardOne(cv);
+    }
+
+    private IEnumerator GainCardPerformer(GainCardGA ga)
+    {
+        int[] quadrantCounts = new int[4];
+
+        // 1. 确定目标位置的逻辑列表和物理坐标点
+        List<Card> targetList = null;
+        Transform targetPoint = null;
+
+        // 根据 PileType 映射
+        switch (ga.pilePosition)
+        {
+            case PileType.DrawPile:
+                targetList = drawPile;
+                targetPoint = drawPilePoint;
+                break;
+            case PileType.DiscardPile:
+                targetList = discardPile;
+                targetPoint = discardPilePoint;
+                break;
+            case PileType.Hand:
+                // 手牌不需要 targetPoint，因为它会进入 HandView 的排布系统
+                break;
+        }
+
+        // 2. 遍历并生成卡牌
+        for (int i = 0; i < ga.cardDatas.Count; i++)
+        {
+            for (int j = 0; j < ga.amounts[i]; j++)
+            {
+                Card newCard = new Card(ga.cardDatas[i]);
+
+                if (ga.pilePosition == PileType.Hand && hand.Count < maxHand)
+                {
+                    hand.Add(newCard);
+
+                    CardView cardView = MainController.Instance.CreateCardView(
+                        newCard, drawPilePoint.position, drawPilePoint.rotation
+                    );
+                    cardView.transform.parent = handView.transform;
+                    // 维护 handViews
+                    handViews.Add(cardView);
+
+                    yield return handView.AddCard(cardView);
+                    continue;
+                }
+
+
+                // 2. 寻找卡牌最少的象限索引
+                int targetQuad = 0;
+                int minCount = quadrantCounts[0];
+                for (int k = 1; k < 4; k++)
+                {
+                    if (quadrantCounts[k] < minCount)
+                    {
+                        minCount = quadrantCounts[k];
+                        targetQuad = k;
+                    }
+                }
+                quadrantCounts[targetQuad]++; // 该象限计数加一
+
+                // 3. 根据选定的象限计算随机世界坐标
+                Vector2 rangeX = targetQuad % 2 == 0 ? new Vector2(0.2f, 0.45f) : new Vector2(0.55f, 0.8f);
+                Vector2 rangeY = targetQuad < 2 ? new Vector2(0.55f, 0.8f) : new Vector2(0.2f, 0.45f);
+
+                float rx = UnityEngine.Random.Range(rangeX.x, rangeX.y);
+                float ry = UnityEngine.Random.Range(rangeY.x, rangeY.y);
+
+                Vector3 spawnPos = Camera.main.ViewportToWorldPoint(new Vector3(rx, ry, 0));
+                spawnPos.z = -5f;
+
+                // 4. 生成并初始化
+                CardView cv = Instantiate(cardViewPrefab, spawnPos, Quaternion.identity);
+                cv.Setup(newCard);
+                cv.transform.parent = this.transform;
+
+                // 5. 简单的出现动画：让卡牌从中心微小弹出
+                cv.transform.localScale = Vector3.zero;
+                cv.transform.DOScale(0.7f, 0.3f).SetEase(Ease.OutBack);
+
+                // 6. 执行后续去向逻辑
+
+                var finalTargetList = (ga.pilePosition == PileType.Hand) ? discardPile : targetList;
+                var finalTargetPoint = (ga.pilePosition == PileType.Hand) ? discardPilePoint : targetPoint;
+                StartCoroutine(FlyToPileSpecial(cv, finalTargetList, finalTargetPoint));
+
+                yield return new WaitForSeconds(0.05f);
+            }
+        }
+    }
+
+    private IEnumerator FlyToPileSpecial(CardView cv, List<Card> targetList, Transform targetPoint)
+    {
+        targetList.Add(cv.card);
+
+        cv.transform.localScale = Vector3.one * 0.7f; // 初始大小 0.7
+        cv.transform.rotation = Quaternion.identity;  // 飞向牌堆前不旋转
+
+        float duration = 0.2f; // 总时间 0.5s
+
+        yield return new WaitForSeconds(0.5f);
+
+        // 创建序列
+        DG.Tweening.Sequence seq = DOTween.Sequence();
+
+        // 同时执行：移动到目标点 + 逐渐变小（缩放到 0.1 或 0 视情况而定）
+        seq.Append(cv.transform.DOMove(targetPoint.position, duration).SetEase(Ease.InQuad));
+        seq.Join(cv.transform.DOScale(0.1f, duration).SetEase(Ease.InQuad));
+
+        // 等待动画结束
+        yield return seq.WaitForCompletion();
+
+        // 4. 销毁视图
+        Destroy(cv.gameObject);
     }
 
     private IEnumerator ExhaustCardPerformer(ExhaustCardsGA exhaustCardsGA)
@@ -171,7 +298,7 @@ public class CardSystem : Singleton<CardSystem>
     {
         if (cv == null) return false;
 
-        // 正在结算动作时不允许（你的交互规则）
+        // 正在结算动作时不允许
         if (!Interactions.Instance.PlayerCanInteract()) return false;
 
         // 必须在手牌
@@ -378,8 +505,17 @@ public class CardSystem : Singleton<CardSystem>
     {
         if (EnemySystem.Instance.Enemies.Count == 0) return;
 
+        //结算敌人buff，更新意图
         foreach(var enemy in EnemySystem.Instance.Enemies)
         {
+            for (int i = enemy.BuffList.Count - 1; i >= 0; i--)
+            {
+                var buff = enemy.BuffList[i];
+                if (!buff.OnTick())
+                {
+                    enemy.RemoveBuff(buff);
+                }
+            }
             enemy.UpdateIntentionText();
         }
 
@@ -397,6 +533,7 @@ public class CardSystem : Singleton<CardSystem>
                 player.RemoveBuff(buff);
             }
         }
+
 
         //摸牌阶段，摸三张
         DrawCardsGA drawCardsGA = new(3);

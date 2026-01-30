@@ -11,8 +11,7 @@ public class BattleSystem : Singleton<BattleSystem>
 {
     [SerializeField] private GameObject damageVFX;
     [SerializeField] private TMP_Text suitNum;
-    [SerializeField] private string suit;
-    [SerializeField] private int num;
+    [SerializeField] private TMP_Text directionAndComb;
 
     [SerializeField] private HandView handView;
 
@@ -23,10 +22,13 @@ public class BattleSystem : Singleton<BattleSystem>
 
     private SuitStyle currentSuit = SuitStyle.Nul;
     private int currentNum = 0;
-    private int currentDirection;
+    private int currentDirection = 0;
     private int currentScore = 1;
 
     public int direction => currentDirection;
+    public int score => currentScore;
+    public int nums => currentNum;
+    public SuitStyle suit => currentSuit;
     private void OnEnable()
     {
         ActionSystem.RegisterPerformer<DealDamageGA>(this, DealDamagePerformer);
@@ -44,8 +46,12 @@ public class BattleSystem : Singleton<BattleSystem>
     {
         string suitStr = SuitToStr(suit);
         string numStr = NumToStr(num);
+        suitNum.text = suitStr + numStr;
+    }
+    public void UpdateDirectionText()
+    {
         //新增方向
-        string dir="";
+        string dir = "";
         switch (currentDirection)
         {
             case -1:
@@ -55,15 +61,17 @@ public class BattleSystem : Singleton<BattleSystem>
                 dir = "↑";
                 break;
             default:
-                dir = "";
+                dir = "  ";
                 break;
         }
         //end
-        suitNum.text = suitStr + numStr + dir;
+        directionAndComb.text = dir + currentScore;
     }
     public void ResetDir()
     {
         currentDirection = 0;
+        currentScore = 1;
+        UpdateDirectionText();
     }
     public bool HasSameSuitOrNum(SuitStyle suit, int num)
     {
@@ -73,6 +81,7 @@ public class BattleSystem : Singleton<BattleSystem>
 
     public bool StrictCheckSuitOrNum(SuitStyle suit, int num)
     {
+        /*
         if (currentSuit == SuitStyle.Nul || currentNum == 0) return true;
 
         if(currentSuit == suit)
@@ -83,10 +92,16 @@ public class BattleSystem : Singleton<BattleSystem>
             }
         }
         return currentNum == num;
+        */
+        if (currentSuit == SuitStyle.Nul && currentNum == 0) return true;
+        return (((num - currentNum) * currentDirection <= 1)
+            && currentSuit == suit)
+            || currentDirection == num;//只需要检测是否相邻是否同色即可
     }
 
     public bool StrictCheckSuitOrNum2(SuitStyle suit, int num,SuitStyle hoverCardSuit,int hoverCardNum)
     {
+        /*
         if (hoverCardSuit == SuitStyle.Nul || hoverCardNum == 0) return true;
 
         int dir = 0;
@@ -112,6 +127,17 @@ public class BattleSystem : Singleton<BattleSystem>
             }
         }
         return hoverCardNum == num;
+        */
+        int dir = 0;
+        if (num - hoverCardNum < 0) dir = -1;//下降
+        if (num - hoverCardNum > 0) dir = 1;//上升
+        if (hoverCardNum == 13) dir = -1;
+        if (hoverCardNum == 1) dir = 1;
+        if (hoverCardNum == num) dir = 0;
+        
+        return (((num - hoverCardNum) *  dir <= 1)//同方向
+            && suit == hoverCardSuit)
+            || num == hoverCardNum;
     }
     public static string SuitToStr(SuitStyle suit)
     {
@@ -210,27 +236,22 @@ public class BattleSystem : Singleton<BattleSystem>
    
     private IEnumerator SetSuitAndNumPerformer(SetSuitAndNumGA setGa)
     {
-        
-        
-        
-        if (setGa.Suit == currentSuit)
-        {
-            //新增设置方向
-            if (num - setGa.Num < 0) currentDirection = -1;//下降
-            if (num - setGa.Num > 0) currentDirection = 1;//上升
-            if (setGa.Num == 13) currentDirection = -1;
-            if (setGa.Num == 1) currentDirection = 1;
-            if (setGa.Num == currentNum) currentDirection = 0;
 
-            //新增设置分数
-            //同花色加分
-            if (currentScore < 4) currentScore++;
-        }
-        else
+        //
+        if (currentNum - setGa.Num < 0) currentDirection = -1;//下降
+        if (currentNum - setGa.Num > 0) currentDirection = 1;//上升
+        if (setGa.Num == 13) currentDirection = -1;
+        if (setGa.Num == 1) currentDirection = 1;
+        if (setGa.Num == currentNum || currentNum == 0 || (setGa.Num == 0 && setGa.Suit == SuitStyle.Nul)) currentDirection = 0;
+
+        if (StrictCheckSuitOrNum(setGa.Suit, setGa.Num) && currentNum != 0 && currentSuit != SuitStyle.Nul)
         {
-            if (setGa.Num == currentNum) currentDirection = 0;//断连照样重置方向？
-            currentScore = 1;
+            if(currentScore < 4) currentScore++;
         }
+        else//断花色连击重置
+            currentScore = 1;
+
+        if (setGa.Num == 0 && setGa.Suit == SuitStyle.Nul) currentScore = 1;
         //
 
         //新增：A不再是万能牌
@@ -239,7 +260,8 @@ public class BattleSystem : Singleton<BattleSystem>
         currentNum = setGa.Num;
         currentSuit = setGa.Suit;
         UpdateSuitText(currentSuit, currentNum);
-        //handView.ResetOutLine();
+        UpdateDirectionText();
+        handView.ResetOutLine2();
         yield return null;
     }
    
@@ -247,7 +269,7 @@ public class BattleSystem : Singleton<BattleSystem>
     {
         foreach(var target in gainBlockGA.Target)
         {
-            target.GainBlock(gainBlockGA.Amount);
+            target.GainBlock(MainController.Instance.TotalBlock(gainBlockGA.Amount, new List<Character>() { target }, target));
         }
         yield return null;
     }

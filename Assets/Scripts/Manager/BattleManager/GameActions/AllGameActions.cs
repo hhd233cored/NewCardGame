@@ -1,3 +1,4 @@
+using SerializeReferenceEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -169,6 +170,19 @@ public class ChangeGoldGA : GameAction
     {
         Amount = amount;
         Source = source;
+    }
+}
+
+public class GainCardGA : GameAction
+{
+    public PileType pilePosition;
+    public List<CardData> cardDatas;
+    public List<int> amounts;
+    public GainCardGA(PileType pilePosition, List<CardData> cardDatas, List<int> amounts)
+    {
+        this.pilePosition = pilePosition;
+        this.cardDatas = cardDatas;
+        this.amounts = amounts;
     }
 }
 /*

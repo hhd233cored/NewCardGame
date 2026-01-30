@@ -12,11 +12,13 @@ public class Enemy : Character
     [SerializeField] private EnemyType type;
     public List<Intention> IntentionStates;
     public int currentState;
+    public int EnemyIntentionRestartpoint;
     public void Setup(EnemyData data)
     {
         IntentionStates = data.Intentions;
-        currentState = 0;
+        currentState = data.IntentionStart;
         type = data.Type;
+        EnemyIntentionRestartpoint = data.IntentionRestart;
         UpdateIntentionText();
 
         SetupBase(data.Health, data.Image);
@@ -24,21 +26,24 @@ public class Enemy : Character
     public int GetAttackIntentionDamage()
     {
         int attackDamange = 0;
-        if (IntentionStates[0].type == IntentionType.Attack)
+        int temp = 0;
+        if (IntentionStates[currentState].type == IntentionType.Attack)
         {
             foreach (var ate in IntentionStates[currentState].ATEffects)
             {
                 if (ate.Effect is AttackPlayerEffect effect)
                 {
-                    attackDamange = effect.damage;
-                    attackDamange = MainController.Instance.TotalDamage(attackDamange, new List<Character>() { PlayerSystem.Instance.player }, this);
+                    temp = effect.damage;
+                    temp = MainController.Instance.TotalDamage(temp, new List<Character>() { PlayerSystem.Instance.player }, this);
+                    attackDamange+= temp;
 
                 }
 
                 if (ate.Effect is DealDamegeEffect effect2)
                 {
-                    attackDamange = effect2.damage;
-                    attackDamange = MainController.Instance.TotalDamage(attackDamange, new List<Character>() { PlayerSystem.Instance.player }, this);
+                    temp = effect2.damage;
+                    temp = MainController.Instance.TotalDamage(temp, new List<Character>() { PlayerSystem.Instance.player }, this);
+                    attackDamange += temp;
                 }
             }
         }
