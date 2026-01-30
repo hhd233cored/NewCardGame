@@ -388,48 +388,34 @@ public class CardSystem : Singleton<CardSystem>
     //消耗一张牌
     private IEnumerator ExhaustOne(CardView cv)
     {
-        //if (card.data.CardType != CardType.Power && !card.data.Exhaust)
         if (cv == null) yield break;
-
         Card card = cv.card;
 
-        //1.数据层：hand -> ExhaustPile
+        // 1. 数据层操作
         if (card != null)
         {
             hand.Remove(card);
             exhaustPile.Add(card);
-
         }
 
-        //2.视图层：从手牌视图列表移除
+        // 2. 视图层操作
         handViews.Remove(cv);
 
-        var tr = cv.transform;
+        // 停止由于 HandView 布局导致的自动移动，防止和动画冲突
+        cv.transform.DOKill();
 
-        // handView.LockCard(cv);
+        // 3. 播放消耗特效
+        yield return cv.ExhaustEffectRoutine(exhaustPilePoint);
 
-        tr.DOKill();
-
-        float moveT = 0.25f;
-        float shrinkT = 0.18f;
-        float endScale = 0.1f;
-
-        Vector3 startScale = tr.localScale;
-
-        DG.Tweening.Sequence seq = DOTween.Sequence();
-        seq.Join(tr.DOMove(exhaustPilePoint.position, moveT).SetEase(Ease.InCubic));
-        seq.Join(tr.DORotateQuaternion(exhaustPilePoint.rotation, moveT).SetEase(Ease.InCubic));
-        seq.Insert(moveT - shrinkT, tr.DOScale(startScale * endScale, shrinkT).SetEase(Ease.InBack));
-
-        yield return seq.WaitForCompletion();
-
-        // 让手牌重排
+        // 4. 重排手牌
         yield return handView.RemoveCard(cv, 0.12f);
-
-        // handView.UnlockCard(cv);
         handView.UnlockCard(cv);
+
+        // 5. 销毁物体
         Destroy(cv.gameObject);
     }
+
+
     private IEnumerator DiscardOne(CardView cv)
     {
         if (cv == null) yield break;

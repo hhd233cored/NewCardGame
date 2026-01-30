@@ -219,6 +219,7 @@ GameObject:
   - component: {fileID: 5650580244069538341}
   - component: {fileID: 1298956170816605980}
   - component: {fileID: 5586352366395135366}
+  - component: {fileID: 6966438344971961073}
   m_Layer: 0
   m_Name: CardView
   m_TagString: Untagged
@@ -323,6 +324,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.5845172, y: 4.7956724}
   m_EdgeRadius: 0
+--- !u!225 &6966438344971961073
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4609963758825506564}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4783726057318415659
 GameObject:
   m_ObjectHideFlags: 0
@@ -801,7 +814,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9012491a713622f428a0c588c58d2292, type: 2}
+  - {fileID: 2100000, guid: 1e243bcd8b8b77c41a003115194b5f10, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

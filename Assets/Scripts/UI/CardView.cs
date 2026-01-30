@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
@@ -36,6 +37,9 @@ public class CardView : MonoBehaviour
     public int CardNum => Num;
 
     private Material _dynamicMaterial;
+    [SerializeField] private CanvasGroup canvasGroup;
+    private static readonly int DissolveAmountID = Shader.PropertyToID("_DissolveAmount");
+    private static readonly int ShowEtherealID = Shader.PropertyToID("_ShowEthereal");
 
     public void Setup(Card c)
     {
@@ -53,7 +57,16 @@ public class CardView : MonoBehaviour
             _dynamicMaterial = Instantiate(backgroundImage.material);
             backgroundImage.material = _dynamicMaterial;
             _dynamicMaterial.SetFloat("_ShowOutline", 0f);
+
+            _dynamicMaterial.SetFloat(DissolveAmountID, 0f);
+            //如果是虚无牌，开启虚无特效
+            float isEthereal = c.data.Ethereal ? 1f : 0f;
+            _dynamicMaterial.SetFloat(ShowEtherealID, isEthereal);
         }
+
+        if (canvasGroup == null) canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null) canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        canvasGroup.alpha = 1f;
         Debug.Log(_dynamicMaterial);
     }
     public void SetOutLine(int num)
@@ -241,5 +254,48 @@ public class CardView : MonoBehaviour
         Vector3 w = cam.ScreenToWorldPoint(m);
         w.z = zPlane;
         return w;
+    }
+
+    ///<summary>
+    ///执行消耗动画
+    ///</summary>
+    public IEnumerator ExhaustEffectRoutine(Transform targetPile)
+    {
+        //锁定
+        var col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
+
+        Sequence seq = DOTween.Sequence();
+
+        float dissolveDuration = 0.6f; //燃烧的总时间
+        float fadeDuration = 0.3f;     //文字/图标淡出的时间
+
+
+        seq.Insert(0, DOTween.To(() => _dynamicMaterial.GetFloat(DissolveAmountID),
+                                 x => _dynamicMaterial.SetFloat(DissolveAmountID, x),
+                                 1f, dissolveDuration).SetEase(Ease.Linear));
+
+
+        //图标
+        if (image != null)
+            seq.Insert(0, image.DOFade(0f, fadeDuration));
+
+        //标题
+        if (title != null)
+            seq.Insert(0, title.DOFade(0f, fadeDuration));
+
+        //描述
+        if (description != null)
+            seq.Insert(0, description.DOFade(0f, fadeDuration));
+
+        //花色和数字
+        if (SuitAndNum != null)
+            seq.Insert(0, SuitAndNum.DOFade(0f, fadeDuration));
+
+        //飞向消耗堆 (可选)
+        //seq.Insert(0, transform.DOMove(transform.position + Vector3.up * 0.5f, dissolveDuration));
+        //seq.Insert(0, transform.DOScale(transform.localScale * 0.8f, dissolveDuration));
+
+        yield return seq.WaitForCompletion();
     }
 }
