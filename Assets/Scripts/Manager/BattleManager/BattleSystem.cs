@@ -18,7 +18,7 @@ public class BattleSystem : Singleton<BattleSystem>
     [SerializeField] private BuffData WeakData;
     [SerializeField] private BuffData vulnerableData;
 
-
+    [SerializeField] private BuffData strengthData;
 
     private SuitStyle currentSuit = SuitStyle.Nul;
     private int currentNum = 0;
@@ -94,6 +94,7 @@ public class BattleSystem : Singleton<BattleSystem>
         return currentNum == num;
         */
         if (currentSuit == SuitStyle.Nul && currentNum == 0) return true;
+        if (currentNum == num) return true;
         return (((num - currentNum) * currentDirection <= 1)
             && currentSuit == suit)
             || currentDirection == num;//只需要检测是否相邻是否同色即可
@@ -134,7 +135,9 @@ public class BattleSystem : Singleton<BattleSystem>
         if (hoverCardNum == 13) dir = -1;
         if (hoverCardNum == 1) dir = 1;
         if (hoverCardNum == num) dir = 0;
-        
+
+        if (hoverCardNum == num) return true;
+
         return (((num - hoverCardNum) *  dir <= 1)//同方向
             && suit == hoverCardSuit)
             || num == hoverCardNum;
@@ -247,6 +250,10 @@ public class BattleSystem : Singleton<BattleSystem>
         if (StrictCheckSuitOrNum(setGa.Suit, setGa.Num) && currentNum != 0 && currentSuit != SuitStyle.Nul)
         {
             if(currentScore < 4) currentScore++;
+            StrengthBuff strengthBuff = new();
+            strengthBuff.stacks = 1;
+            strengthBuff.data = strengthData;
+            ActionSystem.Instance.AddReaction( MainController.AddBuff(new List<Character>() { PlayerSystem.Instance.player }, PlayerSystem.Instance.player,strengthBuff));
         }
         else//断花色连击重置
             currentScore = 1;

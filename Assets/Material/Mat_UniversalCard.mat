@@ -45,12 +45,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BreathSpeed: 2
     - _BurnWidth: 0.05
     - _ColorMask: 15
     - _DissolveAmount: 0
     - _EnableExternalAlpha: 0
     - _EtherealSpeed: 2
-    - _OutlineWidth: 0.01
+    - _OutlineWidth: 0.006
     - _ShowEthereal: 0
     - _ShowOutline: 0
     - _Stencil: 0
@@ -58,6 +59,7 @@ Material:
     - _StencilOp: 0
     - _StencilReadMask: 255
     - _StencilWriteMask: 255
+    - _UseUIAlphaClip: 0
     m_Colors:
     - _BurnColor: {r: 1, g: 0.2, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

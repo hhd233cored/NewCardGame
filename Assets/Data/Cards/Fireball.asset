@@ -23,12 +23,12 @@ MonoBehaviour:
   <Ethereal>k__BackingField: 0
   <CantPlay>k__BackingField: 0
   <ManualTargetEffects>k__BackingField:
-  - rid: 7198748500880261132
+  - rid: 5481243617091387396
   <OtherEffects>k__BackingField: []
   references:
     version: 2
     RefIds:
-    - rid: 7198748500880261132
+    - rid: 5481243617091387396
       type: {class: DealDamegeEffect, ns: , asm: Assembly-CSharp}
       data:
         damgeAmount: 6

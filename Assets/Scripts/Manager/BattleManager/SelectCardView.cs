@@ -91,7 +91,7 @@ public class SelectCardView : Singleton<SelectCardView>
             if (rect != null)
             {
                 rect.anchoredPosition = Vector2.zero;
-                rect.localScale = Vector3.one; // 确保缩放是 1
+                rect.localScale = Vector3.one * 0.7f; // 确保缩放是 1
             }
 
             cardViewUI.Setup(card);

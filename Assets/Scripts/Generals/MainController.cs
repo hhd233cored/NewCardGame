@@ -92,7 +92,7 @@ public class MainController:Singleton<MainController>
         Buff power = source.BuffList.Find(buff => buff.data == strengthData);
         if (power != null) damage += power.stacks * 1;
 
-        if (source == PlayerSystem.Instance.player) damage *= BattleSystem.Instance.score;
+        //if (source == PlayerSystem.Instance.player) damage *= BattleSystem.Instance.score;
 
         //Debug.Log(source.name + "-basicDamage:" + basicDamage + "-power:" + power?.stacks + "-damage:" + damage);
         if (damage <= 0) damage = 1;
@@ -106,7 +106,7 @@ public class MainController:Singleton<MainController>
         Buff Dex = source.BuffList.Find(buff => buff.data == dexterityData);
         if (Dex != null) block += Dex.stacks * 1;
 
-        if (source == PlayerSystem.Instance.player) block *= BattleSystem.Instance.score;
+        //if (source == PlayerSystem.Instance.player) block *= BattleSystem.Instance.score;
 
         if (block <= 0) block = 1;
 

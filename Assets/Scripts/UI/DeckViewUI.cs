@@ -17,7 +17,7 @@ public class DeckViewUI : Singleton<DeckViewUI>
     [SerializeField] private Vector2 spacing = new Vector2(40, 50);
     [SerializeField] private float paddingTop = 50f;
     [SerializeField] private float paddingBottom = 100f;
-    [SerializeField] private float cardScale = 0.7f;    // 调整为你需要的 0.7 缩放
+    [SerializeField] private float cardScale = 0.4f;
 
     public bool active;
     public bool deleteMode;//为true时点击卡牌会删牌

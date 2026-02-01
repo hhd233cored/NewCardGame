@@ -92,3 +92,21 @@ public class GainCardEffect : Effect
         return gainCardGA;
     }
 }
+
+public class EntrenchEffect : Effect
+{
+    public override GameAction GetGameAction(List<Character> targets, Character source)
+    {
+        GainBlockGA gainBlockGA = new(PlayerSystem.Instance.player.CurrentBlock, targets);
+        return gainBlockGA;
+    }
+}
+
+public class BodySlamEffect : Effect
+{
+    public override GameAction GetGameAction(List<Character> targets, Character source)
+    {
+        DealDamageGA dealDamageGA = new(PlayerSystem.Instance.player.CurrentBlock, targets, source);
+        return dealDamageGA;
+    }
+}
