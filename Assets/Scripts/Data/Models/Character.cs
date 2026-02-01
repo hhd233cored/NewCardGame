@@ -46,7 +46,14 @@ public class Character : MonoBehaviour
         UpdateBlockText();
         if (loseHp > 0) CurrentHealth -= loseHp;
         if (CurrentHealth <= 0)
+        {
             CurrentHealth = 0;
+            if(this is Player player)
+            {
+                GameManager.Instance.OpenGameOverMenu();
+            }
+        }
+           
         transform.DOShakePosition(0.2f, 0.5f);
         UpdateHealthText();
     }

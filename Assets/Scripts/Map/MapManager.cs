@@ -22,7 +22,7 @@ public class MapManager : MonoBehaviour
 
     public List<List<MapNode>> RuntimeMapData;
 
-    private void Start()
+    public void StartNewGame()
     {
         StartCoroutine(GenerateMapRoutine());
     }
@@ -92,6 +92,7 @@ public class MapManager : MonoBehaviour
                 float targetPos = (float)GameManager.Instance.CurrentNode.y / (mapData.Count - 1);
                 targetPos += 0.05f;
                 scrollRect.verticalNormalizedPosition = Mathf.Clamp01(targetPos);
+
                 Debug.Log($"[Map] Scroll to layer {GameManager.Instance.CurrentNode.y} ({targetPos})");
             }
             else

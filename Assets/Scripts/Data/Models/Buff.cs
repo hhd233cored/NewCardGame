@@ -34,6 +34,42 @@ public abstract class Buff
     }
 }
 
+
+public class ThornsEffect2 : Buff
+{
+
+    protected override void OnApply()
+    {
+        //订阅：每当有伤害动作发生后，检查自己
+        ActionSystem.SubscribePost<DealDamageGA>(OnDamageOccurred);
+    }
+
+    private void OnDamageOccurred(DealDamageGA dealDamageGA)
+    {
+        foreach (var target in dealDamageGA.Targets)
+
+        {
+            // 如果受伤的目标是我自己
+            if (target == owner)
+            {
+                Debug.Log($"{owner.name} 触发了反伤！");
+                //向当前动作链追加一个反伤动作
+                ActionSystem.Instance.AddReaction(new DealDamageGA(5, new List<Character>() { dealDamageGA.Source }, owner));
+            }
+        }
+    }
+    public override bool OnTick()
+    {
+        return false;
+    }
+
+    public override void OnRemove()
+    {
+        //取消订阅
+        ActionSystem.UnsubscribePost<DealDamageGA>(OnDamageOccurred);
+    }
+}
+
 public class ThornsEffect : Buff
 {
 

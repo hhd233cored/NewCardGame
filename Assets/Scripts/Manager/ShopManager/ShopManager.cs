@@ -30,7 +30,7 @@ public class ShopManager : Singleton<ShopManager>
             hasDel = false;
             SetCardToSlots(CardDataList);
         }
-        deleteCardUITitle.text = "Delete Card";
+        deleteCardUITitle.text = "É¾ÅÆ";
     }
     public void SetCardToSlots(List<CardData> cards)
     {

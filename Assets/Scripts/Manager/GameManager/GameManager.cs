@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +18,11 @@ public class GameManager : PersistentSingleton<GameManager>
     [SerializeField] private CardView cardViewPrefab;
     [SerializeField] private BattleData battleData;
     [SerializeField] private GameObject PlayerView;
+    [SerializeField] private GameObject StartMenu;
+    [SerializeField] private GameObject VictoryMenu;
+
+
+    [SerializeField] private TMP_Text victoryText;
 
     [Header("事件房概率控制")]
     [SerializeField] private float baseEventCombatChance = 0.1f; //初始10%
@@ -33,7 +40,37 @@ public class GameManager : PersistentSingleton<GameManager>
     //测试用
     private void Start()
     {
+        //StartNewRun();
+        StartMenu.SetActive(true);
+    }
+
+    public void StartGame()
+    {
         StartNewRun();
+        var mapManager = FindObjectOfType<MapManager>();
+        mapManager.StartNewGame();
+        StartMenu.SetActive(false);
+        VictoryMenu.SetActive(false);
+    }
+    public void BackToMenu()
+    {
+        VictoryMenu.SetActive(false);
+        StartMenu.SetActive(true);
+    }
+    public void OpenGameOverMenu()
+    {
+        StartCoroutine(EnterMapScene());
+        VictoryMenu.SetActive(true);
+        victoryText.text = "Game Over";
+    }
+    public void OpenVictoryMenu()
+    {
+        VictoryMenu.SetActive(true);
+        victoryText.text = "恭喜通关";
+    }
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
     //新的一局开始时调用
@@ -112,14 +149,22 @@ public class GameManager : PersistentSingleton<GameManager>
     //战斗结束返回地图界面
     public IEnumerator EnterMapScene(string SceneName = "BattleScene", string mapSceneName = "MapScene")
     {
+
         //异步加载并等待完成
         AsyncOperation op = SceneManager.LoadSceneAsync(mapSceneName, LoadSceneMode.Additive);
         yield return op;
 
+        var mapManager = FindObjectOfType<MapManager>();
+        mapManager.StartNewGame();
+
         //卸载地图
         SceneManager.UnloadSceneAsync(SceneName);
 
-        PlayerView.gameObject.SetActive(false);
+        PlayerView.gameObject.SetActive(false); 
+        if (GameManager.Instance.CurrentNode.nodeType == NodeType.Boss)
+        {
+            GameManager.Instance.OpenVictoryMenu();
+        }
     }
 
     //初始化新的战斗场景
