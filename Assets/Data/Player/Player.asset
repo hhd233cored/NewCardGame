@@ -26,4 +26,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2ed26ce96c6ed414d8bcb0b36d6e3823, type: 2}
   - {fileID: 11400000, guid: 83376138af5e1e6448cfcc860e01c9d5, type: 2}
   - {fileID: 11400000, guid: eba421f9f2f953948ae81b7de5a0c4b4, type: 2}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: eba421f9f2f953948ae81b7de5a0c4b4, type: 2}
   <StartingGold>k__BackingField: 99
