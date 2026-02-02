@@ -346,7 +346,9 @@ public class ActionSystem : Singleton<ActionSystem>
         this.enabled = false;
 
         //战斗结束后清空buff
-        PlayerSystem.Instance.player.BuffList.Clear();
+        
+
+        PlayerSystem.Instance.player.RemoveAllBuff();
         BattleSystem.Instance.ResetDir();
 
         int gainGold = UnityEngine.Random.Range(10, 20);

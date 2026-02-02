@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.FilePathAttribute;
 
 public class SelectCardView : Singleton<SelectCardView>
 {

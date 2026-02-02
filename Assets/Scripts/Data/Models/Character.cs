@@ -109,4 +109,11 @@ public class Character : MonoBehaviour
             if (buffDisplay != null) buffDisplay.RefreshIcons();
         }
     }
+    public void RemoveAllBuff()
+    {
+        for (int i = BuffList.Count - 1; i >= 0; i--)
+        {
+            RemoveBuff(BuffList[i]);
+        }
+    }
 }

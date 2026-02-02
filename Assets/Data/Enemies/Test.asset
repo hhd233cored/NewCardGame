@@ -12,37 +12,140 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea48ee54c31aa144b90c228a0b6414ec, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  <Image>k__BackingField: {fileID: 21300000, guid: bf31b7ec567825241b7bb000af539720, type: 3}
-  <Health>k__BackingField: 10
+  <Image>k__BackingField: {fileID: 21300000, guid: 74f1eb14f0a493446b6d594c557bf29a, type: 3}
+  <Health>k__BackingField: 150
   <AttackPower>k__BackingField: 0
   <Type>k__BackingField: 0
   <IntentionStart>k__BackingField: 0
-  <IntentionRestart>k__BackingField: 0
+  <IntentionRestart>k__BackingField: 1
   <Intentions>k__BackingField:
-  - rid: 7198748500880261204
+  - rid: 5481243631644573751
+  - rid: 5481243631644573755
+  - rid: 5481243631644573759
+  - rid: 5481243631644573775
   references:
     version: 2
     RefIds:
-    - rid: 7198748500880261204
+    - rid: 5481243631644573751
       type: {class: Intention, ns: , asm: Assembly-CSharp}
       data:
         type: 3
         <ATEffects>k__BackingField:
-        - rid: 7198748500880261205
-    - rid: 7198748500880261205
+        - rid: 5481243631644573752
+    - rid: 5481243631644573752
       type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
       data:
         <TargetMode>k__BackingField:
-          rid: 7198748500880261206
+          rid: 5481243631644573753
         <Effect>k__BackingField:
-          rid: 7198748500880261207
-    - rid: 7198748500880261206
+          rid: 5481243631644573754
+    - rid: 5481243631644573753
       type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
       data: 
-    - rid: 7198748500880261207
+    - rid: 5481243631644573754
       type: {class: GainCardEffect, ns: , asm: Assembly-CSharp}
       data:
         pile: 0
-        amounts: 14000000
+        amounts: 05000000
         cardDatas:
-        - {fileID: 11400000, guid: 4380a49993e46484fbe5c4471c07d457, type: 2}
+        - {fileID: 11400000, guid: 263793e3c15eba345856bc74362523ca, type: 2}
+    - rid: 5481243631644573755
+      type: {class: Intention, ns: , asm: Assembly-CSharp}
+      data:
+        type: 0
+        <ATEffects>k__BackingField:
+        - rid: 5481243631644573756
+    - rid: 5481243631644573756
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 5481243631644573757
+        <Effect>k__BackingField:
+          rid: 5481243631644573758
+    - rid: 5481243631644573757
+      type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5481243631644573758
+      type: {class: AttackPlayerEffect, ns: , asm: Assembly-CSharp}
+      data:
+        damgeAmount: 8
+    - rid: 5481243631644573759
+      type: {class: Intention, ns: , asm: Assembly-CSharp}
+      data:
+        type: 2
+        <ATEffects>k__BackingField:
+        - rid: 5481243631644573760
+        - rid: 5481243631644573768
+    - rid: 5481243631644573760
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 5481243631644573761
+        <Effect>k__BackingField:
+          rid: 5481243631644573762
+    - rid: 5481243631644573761
+      type: {class: SelfTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5481243631644573762
+      type: {class: GainBuffEffect, ns: , asm: Assembly-CSharp}
+      data:
+        buff:
+          rid: 5481243631644573763
+    - rid: 5481243631644573763
+      type: {class: StrengthBuff, ns: , asm: Assembly-CSharp}
+      data:
+        stacks: 5
+        data: {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}
+        AddBuffData: []
+    - rid: 5481243631644573768
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 5481243631644573769
+        <Effect>k__BackingField:
+          rid: 5481243631644573770
+    - rid: 5481243631644573769
+      type: {class: SelfTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5481243631644573770
+      type: {class: GainBlockEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: 12
+    - rid: 5481243631644573775
+      type: {class: Intention, ns: , asm: Assembly-CSharp}
+      data:
+        type: 0
+        <ATEffects>k__BackingField:
+        - rid: 5481243631644573776
+        - rid: 5481243631644573779
+    - rid: 5481243631644573776
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 5481243631644573777
+        <Effect>k__BackingField:
+          rid: 5481243631644573778
+    - rid: 5481243631644573777
+      type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5481243631644573778
+      type: {class: AttackPlayerEffect, ns: , asm: Assembly-CSharp}
+      data:
+        damgeAmount: 10
+    - rid: 5481243631644573779
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 5481243631644573780
+        <Effect>k__BackingField:
+          rid: 5481243631644573781
+    - rid: 5481243631644573780
+      type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5481243631644573781
+      type: {class: GainCardEffect, ns: , asm: Assembly-CSharp}
+      data:
+        pile: 1
+        amounts: 02000000
+        cardDatas:
+        - {fileID: 11400000, guid: 263793e3c15eba345856bc74362523ca, type: 2}

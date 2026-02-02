@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 579e8ce307d6d324c8aa1d0a8be361f2, type: 3}
   m_Name: Bloody Battle
   m_EditorClassIdentifier: 
-  <Title>k__BackingField: "Emo \u5F62\u6001"
-  <Description>k__BackingField: "\u83B7\u5F973\u5C42\u4EEA\u5F0F"
+  <Title>k__BackingField: "\u8840\u6218"
+  <Description>k__BackingField: "\u83B7\u5F972\u70B9\u4EEA\u5F0F\uFF0C\u6240\u6709\u654C\u4EBA\u83B7\u5F97\u4E00\u70B9\u4EEA\u5F0F"
   <Rarity>k__BackingField: 0
-  <Num>k__BackingField: 1
-  <Suit>k__BackingField: 4
+  <Num>k__BackingField: 4
+  <Suit>k__BackingField: 3
   <Image>k__BackingField: {fileID: 21300000, guid: f62d97e2c58d8e44c8e1685559f5ad42, type: 3}
   <CardType>k__BackingField: 2
   <Exhaust>k__BackingField: 0
@@ -25,9 +25,32 @@ MonoBehaviour:
   <ManualTargetEffects>k__BackingField: []
   <OtherEffects>k__BackingField:
   - rid: 7198748482226094080
+  - rid: 5481243622690521088
   references:
     version: 2
     RefIds:
+    - rid: 5481243622690521088
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 5481243622690521089
+        <Effect>k__BackingField:
+          rid: 5481243622690521090
+    - rid: 5481243622690521089
+      type: {class: AllEnemiesTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5481243622690521090
+      type: {class: GainBuffEffect, ns: , asm: Assembly-CSharp}
+      data:
+        buff:
+          rid: 5481243622690521091
+    - rid: 5481243622690521091
+      type: {class: RitualBuff, ns: , asm: Assembly-CSharp}
+      data:
+        stacks: 1
+        data: {fileID: 11400000, guid: e644dce4d9231364fbdc554f6af68d06, type: 2}
+        AddBuffData:
+        - {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}
     - rid: 7198748482226094080
       type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
       data:
@@ -46,7 +69,7 @@ MonoBehaviour:
     - rid: 7198748482226094083
       type: {class: RitualBuff, ns: , asm: Assembly-CSharp}
       data:
-        stacks: 3
+        stacks: 2
         data: {fileID: 11400000, guid: e644dce4d9231364fbdc554f6af68d06, type: 2}
         AddBuffData:
         - {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}

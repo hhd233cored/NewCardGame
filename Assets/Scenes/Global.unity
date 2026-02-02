@@ -812,7 +812,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &506015068
 RectTransform:
   m_ObjectHideFlags: 0
@@ -944,7 +944,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &634023826
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1009,6 +1009,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5ee6864b4eba39f4aa48c5b6158b8ebc, type: 2}
   - {fileID: 11400000, guid: 205c18681145dea4b96a3af948069a02, type: 2}
   - {fileID: 11400000, guid: 4c4611c67aacff946ae2e066c35f5640, type: 2}
+  - {fileID: 11400000, guid: 6f1abc193ed78c34c81274c502aebd92, type: 2}
+  - {fileID: 11400000, guid: 65e3e2c3fadf4a841a566872d75e3481, type: 2}
+  - {fileID: 11400000, guid: c976295ed9af8924594a7699a48e8ace, type: 2}
+  - {fileID: 11400000, guid: d4d91c5d4ef9f194d9aa542414829486, type: 2}
   playerData: {fileID: 11400000, guid: a321bcc82030d51489ea1e304d4ca390, type: 2}
   enemyPrefab: {fileID: 5266979687231847526, guid: 9b885149342f0c0498d02f6dc8cdf088, type: 3}
   cardViewPrefab: {fileID: 5650580244069538341, guid: 8e2180a1be45678499d348f21ef07390, type: 3}
@@ -1020,6 +1024,16 @@ MonoBehaviour:
   baseEventCombatChance: 0.1
   chanceIncrement: 0.15
   CurrentMapData: []
+  NormalBattles:
+  - {fileID: 11400000, guid: 517c762d9b003574f8da92ee47a470fb, type: 2}
+  - {fileID: 11400000, guid: d87cb210ebe04094abddc1201fcdf904, type: 2}
+  - {fileID: 11400000, guid: d5873d107c03e004da851ae3f1330c86, type: 2}
+  EliteBattles:
+  - {fileID: 11400000, guid: ac312e192a82d58429fc128e4aed5d8f, type: 2}
+  - {fileID: 11400000, guid: 7bb960a18c18bf24d8284d00b42c7183, type: 2}
+  - {fileID: 11400000, guid: 9bb00432f66086c458e1cdddd8ea0f07, type: 2}
+  BossBattles:
+  - {fileID: 11400000, guid: 475f45deec855fd409de9a4af5f4fc00, type: 2}
 --- !u!4 &692902985
 Transform:
   m_ObjectHideFlags: 0
@@ -1239,8 +1253,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1514,7 +1528,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: a121ca4071583054aa78a68a3e3d2c6e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1762,7 +1776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1831641190236385835, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2441167893820638158, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
       propertyPath: m_LocalScale.x
@@ -1842,12 +1856,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7104724943878809744, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.2
+      value: 0.37
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7576118729526834113, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
+    - targetCorrespondingSourceObject: {fileID: 5196292347863337057, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: cbedf360fcfc586418173485536ad8cd, type: 3}
 --- !u!1 &1189212506
 GameObject:
@@ -3039,8 +3059,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -28, y: -358}
-  m_SizeDelta: {x: 600, y: 600}
+  m_AnchoredPosition: {x: -28, y: -412}
+  m_SizeDelta: {x: 600, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1431944042
 MonoBehaviour:
@@ -3111,7 +3131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4214,8 +4234,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -27, y: -56}
-  m_SizeDelta: {x: 600, y: 600}
+  m_AnchoredPosition: {x: -39, y: -183}
+  m_SizeDelta: {x: 600, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2035875212
 MonoBehaviour:
@@ -4286,7 +4306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4830,7 +4850,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: d4e0a5696519cdc45a6182aed1f72588, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

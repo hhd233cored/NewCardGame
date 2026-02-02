@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea48ee54c31aa144b90c228a0b6414ec, type: 3}
+  m_Name: 2
+  m_EditorClassIdentifier: 
+  <Image>k__BackingField: {fileID: 21300000, guid: 4d65c41fca3462343953ccb121624649, type: 3}
+  <Health>k__BackingField: 50
+  <AttackPower>k__BackingField: 0
+  <Type>k__BackingField: 0
+  <IntentionStart>k__BackingField: 0
+  <IntentionRestart>k__BackingField: 0
+  <Intentions>k__BackingField:
+  - rid: 5481243631644573713
+  - rid: 5481243631644573726
+  - rid: 5481243631644573730
+  - rid: 5481243631644573717
+  references:
+    version: 2
+    RefIds:
+    - rid: 5481243631644573713
+      type: {class: Intention, ns: , asm: Assembly-CSharp}
+      data:
+        type: 0
+        <ATEffects>k__BackingField:
+        - rid: 5481243631644573714
+    - rid: 5481243631644573714
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 5481243631644573715
+        <Effect>k__BackingField:
+          rid: 5481243631644573716
+    - rid: 5481243631644573715
+      type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5481243631644573716
+      type: {class: AttackPlayerEffect, ns: , asm: Assembly-CSharp}
+      data:
+        damgeAmount: 10
+    - rid: 5481243631644573717
+      type: {class: Intention, ns: , asm: Assembly-CSharp}
+      data:
+        type: 0
+        <ATEffects>k__BackingField:
+        - rid: 5481243631644573718
+        - rid: 5481243631644573722
+    - rid: 5481243631644573718
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 5481243631644573719
+        <Effect>k__BackingField:
+          rid: 5481243631644573720
+    - rid: 5481243631644573719
+      type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5481243631644573720
+      type: {class: AttackPlayerEffect, ns: , asm: Assembly-CSharp}
+      data:
+        damgeAmount: 12
+    - rid: 5481243631644573722
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 5481243631644573723
+        <Effect>k__BackingField:
+          rid: 5481243631644573724
+    - rid: 5481243631644573723
+      type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5481243631644573724
+      type: {class: GainBuffEffect, ns: , asm: Assembly-CSharp}
+      data:
+        buff:
+          rid: 5481243631644573725
+    - rid: 5481243631644573725
+      type: {class: VulnerableBuff, ns: , asm: Assembly-CSharp}
+      data:
+        stacks: 2
+        data: {fileID: 11400000, guid: 1edf9864d76994d4b90a23c38563e791, type: 2}
+        AddBuffData: []
+    - rid: 5481243631644573726
+      type: {class: Intention, ns: , asm: Assembly-CSharp}
+      data:
+        type: 1
+        <ATEffects>k__BackingField:
+        - rid: 5481243631644573727
+    - rid: 5481243631644573727
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 5481243631644573728
+        <Effect>k__BackingField:
+          rid: 5481243631644573729
+    - rid: 5481243631644573728
+      type: {class: RandomEnemyTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5481243631644573729
+      type: {class: GainBlockEffect, ns: , asm: Assembly-CSharp}
+      data:
+        amount: 8
+    - rid: 5481243631644573730
+      type: {class: Intention, ns: , asm: Assembly-CSharp}
+      data:
+        type: 0
+        <ATEffects>k__BackingField:
+        - rid: 5481243631644573731
+    - rid: 5481243631644573731
+      type: {class: AutoTargetEffect, ns: , asm: Assembly-CSharp}
+      data:
+        <TargetMode>k__BackingField:
+          rid: 5481243631644573732
+        <Effect>k__BackingField:
+          rid: 5481243631644573733
+    - rid: 5481243631644573732
+      type: {class: PlayerTM, ns: , asm: Assembly-CSharp}
+      data: 
+    - rid: 5481243631644573733
+      type: {class: AttackPlayerEffect, ns: , asm: Assembly-CSharp}
+      data:
+        damgeAmount: 10

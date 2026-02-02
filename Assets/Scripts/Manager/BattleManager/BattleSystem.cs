@@ -249,14 +249,19 @@ public class BattleSystem : Singleton<BattleSystem>
 
         if (StrictCheckSuitOrNum(setGa.Suit, setGa.Num) && currentNum != 0 && currentSuit != SuitStyle.Nul)
         {
-            if(currentScore < 4) currentScore++;
-            StrengthBuff strengthBuff = new();
-            strengthBuff.stacks = 1;
-            strengthBuff.data = strengthData;
-            ActionSystem.Instance.AddReaction( MainController.AddBuff(new List<Character>() { PlayerSystem.Instance.player }, PlayerSystem.Instance.player,strengthBuff));
+            if (setGa.Suit == currentSuit)
+            {
+                currentScore++;
+                StrengthBuff strengthBuff = new();
+                strengthBuff.stacks = 1;
+                strengthBuff.data = strengthData;
+                ActionSystem.Instance.AddReaction(MainController.AddBuff(new List<Character>() { PlayerSystem.Instance.player }, PlayerSystem.Instance.player, strengthBuff));
+            }
+            else currentScore = 1;
         }
         else//断花色连击重置
             currentScore = 1;
+
 
         if (setGa.Num == 0 && setGa.Suit == SuitStyle.Nul) currentScore = 1;
         //

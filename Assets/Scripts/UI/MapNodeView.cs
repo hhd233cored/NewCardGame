@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using static TreeEditor.TreeEditorHelper;
 
 public class MapNodeView : MonoBehaviour
 {
@@ -106,19 +105,30 @@ public class MapNodeView : MonoBehaviour
             case NodeType.Monster:
                 if (mapManager != null) mapManager.SaveMap();
                 // 使用 StartCoroutine 启动
-                StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battleData.enemies));
+
+                int rand = Random.Range(0, GameManager.Instance.NormalBattles.Count);
+                BattleData battle = GameManager.Instance.NormalBattles[rand];
+
+                StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battle.enemies));
                 break;
 
             case NodeType.Elite:
                 if (mapManager != null) mapManager.SaveMap();
                 // 使用 StartCoroutine 启动
-                StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battleData.enemies));
+
+                int rand2 = Random.Range(0, GameManager.Instance.EliteBattles.Count);
+                BattleData battle2 = GameManager.Instance.EliteBattles[rand2];
+
+                StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battle2.enemies));
                 break;
 
             case NodeType.Boss:
                 if (mapManager != null) mapManager.SaveMap();
                 // 使用 StartCoroutine 启动
-                StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battleData.enemies));
+
+                int rand3 = Random.Range(0, GameManager.Instance.BossBattles.Count);
+                BattleData battle3 = GameManager.Instance.BossBattles[rand3];
+                StartCoroutine(GameManager.Instance.EnterBattleRoutine(BattleType.Normal, battle3.enemies));
                 break;
 
             case NodeType.Event:

@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : PersistentSingleton<GameManager>
+public class GameManager : Singleton<GameManager>
 {
     //public PlayerData CurrentPlayerData { get; private set; }
     public BattleType NextBattleType { get; private set; }
@@ -29,7 +29,13 @@ public class GameManager : PersistentSingleton<GameManager>
     [SerializeField] private float chanceIncrement = 0.15f;      //每次非战斗增加15%
     private float currentEventCombatChance;
     [HideInInspector]
+
     public List<MapLayer> CurrentMapData = new List<MapLayer>(); //保存整张地图结构
+
+    public List<BattleData> NormalBattles = new List<BattleData>();
+    public List<BattleData> EliteBattles = new List<BattleData>();
+    public List<BattleData> BossBattles = new List<BattleData>();
+
     public MapNode CurrentNode { get; set; } //记录玩家当前站在哪个点上
 
     protected override void Awake()
